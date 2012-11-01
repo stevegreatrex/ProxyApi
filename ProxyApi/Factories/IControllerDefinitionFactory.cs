@@ -8,7 +8,7 @@ using ProxyApi.ElementDefinitions;
 namespace ProxyApi
 {
 	/// <summary>
-	/// An interface for factory pattern implementations that create instances of
+	/// An interface for factory pattern implementations that creates instances of
 	/// <see cref="IControllerDefinition"/> from controller types.
 	/// </summary>
 	public interface IControllerDefinitionFactory
