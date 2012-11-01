@@ -1,0 +1,81 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+
+(function($) {
+	"use strict";
+
+	if (!$) {
+		throw "jQuery is required";
+	}
+
+	$.proxies = $.proxies || {};
+
+	function getQueryString(params) {
+		var queryString = "";
+		for(var prop in params) {
+			if (params.hasOwnProperty(prop)) {
+				var val = getArgValue(params[prop]);
+				if (val === null) continue;
+
+				if (queryString.length) {
+					queryString += "&";
+				} else {
+					queryString += "?";
+				}
+				queryString = queryString + prop + "=" +val;
+			}
+		}
+		return queryString;
+	}
+
+	function getArgValue(val) {
+		if (val === undefined || val === null) return null;
+		return val;
+	}
+
+	function invoke(url, type, urlParams, body) {
+		url += getQueryString(urlParams);
+
+		var ajaxOptions = {
+			url: url,
+			type: type
+		};
+
+		if (body) {
+			ajaxOptions.data = body;
+		}
+	
+		return $.ajax(ajaxOptions);
+	};
+
+	/* Proxies */
+
+	<# foreach(var definition in this.Definitions) { #>
+	$.proxies.<#= definition.Name #> = {
+<# foreach(var method in definition.ActionMethods) { #>
+	<#= method.Name #>: function() {
+		return invoke(
+			"<#= method.Url #>", 
+			"<#= method.Type.ToString().ToLower() #>", 
+		<# if (method.UrlParameters.Any()) { #>
+			{
+			<# foreach (var parameter in method.UrlParameters) { #>
+				<#= parameter.Name #>: arguments[<#= parameter.Index #>],
+			<# } #>
+			}
+		<# } else { #>
+			{}
+		<# } #>
+		<# if (method.BodyParameter != null) { #>
+			, arguments[<#= method.BodyParameter.Index #>]);
+		<# } else { #>
+			);
+		<# } #>
+	},
+<# } #>
+};
+	<# } #>
+}(jQuery));
