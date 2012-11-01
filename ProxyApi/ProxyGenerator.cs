@@ -9,21 +9,38 @@ using ProxyApi.Templates;
 
 namespace ProxyApi
 {
+	/// <summary>
+	/// The class that generates the proxy script.
+	/// </summary>
 	[Export(typeof(IProxyGenerator))]
 	public class ProxyGenerator : IProxyGenerator
 	{
 		private IControllerDefinitionFactory _factory;
 		private IControllerTypesProvider _typesProvider;
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ProxyGenerator" /> class.
+		/// </summary>
+		/// <param name="typesProvider">The types provider.</param>
+		/// <param name="factory">The factory.</param>
 		[ImportingConstructor]
 		public ProxyGenerator(
 			IControllerTypesProvider typesProvider,
 			IControllerDefinitionFactory factory)
 		{
+			if (typesProvider == null) throw new ArgumentNullException("typesProvider");
+			if (factory == null) throw new ArgumentNullException("factory");
+
 			_typesProvider	= typesProvider;
 			_factory		= factory;
 		}
 
+		/// <summary>
+		/// Generates the proxy script.
+		/// </summary>
+		/// <returns>
+		/// The script content.
+		/// </returns>
 		public string GenerateProxyScript()
 		{
 			var controllers = _typesProvider.GetControllerTypes()
