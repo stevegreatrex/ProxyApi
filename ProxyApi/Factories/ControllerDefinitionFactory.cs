@@ -8,7 +8,7 @@ using System.Web.Http;
 using ProxyApi.ElementDefinitions;
 using ProxyApi.Reflection;
 
-namespace ProxyApi
+namespace ProxyApi.Factories
 {
 	[Export(typeof(IControllerDefinitionFactory))]
 	public class ControllerDefinitionFactory : IControllerDefinitionFactory

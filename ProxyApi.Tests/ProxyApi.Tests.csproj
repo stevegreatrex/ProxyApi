@@ -61,6 +61,7 @@
     <Compile Include="ElementDefinitions\TestActionMethodDefinition.cs" />
     <Compile Include="ElementDefinitions\TestControllerDefinition.cs" />
     <Compile Include="ElementDefinitions\TestParameterDefinition.cs" />
+    <Compile Include="Factories\TestActionMethodDefinitionFactory.cs" />
     <Compile Include="FixtureBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reflection\TestActionMethodsProvider.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="Reflection\TestControllerTypesProvider.cs" />
     <Compile Include="SampleApiController.cs" />
     <Compile Include="SampleMvcController.cs" />
+    <Compile Include="Templates\TestProxyTemplate.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ProxyApi\ProxyApi.csproj">

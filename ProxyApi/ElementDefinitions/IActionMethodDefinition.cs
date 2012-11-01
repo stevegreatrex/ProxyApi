@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Web.Mvc;
 
 namespace ProxyApi.ElementDefinitions
 {
@@ -14,7 +15,7 @@ namespace ProxyApi.ElementDefinitions
 		/// <summary>
 		/// Gets the type of HTTP request that should be made.
 		/// </summary>
-		HttpMethod Type { get; }
+		HttpVerbs Type { get; }
 		
 		/// <summary>
 		/// Gets the name of the method.

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace ProxyApi.ElementDefinitions
 {
@@ -18,13 +19,13 @@ namespace ProxyApi.ElementDefinitions
 		public ActionMethodDefinition()
 		{
 			this.UrlParameters	= new List<IParameterDefinition>();
-			this.Type			= HttpMethod.Get;
+			this.Type			= HttpVerbs.Get;
 		}
 
 		/// <summary>
 		/// Gets the type of HTTP request that should be made.
 		/// </summary>
-		public HttpMethod Type { get; set; }
+		public HttpVerbs Type { get; set; }
 
 		/// <summary>
 		/// Gets the name of the method.

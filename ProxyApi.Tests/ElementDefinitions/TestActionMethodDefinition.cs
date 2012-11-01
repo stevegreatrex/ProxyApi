@@ -23,9 +23,9 @@ namespace ProxyApi.Tests.ElementDefinitions
 		[TestMethod]
 		public void TypeCan_Be_Set_And_Retrieved()
 		{
-			Assert.AreEqual(HttpMethod.Get, this.TestSubject.Type);
-			this.TestSubject.Type = HttpMethod.Put;
-			Assert.AreEqual(HttpMethod.Put, this.TestSubject.Type);
+			Assert.AreEqual(HttpVerbs.Get, this.TestSubject.Type);
+			this.TestSubject.Type = HttpVerbs.Put;
+			Assert.AreEqual(HttpVerbs.Put, this.TestSubject.Type);
 		}
 
 		/// <summary>
