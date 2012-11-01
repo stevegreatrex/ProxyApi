@@ -4,6 +4,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ProxyApi.Reflection;
 using ProxyApi.Templates;
 
 namespace ProxyApi
@@ -12,15 +13,22 @@ namespace ProxyApi
 	public class ProxyGenerator : IProxyGenerator
 	{
 		private IControllerDefinitionFactory _factory;
+		private IControllerTypesProvider _typesProvider;
+
 		[ImportingConstructor]
-		public ProxyGenerator(IControllerDefinitionFactory factory)
+		public ProxyGenerator(
+			IControllerTypesProvider typesProvider,
+			IControllerDefinitionFactory factory)
 		{
-			_factory = factory;
+			_typesProvider	= typesProvider;
+			_factory		= factory;
 		}
 
 		public string GenerateProxyScript()
 		{
-			var controllers = _factory.CreateAll();
+			var controllers = _typesProvider.GetControllerTypes()
+				.Select(_factory.Create)
+				.ToList();
 
 			var template = new ProxyTemplate();
 			

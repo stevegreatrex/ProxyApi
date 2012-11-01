@@ -17,7 +17,7 @@ namespace ProxyApi.Templates
 		/// </summary>
 		public ProxyTemplate()
 		{
-			this.Definitions = new List<ControllerDefinition>();
+			this.Definitions = new List<IControllerDefinition>();
 		}
 
 		/// <summary>
@@ -26,6 +26,6 @@ namespace ProxyApi.Templates
 		/// <value>
 		/// The template definitions.
 		/// </value>
-		public IList<ControllerDefinition> Definitions { get; private set; }
+		public IList<IControllerDefinition> Definitions { get; private set; }
 	}
 }
