@@ -20,6 +20,12 @@ namespace ProxyApi.Templates
 			this.Definitions = new List<ControllerDefinition>();
 		}
 
+		/// <summary>
+		/// Gets the controller definitions that appear in this template.
+		/// </summary>
+		/// <value>
+		/// The template definitions.
+		/// </value>
 		public IList<ControllerDefinition> Definitions { get; private set; }
 	}
 }
