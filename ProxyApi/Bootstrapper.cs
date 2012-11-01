@@ -7,13 +7,21 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Http;
+using System.Diagnostics.CodeAnalysis;
 
 [assembly: PreApplicationStartMethod(typeof(ProxyApi.Bootstrapper), "Initialize")]
 
 namespace ProxyApi
 {
+	/// <summary>
+	/// Bootstrapper that starts up the proxy generator.
+	/// </summary>
+	[ExcludeFromCodeCoverage]
 	public static class Bootstrapper
 	{
+		/// <summary>
+		/// Sets up routes for proxy resolution.
+		/// </summary>
 		public static void Initialize()
 		{
 			GlobalConfiguration.Configuration.Routes.MapHttpRoute(
