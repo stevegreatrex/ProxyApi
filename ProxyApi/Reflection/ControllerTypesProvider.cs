@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Mvc;
 
-namespace ProxyApi
+namespace ProxyApi.Reflection
 {
 	/// <summary>
 	/// A class that provides a list of types that are considered

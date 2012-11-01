@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProxyApi
+namespace ProxyApi.Reflection
 {
 	/// <summary>
 	/// An interface for objects that return the methods that should be considered action

@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProxyApi
+namespace ProxyApi.Reflection
 {
 	/// <summary>
 	/// A class that returns the methods that should be considered action

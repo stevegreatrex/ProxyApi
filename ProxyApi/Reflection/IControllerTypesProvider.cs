@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProxyApi
+namespace ProxyApi.Reflection
 {
 	/// <summary>
 	/// An interface for objects that provide a list of types that are considered

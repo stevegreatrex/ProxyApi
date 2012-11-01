@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProxyApi
+namespace ProxyApi.Reflection
 {
 	/// <summary>
 	/// An implementation of <see cref="IAssemblyProvider"/> that returns all assemblies in the current

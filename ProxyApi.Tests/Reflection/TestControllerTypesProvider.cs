@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using ProxyApi.Reflection;
 
 namespace ProxyApi.Tests.Reflection
 {
