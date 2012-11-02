@@ -5,6 +5,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProxyApi.Tests", "ProxyApi.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProxyApi", "ProxyApi\ProxyApi.csproj", "{461D3C06-A617-4C36-9759-63800E71BCE9}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Nuget", "Nuget", "{BCEBEE73-B56A-43FC-9C56-20A12395AF5B}"
+	ProjectSection(SolutionItems) = preProject
+		ProxyApi.0.1.3.nupkg = ProxyApi.0.1.3.nupkg
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
