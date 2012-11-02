@@ -63,6 +63,20 @@ namespace ProxyApi.Tests.Reflection
 			Assert.AreEqual(2, methods[1].GetParameters().Count(), "GetMethods should select the overload with the most parameters");
 		}
 
+		/// <summary>
+		/// Ensures that GetMethods treats named overloaded methods as different groups
+		/// </summary>
+		[TestMethod]
+		public void GetMethods_Treats_Named_Overloaded_Methods_As_Separate_Groups()
+		{
+			var methods = this.TestSubject.GetMethods(typeof(SampleWithNamedOverloads)).ToList();
+
+			Assert.AreEqual(2, methods.Count);
+			Assert.AreEqual("OverloadedMethod", methods[0].Name);
+			Assert.AreEqual("named", methods[1].GetCustomAttribute<ProxyNameAttribute>().Name);
+			Assert.AreEqual(2, methods[1].GetParameters().Count(), "GetMethods should select the named overload with the most parameters");
+		}
+
 		#endregion
 
 		#region Private Members
@@ -91,6 +105,26 @@ namespace ProxyApi.Tests.Reflection
 			{}
 
 			public void OverloadedMethod(object one, object two)
+			{}
+		}
+
+		class SampleWithNamedOverloads
+		{
+			public void OverloadedMethod()
+			{}
+
+			public void OverloadedMethod(object one)
+			{}
+
+			[ProxyName("named")]
+			public void OverloadedMethod(string one)
+			{}
+
+			public void OverloadedMethod(object one, object two)
+			{}
+
+			[ProxyName("named")]
+			public void OverloadedMethod(string one, string two)
 			{}
 		}
 

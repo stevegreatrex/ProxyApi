@@ -27,7 +27,7 @@ namespace ProxyApi.Reflection
 			if (controllerType == null) throw new ArgumentNullException("controllerType");
 
 			var methods = controllerType.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
-				.GroupBy(m => m.Name);
+				.GroupBy(m => m.GetProxyName());
 
 			foreach (var methodName in methods)
 			{
