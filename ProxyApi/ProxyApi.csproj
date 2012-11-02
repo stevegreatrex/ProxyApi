@@ -51,7 +51,8 @@
   <ItemGroup>
     <Compile Include="ElementDefinitions\ParameterDefinition.cs" />
     <Compile Include="ElementDefinitions\IParameterDefinition.cs" />
-    <Compile Include="Reflection\AttributeExtensions.cs" />
+    <Compile Include="ProxyNameAttribute.cs" />
+    <Compile Include="Reflection\ReflectionExtensions.cs" />
     <Compile Include="ElementDefinitions\ControllerType.cs" />
     <Compile Include="Factories\ActionMethodDefinitionFactory.cs" />
     <Compile Include="ElementDefinitions\ControllerDefinition.cs" />

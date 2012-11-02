@@ -67,7 +67,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reflection\TestActionMethodsProvider.cs" />
     <Compile Include="Reflection\TestAppDomainAssemblyProvider.cs" />
-    <Compile Include="Reflection\TestAttributeExtensions.cs" />
+    <Compile Include="Reflection\TestReflectionExtensions.cs" />
     <Compile Include="Reflection\TestControllerTypesProvider.cs" />
     <Compile Include="SampleApiController.cs" />
     <Compile Include="SampleMvcController.cs" />
@@ -75,6 +75,7 @@
     <Compile Include="TestProxyDependencyResolver.cs" />
     <Compile Include="TestProxyGenerator.cs" />
     <Compile Include="TestProxyHttpHandler.cs" />
+    <Compile Include="TestProxyNameAttribute.cs" />
     <Compile Include="TestRouteHandler.cs" />
   </ItemGroup>
   <ItemGroup>

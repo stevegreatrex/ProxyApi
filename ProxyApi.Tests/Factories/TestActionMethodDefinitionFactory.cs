@@ -79,10 +79,10 @@ namespace ProxyApi.Tests.Factories
 			_pathUtility.Setup(p => p.ToAbsolute(It.IsAny<string>()))
 				.Returns("/url");
 
-			var method		= GetMethodInfo("MethodName");
+			var method		= GetMethodInfo("NamedMethod");
 			var definition	= this.TestSubject.Create(new ControllerDefinition(), method);
 
-			Assert.AreEqual("methodname", definition.Name);
+			Assert.AreEqual("userSpecifiedName", definition.Name);
 		}
 
 		/// <summary>
@@ -226,6 +226,13 @@ namespace ProxyApi.Tests.Factories
 			public void DeleteWithExplicitBody([FromBody]object one){}
 			public void DeleteWithExplicitBodyAndUrlParameters(object one, [FromBody]object two){}
 			public void DeleteWithUrlParameters(object one, object two){ }
+
+			#endregion
+
+			#region Name Checks
+
+			[ProxyName("userSpecifiedName")]
+			public void NamedMethod(){}
 
 			#endregion
 		}

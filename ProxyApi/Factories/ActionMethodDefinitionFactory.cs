@@ -53,7 +53,7 @@ namespace ProxyApi.Factories
 			if (method					== null) throw new ArgumentNullException("method");
 
 			var definition	= new ActionMethodDefinition();
-			definition.Name	= method.Name.ToLower();
+			definition.Name	= method.GetProxyName();
 			definition.Type = GetMethodType(method);
 			definition.Url	= GetUrl(controllerDefinition, definition.Name);
 

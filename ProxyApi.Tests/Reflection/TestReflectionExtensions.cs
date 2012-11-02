@@ -12,10 +12,10 @@ using ProxyApi.Reflection;
 namespace ProxyApi.Tests.Reflection
 {
 	/// <summary>
-	/// Tests the functionality of the <see cref="AttributeExtensions"/> class.
+	/// Tests the functionality of the <see cref="ReflectionExtensions"/> class.
 	/// </summary>
 	[TestClass]
-	public class TestAttributeExtensions
+	public class TestReflectionExtensions
 	{
 		private MethodInfo _withDescriptionAttribute;
 		private MethodInfo _withBrowseableAttribute;
@@ -130,6 +130,67 @@ namespace ProxyApi.Tests.Reflection
 			Assert.IsFalse(blank);
 		}
 
+		/// <summary>
+		/// Ensures that GetProxyName throws an exception when called on a null member
+		/// </summary>
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void GetProxyName_Throws_On_Null_Method()
+		{
+			MethodInfo target = null;
+			target.GetProxyName();
+		}
+
+		/// <summary>
+		/// Ensures that GetProxyName throws an exception when called on a null type
+		/// </summary>
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void GetProxyName_Throws_On_Null_Type()
+		{
+			Type target = null;
+			target.GetProxyName();
+		}
+
+		/// <summary>
+		/// Ensures that GetProxyName returns the method name to lower case when no attribute is specified
+		/// </summary>
+		[TestMethod]
+		public void GetProxyName_Returns_Method_Name_When_No_Attribute_Present()
+		{
+			Assert.AreEqual("withdescriptionattribute", _withDescriptionAttribute.GetProxyName());
+			Assert.AreEqual("withbrowseableattribute", _withBrowseableAttribute.GetProxyName());
+		}
+
+		/// <summary>
+		/// Ensures that GetProxyName returns specified name when name attribute is present
+		/// </summary>
+		[TestMethod]
+		public void GetProxyName_Returns_Specified_Name_When_NameAttribute_Present()
+		{
+			Assert.AreEqual("anUnexpectedName", typeof(Sample).GetMethod("NamedMethod").GetProxyName());
+		}
+
+		/// <summary>
+		/// Ensures that GetProxyName returns the type name to lower case when no attribute is specified.
+		/// Also checks removal of word "controller".
+		/// </summary>
+		[TestMethod]
+		public void GetProxyName_Returns_Type_Name_When_No_Attribute_Present()
+		{
+			Assert.AreEqual("sample", typeof(Sample).GetProxyName());
+			Assert.AreEqual("sampleapi", typeof(SampleApiController).GetProxyName());
+		}
+
+		/// <summary>
+		/// Ensures that GetProxyName returns specified name when name attribute is present
+		/// </summary>
+		[TestMethod]
+		public void GetProxyName_Returns_Specified_Name_When_NameAttribute_Present_On_Type()
+		{
+			Assert.AreEqual("explicitName", typeof(NamedSample).GetProxyName());
+		}
+
 		class Sample
 		{
 			[System.ComponentModel.Description]
@@ -142,6 +203,15 @@ namespace ProxyApi.Tests.Reflection
 
 			public void Parameters([FromBody]object withFromBody, object withoutFromBody)
 			{}
+
+			[ProxyName("anUnexpectedName")]
+			public void NamedMethod()
+			{}
+		}
+
+		[ProxyName("explicitName")]
+		class NamedSample
+		{
 		}
 	}
 }

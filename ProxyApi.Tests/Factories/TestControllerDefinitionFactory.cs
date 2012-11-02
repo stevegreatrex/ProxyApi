@@ -79,8 +79,8 @@ namespace ProxyApi.Tests.Factories
 			_actionProvider.Setup(ap => ap.GetMethods(It.IsAny<Type>()))
 				.Returns(Enumerable.Empty<MethodInfo>());
 
-			var definition = this.TestSubject.Create(typeof(SampleApiController));
-			Assert.AreEqual("sampleapi", definition.Name);
+			var definition = this.TestSubject.Create(typeof(SampleMvcController));
+			Assert.AreEqual("$user_Specified_Name", definition.Name);
 		}
 
 		/// <summary>

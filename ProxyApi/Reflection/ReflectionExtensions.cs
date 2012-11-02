@@ -9,7 +9,7 @@ namespace ProxyApi.Reflection
 	/// <summary>
 	/// Extension methods to help with checking on custom attributes.
 	/// </summary>
-	public static class AttributeExtensions
+	public static class ReflectionExtensions
 	{
 		/// <summary>
 		/// Gets the custom attribute instance of type <typeparamref name="TAttribute"/> on
@@ -73,6 +73,38 @@ namespace ProxyApi.Reflection
 			if (parameter == null) throw new ArgumentNullException("parameter");
 
 			return parameter.GetCustomAttribute<TAttribute>(inherit) != null;
+		}
+
+		/// <summary>
+		/// Gets the name that will be given to the generated proxy method.
+		/// </summary>
+		/// <param name="method">The method for which the proxy will be created.</param>
+		/// <returns>The method name.</returns>
+		public static string GetProxyName(this MethodInfo method)
+		{
+			if (method == null) throw new ArgumentNullException("method");
+			
+			var nameAttribute = method.GetCustomAttribute<ProxyNameAttribute>();
+			if (nameAttribute != null)
+				return nameAttribute.Name;
+
+			return method.Name.ToLower();
+		}
+
+		/// <summary>
+		/// Gets the name that will be given to the generated proxy type.
+		/// </summary>
+		/// <param name="type">The controller type for which the proxy will be created.</param>
+		/// <returns>The controller name.</returns>
+		public static string GetProxyName(this Type type)
+		{
+			if (type == null) throw new ArgumentNullException("type");
+			
+			var nameAttribute = type.GetCustomAttributes(true).OfType<ProxyNameAttribute>().FirstOrDefault();
+			if (nameAttribute != null)
+				return nameAttribute.Name;
+
+			return type.Name.ToLower().Replace("controller", string.Empty);
 		}
 	}
 }

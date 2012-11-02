@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace ProxyApi.Tests
 {
+	[ProxyName("$user_Specified_Name")]
 	public class SampleMvcController : Controller
 	{
 	}
