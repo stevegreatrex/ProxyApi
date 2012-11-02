@@ -74,7 +74,8 @@ namespace ProxyApi.Tests.Reflection
 			Assert.AreEqual(2, methods.Count);
 			Assert.AreEqual("OverloadedMethod", methods[0].Name);
 			Assert.AreEqual("named", methods[1].GetCustomAttribute<ProxyNameAttribute>().Name);
-			Assert.AreEqual(2, methods[1].GetParameters().Count(), "GetMethods should select the named overload with the most parameters");
+			Assert.AreEqual("OtherMethod", methods[1].Name);
+			Assert.AreEqual(3, methods[1].GetParameters().Count(), "GetMethods should select the named overload with the most parameters, regardless of actual name");
 		}
 
 		#endregion
@@ -125,6 +126,10 @@ namespace ProxyApi.Tests.Reflection
 
 			[ProxyName("named")]
 			public void OverloadedMethod(string one, string two)
+			{}
+
+			[ProxyName("named")]
+			public void OtherMethod(string one, string two, string three)
 			{}
 		}
 
