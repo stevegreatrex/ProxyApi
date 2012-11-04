@@ -46,9 +46,10 @@ namespace ProxyApi.Factories
 		{
 			if (controllerType == null) throw new ArgumentNullException("controllerType");
 
-			var definition	= new ControllerDefinition();
-			definition.Name	= controllerType.GetProxyName();
-			definition.Type	= typeof(ApiController).IsAssignableFrom(controllerType) ? ControllerType.WebApi : ControllerType.Mvc;
+			var definition		= new ControllerDefinition();
+			definition.Name		= controllerType.GetProxyName();
+			definition.UrlName	= controllerType.Name.ToLower().Replace("controller", string.Empty);
+			definition.Type		= typeof(ApiController).IsAssignableFrom(controllerType) ? ControllerType.WebApi : ControllerType.Mvc;
 
 			foreach (var method in _actionProvider.GetMethods(controllerType))
 				definition.ActionMethods.Add(_actionFactory.Create(definition, method));

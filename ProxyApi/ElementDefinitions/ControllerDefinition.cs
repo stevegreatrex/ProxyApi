@@ -23,6 +23,14 @@ namespace ProxyApi.ElementDefinitions
 		/// Gets the name of the controller.
 		/// </summary>
 		public string Name { get; set; }
+
+		/// <summary>
+		/// Gets the of the controller to be used in URLs
+		/// </summary>
+		/// <value>
+		/// The URL controller name.
+		/// </value>
+		public string UrlName { get; set; }
 		
 		/// <summary>
 		/// Gets the action methods that appear on the controller.

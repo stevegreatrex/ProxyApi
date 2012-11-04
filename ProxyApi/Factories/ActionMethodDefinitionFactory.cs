@@ -55,7 +55,7 @@ namespace ProxyApi.Factories
 			var definition	= new ActionMethodDefinition();
 			definition.Name	= method.GetProxyName();
 			definition.Type = GetMethodType(method);
-			definition.Url	= GetUrl(controllerDefinition, definition.Name);
+			definition.Url	= GetUrl(controllerDefinition, method.Name.ToLower());
 
 			var index		= 0;
 			var parameters	= method.GetParameters();
@@ -110,9 +110,9 @@ namespace ProxyApi.Factories
 		private string GetUrl(IControllerDefinition controller, string action)
 		{	
 			if (controller.Type == ControllerType.WebApi)
-				return _pathUtility.ToAbsolute(string.Format("~/api/proxy/{0}/{1}", controller.Name, action));
+				return _pathUtility.ToAbsolute(string.Format("~/api/proxy/{0}/{1}", controller.UrlName, action));
 			else
-				return _pathUtility.ToAbsolute(string.Format("~/proxy/{0}/{1}", controller.Name, action));
+				return _pathUtility.ToAbsolute(string.Format("~/proxy/{0}/{1}", controller.UrlName, action));
 		}
 
 		#endregion

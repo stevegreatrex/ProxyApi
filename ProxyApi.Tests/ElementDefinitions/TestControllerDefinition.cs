@@ -49,6 +49,17 @@ namespace ProxyApi.Tests.ElementDefinitions
 			Assert.IsNotNull(this.TestSubject.ActionMethods);
 			Assert.AreEqual(0, this.TestSubject.ActionMethods.Count);
 		}
+
+		/// <summary>
+		/// Ensures that the UrlName property can be set & retrieved
+		/// </summary>
+		[TestMethod]
+		public void UrlName_Can_Be_Set_And_Retrieved()
+		{
+			Assert.AreEqual(null, this.TestSubject.UrlName);
+			this.TestSubject.UrlName = "value";
+			Assert.AreEqual("value", this.TestSubject.UrlName);
+		}
 		
 		#endregion
 	}

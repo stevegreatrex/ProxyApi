@@ -84,6 +84,19 @@ namespace ProxyApi.Tests.Factories
 		}
 
 		/// <summary>
+		/// Ensures that Create sets definition UrlName
+		/// </summary>
+		[TestMethod]
+		public void Create_Sets_Definition_UrlName()
+		{
+			_actionProvider.Setup(ap => ap.GetMethods(It.IsAny<Type>()))
+				.Returns(Enumerable.Empty<MethodInfo>());
+
+			var definition = this.TestSubject.Create(typeof(SampleMvcController));
+			Assert.AreEqual("samplemvc", definition.UrlName);
+		}
+
+		/// <summary>
 		/// Ensures that Create sets definition type
 		/// </summary>
 		[TestMethod]

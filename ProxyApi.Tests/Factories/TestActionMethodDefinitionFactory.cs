@@ -96,7 +96,7 @@ namespace ProxyApi.Tests.Factories
 
 			var method		= GetMethodInfo("MethodName");
 			var definition	= this.TestSubject.Create(new ControllerDefinition() {
-				Name = "controller",
+				UrlName = "controller",
 				Type = ControllerType.WebApi
 			}, method);
 
@@ -114,7 +114,7 @@ namespace ProxyApi.Tests.Factories
 
 			var method		= GetMethodInfo("MethodName");
 			var definition	= this.TestSubject.Create(new ControllerDefinition() {
-				Name = "controller",
+				UrlName = "controller",
 				Type = ControllerType.Mvc
 			}, method);
 
@@ -179,10 +179,12 @@ namespace ProxyApi.Tests.Factories
 
 		#region Private Members
 
+		[ProxyName("otherControllerName")] //this is included to check that the proxy name is NOT used in URLs
 		class Sample
 		{
 			#region Type Checks
 
+			[ProxyName("otherMethodName")] //this is included to check that the proxy name is NOT used in URLs
 			public void MethodName() {}
 			public void GetData(){}
 			[System.Web.Http.HttpGet] public void WebGet() {}

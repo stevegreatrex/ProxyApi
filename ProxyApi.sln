@@ -7,8 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProxyApi", "ProxyApi\ProxyA
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Nuget", "Nuget", "{BCEBEE73-B56A-43FC-9C56-20A12395AF5B}"
 	ProjectSection(SolutionItems) = preProject
-		ProxyApi.0.1.3.nupkg = ProxyApi.0.1.3.nupkg
+		ProxyApi.0.1.4.nupkg = ProxyApi.0.1.4.nupkg
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProxyApi.Tests.Integration", "ProxyApi.Tests.Integration\ProxyApi.Tests.Integration.csproj", "{003DF186-AF52-47D7-8529-9DB048668505}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,6 +26,10 @@ Global
 		{461D3C06-A617-4C36-9759-63800E71BCE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{461D3C06-A617-4C36-9759-63800E71BCE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{461D3C06-A617-4C36-9759-63800E71BCE9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{003DF186-AF52-47D7-8529-9DB048668505}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{003DF186-AF52-47D7-8529-9DB048668505}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{003DF186-AF52-47D7-8529-9DB048668505}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{003DF186-AF52-47D7-8529-9DB048668505}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
