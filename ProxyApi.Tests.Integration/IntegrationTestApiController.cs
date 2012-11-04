@@ -10,9 +10,19 @@ namespace ProxyApi.Tests.Integration
 	[ProxyName("apiIntegrationTest")]
 	public class IntegrationTestApiController : ApiController
 	{
-		public string GetData(string param1, int param2, bool param3)
-		{
-			return "test";
-		}
+		public void GetData(string param1, int param2, bool param3)
+		{}
+
+		[HttpPost]
+		public void SendData(dynamic data)
+		{}
+
+		[ProxyName("putData")]
+		[AcceptVerbs("PUT")]
+		public void SendDataWithPut(int id, [FromBody]dynamic data)
+		{}
+
+		public void Delete(int id)
+		{}
 	}
 }

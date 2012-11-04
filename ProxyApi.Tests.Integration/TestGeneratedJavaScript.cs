@@ -7,6 +7,7 @@ using System.Web;
 using Jurassic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Newtonsoft.Json;
 using ProxyApi.Factories;
 using ProxyApi.Reflection;
 
@@ -110,17 +111,127 @@ namespace ProxyApi.Tests.Integration
 
 		#endregion
 
+		#region POST Tests
+
+		/// <summary>
+		/// Ensures that PostMethod calls jQuery.ajax with 'post'
+		/// </summary>
+		[TestMethod]
+		public void PostMethod_Calls_Ajax_For_Post_Without_Data()
+		{
+			SetupExpectedAjaxCall(
+				url: "~/api/proxy/integrationtestapi/senddata",
+				type: "post",
+				returnData: "test data");
+
+			var result = ExecuteProxyMethod("jQuery.proxies.apiIntegrationTest.senddata()");
+			Assert.AreEqual("test data", result);
+		}
+
+		/// <summary>
+		/// Ensures that PostMethod calls jQuery.ajax with 'post'
+		/// </summary>
+		[TestMethod]
+		public void PostMethod_Calls_Ajax_For_Post_With_Data()
+		{
+			SetupExpectedAjaxCall(
+				url: "~/api/proxy/integrationtestapi/senddata",
+				type: "post",
+				data: new { one="one", two="two" },
+				returnData: "test data");
+
+			var result = ExecuteProxyMethod("jQuery.proxies.apiIntegrationTest.senddata({ one: 'one', two: 'two' })");
+			Assert.AreEqual("test data", result);
+		}
+
+		#endregion
+
+		#region PUT Tests
+
+		/// <summary>
+		/// Ensures that PutMethod calls jQuery.ajax with 'Put'
+		/// </summary>
+		[TestMethod]
+		public void PutMethod_Calls_Ajax_For_Put_Without_Data()
+		{
+			SetupExpectedAjaxCall(
+				url: "~/api/proxy/integrationtestapi/senddatawithput",
+				type: "put",
+				returnData: "test data");
+
+			var result = ExecuteProxyMethod("jQuery.proxies.apiIntegrationTest.putData()");
+			Assert.AreEqual("test data", result);
+		}
+
+		/// <summary>
+		/// Ensures that PutMethod calls jQuery.ajax with 'Put'
+		/// </summary>
+		[TestMethod]
+		public void PutMethod_Calls_Ajax_For_Put_With_Url_Parameters()
+		{
+			SetupExpectedAjaxCall(
+				url: "~/api/proxy/integrationtestapi/senddatawithput?id=123",
+				type: "put",
+				data: new { one="one", two="two" },
+				returnData: "test data");
+
+			var result = ExecuteProxyMethod("jQuery.proxies.apiIntegrationTest.putData(123, { one: 'one', two: 'two' })");
+			Assert.AreEqual("test data", result);
+		}
+
+		#endregion
+
+		#region DELETE Tests
+
+		/// <summary>
+		/// Ensures that DeleteMethod calls jQuery.ajax with 'Delete'
+		/// </summary>
+		[TestMethod]
+		public void DeleteMethod_Calls_Ajax_For_Delete_Without_Url_Parameters()
+		{
+			SetupExpectedAjaxCall(
+				url: "~/api/proxy/integrationtestapi/delete",
+				type: "delete",
+				returnData: "test data");
+
+			var result = ExecuteProxyMethod("jQuery.proxies.apiIntegrationTest.delete()");
+			Assert.AreEqual("test data", result);
+		}
+
+		/// <summary>
+		/// Ensures that DeleteMethod calls jQuery.ajax with 'Delete'
+		/// </summary>
+		[TestMethod]
+		public void DeleteMethod_Calls_Ajax_For_Delete_With_Url_Parameters()
+		{
+			SetupExpectedAjaxCall(
+				url: "~/api/proxy/integrationtestapi/delete?id=123",
+				type: "delete",
+				returnData: "test data");
+
+			var result = ExecuteProxyMethod("jQuery.proxies.apiIntegrationTest.delete(123)");
+			Assert.AreEqual("test data", result);
+		}
+
+		#endregion
+
 		#endregion
 
 		#region Private Members
 
-		private void SetupExpectedAjaxCall(string url, string type, string returnData)
+		private void SetupExpectedAjaxCall(string url, string type, object data = null, string returnData = null)
 		{
 			var script = 
 @"jQuery.ajax = function(options) { 
 
 	if (options.url ==='{url}' &&
 		options.type ==='{type}') {
+		
+		var data = '{data}';
+		if (data.length && JSON.stringify(options.data) !== '{data}') {
+			throw 'Unexpected data: ' + JSON.stringify(options.data);
+		}
+
 		return {
 			done: function(callback) {
 				callback('{returnData}');
@@ -136,7 +247,8 @@ namespace ProxyApi.Tests.Integration
 };"
 			.Replace("{url}", url)
 			.Replace("{type}", type)
-			.Replace("{returnData}", returnData);
+			.Replace("{returnData}", returnData)
+			.Replace("{data}", data == null ? "" : JsonConvert.SerializeObject(data));
 
 			_engine.Execute(script);
 		}
