@@ -37,13 +37,6 @@ namespace ProxyApi
 				defaults: new {},
 				constraints: new { proxy = "^proxy$" } //note: this is to prevent EVERY controller/action route being returned as api/proxy/controller/action when calling Url.Action etc
 			);
-
-			RouteTable.Routes.MapRoute(
-				name: "DefaultProxy",
-				url: "{proxy}/{controller}/{action}",
-				defaults: new {},
-				constraints: new { proxy = "^proxy$" } //note: this is to prevent EVERY controller/action route being returned as proxy/controller/action when calling Url.Action etc
-			);
 		}
 	}
 }

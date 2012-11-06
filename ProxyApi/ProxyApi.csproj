@@ -49,8 +49,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ContextProvider.cs" />
     <Compile Include="ElementDefinitions\ParameterDefinition.cs" />
     <Compile Include="ElementDefinitions\IParameterDefinition.cs" />
+    <Compile Include="IContextProvider.cs" />
     <Compile Include="ProxyNameAttribute.cs" />
     <Compile Include="Reflection\ReflectionExtensions.cs" />
     <Compile Include="ElementDefinitions\ControllerType.cs" />

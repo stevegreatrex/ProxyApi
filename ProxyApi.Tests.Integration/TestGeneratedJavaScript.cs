@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Routing;
 using Jurassic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -413,6 +414,11 @@ namespace ProxyApi.Tests.Integration
 			public string ToAbsolute(string path)
 			{
 				return path;
+			}
+
+			public string GetVirtualPath(RouteValueDictionary routeValues)
+			{
+				return string.Format("~/proxy/{0}/{1}", routeValues["controller"], routeValues["action"]);
 			}
 		}
 

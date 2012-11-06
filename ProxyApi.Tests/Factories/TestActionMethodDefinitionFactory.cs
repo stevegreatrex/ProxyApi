@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Web.Http;
 using System.Web.Mvc;
+using System.Web.Routing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using ProxyApi.ElementDefinitions;
@@ -76,11 +77,10 @@ namespace ProxyApi.Tests.Factories
 		[TestMethod]
 		public void Create_Sets_Method_Name()
 		{
-			_pathUtility.Setup(p => p.ToAbsolute(It.IsAny<string>()))
-				.Returns("/url");
+			SetupPathUtility("NamedMethod", "controller");
 
 			var method		= GetMethodInfo("NamedMethod");
-			var definition	= this.TestSubject.Create(new ControllerDefinition(), method);
+			var definition	= this.TestSubject.Create(new ControllerDefinition { UrlName = "controller" }, method);
 
 			Assert.AreEqual("userSpecifiedName", definition.Name);
 		}
@@ -109,8 +109,7 @@ namespace ProxyApi.Tests.Factories
 		[TestMethod]
 		public void Create_Sets_URL_For_Mvc_Controllers()
 		{
-			_pathUtility.Setup(p => p.ToAbsolute("~/proxy/controller/methodname"))
-				.Returns("/url");
+			SetupPathUtility("MethodName", "controller");
 
 			var method		= GetMethodInfo("MethodName");
 			var definition	= this.TestSubject.Create(new ControllerDefinition() {
@@ -246,20 +245,30 @@ namespace ProxyApi.Tests.Factories
 
 		private void CheckMethodType(string methodName, HttpVerbs type)
 		{
-			_pathUtility.Setup(p => p.ToAbsolute(It.IsAny<string>()))
-				.Returns("/url");
+			SetupPathUtility(methodName, "controller");
 
-			var definition = this.TestSubject.Create(new ControllerDefinition(), GetMethodInfo(methodName));
+			var definition = this.TestSubject.Create(new ControllerDefinition{ UrlName = "controller" }, GetMethodInfo(methodName));
 
 			Assert.AreEqual(definition.Type, type, "Type for {0} was incorrect", methodName);
 		}
 
+		private void SetupPathUtility(string methodName, string controllerName)
+		{
+			_pathUtility.Setup(p => p.ToAbsolute("~/url"))
+						 .Returns("/url");
+			_pathUtility.Setup(p => p.GetVirtualPath(It.IsAny<RouteValueDictionary>()))
+				.Callback<RouteValueDictionary>(rvd =>
+					Assert.IsTrue(
+						controllerName.Equals(rvd["controller"]) &&
+						methodName.ToLower().Equals(rvd["action"])))
+				.Returns("~/url");
+		}
+
 		private void CheckMethodParameters(string methodName, string bodyParameterName, params string[] urlParameters)
 		{
-			_pathUtility.Setup(p => p.ToAbsolute(It.IsAny<string>()))
-				.Returns("/url");
+			SetupPathUtility(methodName, "controller");
 
-			var definition = this.TestSubject.Create(new ControllerDefinition(), GetMethodInfo(methodName));
+			var definition = this.TestSubject.Create(new ControllerDefinition { UrlName = "controller" }, GetMethodInfo(methodName));
 
 			if (bodyParameterName == null)
 				Assert.IsNull(definition.BodyParameter, "BodyParameter should be null");

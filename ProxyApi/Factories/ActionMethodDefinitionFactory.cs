@@ -6,8 +6,10 @@ using System.Net.Http;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
+using System.Web.Routing;
 using ProxyApi.ElementDefinitions;
 using ProxyApi.Reflection;
 
@@ -108,11 +110,15 @@ namespace ProxyApi.Factories
 		}
 
 		private string GetUrl(IControllerDefinition controller, string action)
-		{	
+		{
+			var routeValues = new RouteValueDictionary();
+			routeValues.Add("controller", controller.UrlName);
+			routeValues.Add("action", action);
+
 			if (controller.Type == ControllerType.WebApi)
 				return _pathUtility.ToAbsolute(string.Format("~/api/proxy/{0}/{1}", controller.UrlName, action));
 			else
-				return _pathUtility.ToAbsolute(string.Format("~/proxy/{0}/{1}", controller.UrlName, action));
+				return _pathUtility.ToAbsolute(_pathUtility.GetVirtualPath(routeValues));
 		}
 
 		#endregion
