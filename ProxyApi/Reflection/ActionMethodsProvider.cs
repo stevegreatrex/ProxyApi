@@ -42,13 +42,17 @@ namespace ProxyApi.Reflection
 			return GetPotentialMethods(controllerType);
 		}
 
-		private bool IsIncluded(MethodInfo method)
+		private bool IsIncluded(MethodInfo method, Type controllerType)
 		{
 			var rule = _configuration.InclusionRule;
 
-			var attribute = method.GetCustomAttribute<ProxyInclusionAttribute>();
-			if (attribute != null)
-				rule = attribute.InclusionRule;
+			var controllerAttribute = controllerType.GetCustomAttribute<ProxyInclusionAttribute>();
+			if (controllerAttribute != null)
+				rule = controllerAttribute.InclusionRule;
+
+			var methodAttribute = method.GetCustomAttribute<ProxyInclusionAttribute>();
+			if (methodAttribute != null)
+				rule = methodAttribute.InclusionRule;
 			
 			return rule == InclusionRule.IncludeAll;
 		}
@@ -56,7 +60,7 @@ namespace ProxyApi.Reflection
 		private IEnumerable<MethodInfo> GetPotentialMethods(Type controllerType)
 		{
 			var methods = controllerType.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
-				.Where(IsIncluded)
+				.Where(m => IsIncluded(m, controllerType))
 				.GroupBy(m => m.GetProxyName());
 
 			foreach (var methodName in methods)

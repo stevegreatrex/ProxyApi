@@ -107,6 +107,21 @@ namespace ProxyApi.Tests.Reflection
 			Assert.AreEqual("OverloadedMethod", methods[0].Name, "Explicitly included methods should be included");
 		}
 
+		/// <summary>
+		/// Ensures that GetMethods includes all methods in a type if the type has specified an inclusion rule
+		/// </summary>
+		[TestMethod]
+		public void GetMethods_Includes_All_Methods_If_Type_Has_Explicit_Include()
+		{
+			_configuration.InclusionRule = InclusionRule.ExcludeAll;
+
+			var methods = this.TestSubject.GetMethods(typeof(IncludedSampleWithExcludedMethods)).ToList();
+
+			Assert.AreEqual(2, methods.Count);
+			Assert.AreEqual("DefaultMethod", methods[0].Name, "Should fall back to the Type's rule attribute");
+			Assert.AreEqual("IncludedMethod", methods[1].Name, "Explicitly included methods should be included");
+		}
+
 		#endregion
 
 		#region Private Members
@@ -164,6 +179,21 @@ namespace ProxyApi.Tests.Reflection
 
 			[ProxyName("named")]
 			public void OtherMethod(string one, string two, string three)
+			{}
+		}
+
+		[ProxyInclude]
+		class IncludedSampleWithExcludedMethods
+		{
+			[ProxyExclude]
+			public void ExcludedMethod()
+			{}
+
+			public void DefaultMethod()
+			{}
+
+			[ProxyInclude]
+			public void IncludedMethod()
 			{}
 		}
 

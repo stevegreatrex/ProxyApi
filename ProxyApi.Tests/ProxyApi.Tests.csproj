@@ -70,6 +70,7 @@
     <Compile Include="Reflection\TestReflectionExtensions.cs" />
     <Compile Include="Reflection\TestControllerTypesProvider.cs" />
     <Compile Include="SampleApiController.cs" />
+    <Compile Include="SampleExcludedController.cs" />
     <Compile Include="SampleMvcController.cs" />
     <Compile Include="Templates\TestProxyTemplate.cs" />
     <Compile Include="TestProxyDependencyResolver.cs" />

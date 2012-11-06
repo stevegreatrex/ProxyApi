@@ -32,6 +32,7 @@ namespace ProxyApi
 	/// An attribute for explicitly specifying that an element should be included
 	/// in the proxy.
 	/// </summary>
+	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
 	public class ProxyIncludeAttribute : ProxyInclusionAttribute
 	{
 		/// <summary>
@@ -46,6 +47,7 @@ namespace ProxyApi
 	/// An attribute for explicitly specifying that an element should be excluded
 	/// from the proxy.
 	/// </summary>
+	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
 	public class ProxyExcludeAttribute : ProxyInclusionAttribute
 	{
 		/// <summary>
