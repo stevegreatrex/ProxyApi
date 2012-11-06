@@ -34,8 +34,12 @@ namespace ProxyApi.Tests.Integration
 		private IProxyGenerator CreateProxyGenerator()
 		{
 			return new ProxyGenerator(
-				new ControllerTypesProvider(new AppDomainAssemblyProvider()), 
-				new ControllerDefinitionFactory(new ActionMethodsProvider(), new ActionMethodDefinitionFactory(new PassThroughPathUtility())));
+				new ControllerTypesProvider(
+					new AppDomainAssemblyProvider(),
+					ProxyGeneratorConfiguration.Default), 
+				new ControllerDefinitionFactory(
+						new ActionMethodsProvider(ProxyGeneratorConfiguration.Default),
+						new ActionMethodDefinitionFactory(new PassThroughPathUtility())));
 		}
 
 		#endregion

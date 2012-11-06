@@ -39,18 +39,24 @@ namespace ProxyApi.Reflection
 		{
 			if (controllerType == null) throw new ArgumentNullException("controllerType");
 
-			return GetPotentialMethods(controllerType)
-					.Where(IsIncluded);
+			return GetPotentialMethods(controllerType);
 		}
 
 		private bool IsIncluded(MethodInfo method)
 		{
-			return _configuration.InclusionRule == InclusionRule.IncludeAll;
+			var rule = _configuration.InclusionRule;
+
+			var attribute = method.GetCustomAttribute<ProxyInclusionAttribute>();
+			if (attribute != null)
+				rule = attribute.InclusionRule;
+			
+			return rule == InclusionRule.IncludeAll;
 		}
 
-		private static IEnumerable<MethodInfo> GetPotentialMethods(Type controllerType)
+		private IEnumerable<MethodInfo> GetPotentialMethods(Type controllerType)
 		{
 			var methods = controllerType.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
+				.Where(IsIncluded)
 				.GroupBy(m => m.GetProxyName());
 
 			foreach (var methodName in methods)

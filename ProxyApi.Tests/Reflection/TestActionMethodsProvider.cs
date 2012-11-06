@@ -94,16 +94,17 @@ namespace ProxyApi.Tests.Reflection
 		}
 
 		/// <summary>
-		/// Ensures that GetMethods returns nothing when the default inclusion rule is excludeall
+		/// Ensures that GetMethods returns only implicit includes when the default inclusion rule is ExcludeAll
 		/// </summary>
 		[TestMethod]
-		public void GetMethods_Returns_Nothing_When_InclusionRule_Is_Exclude()
+		public void GetMethods_Returns_Explicit_Includes_When_InclusionRule_Is_Exclude()
 		{
 			_configuration.InclusionRule = InclusionRule.ExcludeAll;
 
 			var methods = this.TestSubject.GetMethods(typeof(Sample)).ToList();
 
-			Assert.AreEqual(0, methods.Count);
+			Assert.AreEqual(1, methods.Count);
+			Assert.AreEqual("OverloadedMethod", methods[0].Name, "Explicitly included methods should be included");
 		}
 
 		#endregion
@@ -127,6 +128,7 @@ namespace ProxyApi.Tests.Reflection
 			public static void PublicStaticMethod()
 			{}
 
+			[ProxyInclude]
 			public void OverloadedMethod()
 			{}
 
@@ -134,6 +136,10 @@ namespace ProxyApi.Tests.Reflection
 			{}
 
 			public void OverloadedMethod(object one, object two)
+			{}
+
+			[ProxyExclude]
+			public void ExplicitlyExcluded()
 			{}
 		}
 
