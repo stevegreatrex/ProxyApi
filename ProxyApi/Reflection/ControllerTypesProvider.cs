@@ -26,7 +26,7 @@ namespace ProxyApi.Reflection
 		public ControllerTypesProvider(IAssemblyProvider assemblyProvider)
 		{
 			if (assemblyProvider == null) throw new ArgumentNullException("assemblyProvider");
-
+			
 			_assemblyProvider = assemblyProvider;
 		}
 
