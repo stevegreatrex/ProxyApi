@@ -56,6 +56,7 @@
     <Compile Include="InclusionRule.cs" />
     <Compile Include="IProxyGeneratorConfiguration.cs" />
     <Compile Include="ProxyGeneratorConfiguration.cs" />
+    <Compile Include="ProxyInclusionAttribute.cs" />
     <Compile Include="ProxyNameAttribute.cs" />
     <Compile Include="Reflection\ReflectionExtensions.cs" />
     <Compile Include="ElementDefinitions\ControllerType.cs" />

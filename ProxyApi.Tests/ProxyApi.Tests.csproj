@@ -74,7 +74,9 @@
     <Compile Include="Templates\TestProxyTemplate.cs" />
     <Compile Include="TestProxyDependencyResolver.cs" />
     <Compile Include="TestProxyGenerator.cs" />
+    <Compile Include="TestProxyGeneratorConfiguration.cs" />
     <Compile Include="TestProxyHttpHandler.cs" />
+    <Compile Include="TestProxyInclusionRuleAttribute.cs" />
     <Compile Include="TestProxyNameAttribute.cs" />
     <Compile Include="TestRouteHandler.cs" />
   </ItemGroup>
