@@ -84,7 +84,7 @@ namespace ProxyApi.Tests.Reflection
 		/// Ensures that GetControllerTypes returns an empty list when inclusion rule is set to exclude
 		/// </summary>
 		[TestMethod]
-		public void GetControllerTypes_Returns_Empty_List_For_Exclude_Rule()
+		public void GetControllerTypes_Returns_Explicit_Includes_List_For_Exclude_Rule()
 		{
 			_configuration.InclusionRule = InclusionRule.ExcludeAll;
 
@@ -97,8 +97,9 @@ namespace ProxyApi.Tests.Reflection
 			//get the list of types
 			var controllerTypes = this.TestSubject.GetControllerTypes().ToList();
 
-			//check that nothing was returned
-			Assert.AreEqual(0, controllerTypes.Count);
+			//check that the explicit includes were returned
+			Assert.AreEqual(1, controllerTypes.Count);
+			Assert.AreEqual(typeof(SampleApiController), controllerTypes[0], "Explicit includes should always be included");
 		}
 
 		#endregion

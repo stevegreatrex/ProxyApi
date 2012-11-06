@@ -6,11 +6,8 @@ using System.Web.Http;
 
 namespace ProxyApi.Tests
 {
-	[ProxyInclude]
-	public class SampleApiController : ApiController
+	[ProxyExclude]
+	public class SampleExcludedController : ApiController
 	{
-		public void Method1(){}
-		public void Method2(){}
-		public void Method3(){}
 	}
 }

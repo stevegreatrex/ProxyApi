@@ -63,6 +63,30 @@ namespace ProxyApi.Tests.Reflection
 		/// </summary>
 		[TestMethod]
 		[ExpectedException(typeof(ArgumentNullException))]
+		public void GetCustomAttribute_Throws_On_Null_Type()
+		{
+			Type target = null;
+			target.GetCustomAttribute<System.ComponentModel.DescriptionAttribute>();
+		}
+
+		/// <summary>
+		/// Ensures that GetCustomAttribute returns the expected attribute when present
+		/// </summary>
+		[TestMethod]
+		public void GetCustomAttribute_Returns_Attribute_When_Present_On_Type()
+		{
+			var proxyName	= typeof(NamedSample).GetCustomAttribute<ProxyNameAttribute>();
+			var blank		= typeof(Sample).GetCustomAttribute<ProxyNameAttribute>();
+
+			Assert.IsNotNull(proxyName);
+			Assert.IsNull(blank);
+		}
+
+		/// <summary>
+		/// Ensures that GetCustomAttribute throws an exception when called on a null member
+		/// </summary>
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentNullException))]
 		public void GetCustomAttribute_Throws_On_Null_Parameter()
 		{
 			ParameterInfo target = null;

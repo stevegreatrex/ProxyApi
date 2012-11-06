@@ -13,6 +13,22 @@ namespace ProxyApi.Reflection
 	{
 		/// <summary>
 		/// Gets the custom attribute instance of type <typeparamref name="TAttribute"/> on
+		/// <paramref name="type"/>, if one exists.
+		/// </summary>
+		/// <typeparam name="TAttribute">The type of the attribute for which to look.</typeparam>
+		/// <param name="type">The type on which to check.</param>
+		/// <param name="inherit">if set to <c>true</c>, inherited attributes will be considered.</param>
+		/// <returns>The matching attribute, or <c>null</c></returns>
+		public static TAttribute GetCustomAttribute<TAttribute>(this Type type, bool inherit = true)
+			where TAttribute : Attribute
+		{
+			if (type == null) throw new ArgumentNullException("type");
+
+			return type.GetCustomAttributes(inherit).OfType<TAttribute>().FirstOrDefault();
+		}
+
+		/// <summary>
+		/// Gets the custom attribute instance of type <typeparamref name="TAttribute"/> on
 		/// <paramref name="method"/>, if one exists.
 		/// </summary>
 		/// <typeparam name="TAttribute">The type of the attribute for which to look.</typeparam>

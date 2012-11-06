@@ -59,7 +59,13 @@ namespace ProxyApi.Reflection
 
 		private bool IsIncluded(Type type)
 		{
-			return _configuration.InclusionRule == InclusionRule.IncludeAll;
+			var rule = _configuration.InclusionRule;
+
+			var attribute = type.GetCustomAttribute<ProxyInclusionAttribute>();
+			if (attribute != null)
+				rule = attribute.InclusionRule;
+			
+			return rule == InclusionRule.IncludeAll;
 		}
 	}
 
