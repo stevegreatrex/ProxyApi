@@ -16,6 +16,7 @@ namespace ProxyApi.Tests.Reflection
 	public class TestControllerTypesProvider : FixtureBase<ControllerTypesProvider>
 	{
 		private Mock<IAssemblyProvider> _assemblyProvider;
+		private IProxyGeneratorConfiguration _configuration;
 
 		#region Setup
 
@@ -25,9 +26,10 @@ namespace ProxyApi.Tests.Reflection
 		/// </summary>
 		public override ControllerTypesProvider CreateTestSubject()
 		{
-			_assemblyProvider = this.MockRepository.Create<IAssemblyProvider>();
+			_assemblyProvider	= this.MockRepository.Create<IAssemblyProvider>();
+			_configuration		= new ProxyGeneratorConfiguration();
 
-			return new ControllerTypesProvider(_assemblyProvider.Object);
+			return new ControllerTypesProvider(_assemblyProvider.Object, _configuration);
 		}
 
 		#endregion
@@ -40,9 +42,21 @@ namespace ProxyApi.Tests.Reflection
 		/// </summary>
 		[TestMethod]
 		[ExpectedException(typeof(ArgumentNullException))]
-		public void Constructor_Throws_Exception_On_Null_Parameters()
+		public void Constructor_Throws_Exception_On_Null_AssemblyProvider()
 		{
-			new ControllerTypesProvider(null);
+			new ControllerTypesProvider(null, _configuration);
+		}
+
+		
+		/// <summary>
+		/// Ensures that appropriate <see cref="ArgumentNullException"/> are thrown when
+		/// null parameters are passed to the constructor.
+		/// </summary>
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void Constructor_Throws_Exception_On_Null_Configuration()
+		{
+			new ControllerTypesProvider(_assemblyProvider.Object, null);
 		}
 
 		/// <summary>
@@ -64,6 +78,27 @@ namespace ProxyApi.Tests.Reflection
 			Assert.AreEqual(2, controllerTypes.Count);
 			Assert.AreEqual(typeof(SampleApiController), controllerTypes[0]);
 			Assert.AreEqual(typeof(SampleMvcController), controllerTypes[1]);
+		}
+
+		/// <summary>
+		/// Ensures that GetControllerTypes returns an empty list when inclusion rule is set to exclude
+		/// </summary>
+		[TestMethod]
+		public void GetControllerTypes_Returns_Empty_List_For_Exclude_Rule()
+		{
+			_configuration.InclusionRule = InclusionRule.ExcludeAll;
+
+			//return some assemblies to make sure we get some hits and some things that should be filtered
+			_assemblyProvider.Setup(p => p.GetAssemblies()).Returns(new [] {
+				typeof(TestControllerTypesProvider).Assembly,
+				typeof(System.Web.Http.ApiController).Assembly,
+				typeof(System.Web.Mvc.Controller).Assembly });
+
+			//get the list of types
+			var controllerTypes = this.TestSubject.GetControllerTypes().ToList();
+
+			//check that nothing was returned
+			Assert.AreEqual(0, controllerTypes.Count);
 		}
 
 		#endregion

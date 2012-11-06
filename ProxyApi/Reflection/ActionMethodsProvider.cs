@@ -15,6 +15,19 @@ namespace ProxyApi.Reflection
 	[Export(typeof(IActionMethodsProvider))]
 	public class ActionMethodsProvider : IActionMethodsProvider
 	{
+		private IProxyGeneratorConfiguration _configuration;
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ActionMethodsProvider" /> class.
+		/// </summary>
+		[ImportingConstructor]
+		public ActionMethodsProvider(IProxyGeneratorConfiguration configuration)
+		{
+			if (configuration == null) throw new ArgumentNullException("configuration");
+
+			_configuration = configuration;
+		}
+
 		/// <summary>
 		/// Gets the action methods that are found on <paramref name="controllerType" />.
 		/// </summary>
@@ -26,6 +39,17 @@ namespace ProxyApi.Reflection
 		{
 			if (controllerType == null) throw new ArgumentNullException("controllerType");
 
+			return GetPotentialMethods(controllerType)
+					.Where(IsIncluded);
+		}
+
+		private bool IsIncluded(MethodInfo method)
+		{
+			return _configuration.InclusionRule == InclusionRule.IncludeAll;
+		}
+
+		private static IEnumerable<MethodInfo> GetPotentialMethods(Type controllerType)
+		{
 			var methods = controllerType.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
 				.GroupBy(m => m.GetProxyName());
 

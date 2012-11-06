@@ -17,17 +17,20 @@ namespace ProxyApi.Reflection
 	public class ControllerTypesProvider : IControllerTypesProvider
 	{
 		private IAssemblyProvider _assemblyProvider;
+		private IProxyGeneratorConfiguration _configuration;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ControllerTypesProvider" /> class.
 		/// </summary>
 		/// <param name="assemblyProvider">The assembly provider.</param>
 		[ImportingConstructor]
-		public ControllerTypesProvider(IAssemblyProvider assemblyProvider)
+		public ControllerTypesProvider(IAssemblyProvider assemblyProvider, IProxyGeneratorConfiguration configuration)
 		{
 			if (assemblyProvider == null) throw new ArgumentNullException("assemblyProvider");
+			if (configuration == null) throw new ArgumentNullException("configuration");
 			
-			_assemblyProvider = assemblyProvider;
+			_assemblyProvider	= assemblyProvider;
+			_configuration		= configuration;
 		}
 
 		/// <summary>
@@ -40,7 +43,8 @@ namespace ProxyApi.Reflection
 		{
 			return _assemblyProvider.GetAssemblies()
 				.SelectMany(a => a.GetTypes())
-				.Where(IsControllerType);
+				.Where(IsControllerType)
+				.Where(IsIncluded);
 		}
 
 		private static bool IsControllerType(Type type)
@@ -51,6 +55,11 @@ namespace ProxyApi.Reflection
 
 			return typeof(ApiController).IsAssignableFrom(type) ||
 				typeof(Controller).IsAssignableFrom(type);
+		}
+
+		private bool IsIncluded(Type type)
+		{
+			return _configuration.InclusionRule == InclusionRule.IncludeAll;
 		}
 	}
 

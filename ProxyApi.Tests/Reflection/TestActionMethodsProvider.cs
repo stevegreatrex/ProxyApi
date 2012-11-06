@@ -13,6 +13,8 @@ namespace ProxyApi.Tests.Reflection
 	[TestClass]
 	public class TestActionMethodsProvider : FixtureBase<ActionMethodsProvider>
 	{
+		private IProxyGeneratorConfiguration _configuration;
+
 		#region Setup
 
 		/// <summary>
@@ -21,12 +23,25 @@ namespace ProxyApi.Tests.Reflection
 		/// </summary>
 		public override ActionMethodsProvider CreateTestSubject()
 		{
-			return new ActionMethodsProvider();
+			_configuration = new ProxyGeneratorConfiguration();
+
+			return new ActionMethodsProvider(_configuration);
 		}
 
 		#endregion
 
 		#region Tests
+
+		/// <summary>
+		/// Ensures that appropriate <see cref="ArgumentNullException"/> are thrown when
+		/// null parameters are passed to the constructor.
+		/// </summary>
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void Constructor_Throws_Exception_On_Null_Configuration()
+		{
+			new ActionMethodsProvider(null);
+		}
 
 		/// <summary>
 		/// Ensures that GetMethods throws an exception when passed a null type
@@ -76,6 +91,19 @@ namespace ProxyApi.Tests.Reflection
 			Assert.AreEqual("named", methods[1].GetCustomAttribute<ProxyNameAttribute>().Name);
 			Assert.AreEqual("OtherMethod", methods[1].Name);
 			Assert.AreEqual(3, methods[1].GetParameters().Count(), "GetMethods should select the named overload with the most parameters, regardless of actual name");
+		}
+
+		/// <summary>
+		/// Ensures that GetMethods returns nothing when the default inclusion rule is excludeall
+		/// </summary>
+		[TestMethod]
+		public void GetMethods_Returns_Nothing_When_InclusionRule_Is_Exclude()
+		{
+			_configuration.InclusionRule = InclusionRule.ExcludeAll;
+
+			var methods = this.TestSubject.GetMethods(typeof(Sample)).ToList();
+
+			Assert.AreEqual(0, methods.Count);
 		}
 
 		#endregion
