@@ -1,0 +1,44 @@
+﻿<#@ template debug="true" hostspecific="false" language="C#" #>
+<#@ output extension=".js" #>
+<#@ assembly name="$(ProjectDir)bin\ProxyApi.dll" #>
+<#@ assembly name="$(TargetPath)" #>
+<#@ assembly name="System" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Web" #>
+<#@ assembly name="System.Web.Routing" #>
+<#@ import namespace="ProxyApi" #>
+<#@ import namespace="ProxyApi.Reflection" #>
+<#@ import namespace="ProxyApi.ElementDefinitions" #>
+<#@ import namespace="ProxyApi.Factories" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="System.Web.Routing" #>
+
+<# 
+
+    var generator = new ProxyGenerator(
+				new ControllerTypesProvider(
+					new AppDomainAssemblyProvider(),
+					ProxyGeneratorConfiguration.Default), 
+				new ControllerDefinitionFactory(
+						new ActionMethodsProvider(ProxyGeneratorConfiguration.Default),
+						new ActionMethodDefinitionFactory(new NullPathUtility())));
+#>
+<#= generator.GenerateProxyScript() #>
+
+<#+
+    public class NullPathUtility : IPathUtility
+    {
+		public string ToAbsolute(string path)
+		{
+			return path;
+		}
+
+		public string GetVirtualPath(RouteValueDictionary routeValues)
+		{
+			return string.Format("~/proxy/{0}/{1}", routeValues["controller"], routeValues["action"]);
+		}
+    }
+#>
