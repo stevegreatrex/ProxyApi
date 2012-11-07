@@ -27,18 +27,3 @@
 						new ActionMethodDefinitionFactory(new NullPathUtility())));
 #>
 <#= generator.GenerateProxyScript() #>
-
-<#+
-    public class NullPathUtility : IPathUtility
-    {
-		public string ToAbsolute(string path)
-		{
-			return path;
-		}
-
-		public string GetVirtualPath(RouteValueDictionary routeValues)
-		{
-			return string.Format("~/proxy/{0}/{1}", routeValues["controller"], routeValues["action"]);
-		}
-    }
-#>
