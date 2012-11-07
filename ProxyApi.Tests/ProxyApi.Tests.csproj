@@ -73,6 +73,7 @@
     <Compile Include="SampleExcludedController.cs" />
     <Compile Include="SampleMvcController.cs" />
     <Compile Include="Templates\TestProxyTemplate.cs" />
+    <Compile Include="TestNullPathUtility.cs" />
     <Compile Include="TestProxyDependencyResolver.cs" />
     <Compile Include="TestProxyGenerator.cs" />
     <Compile Include="TestProxyGeneratorConfiguration.cs" />
