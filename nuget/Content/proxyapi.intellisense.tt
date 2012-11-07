@@ -18,6 +18,9 @@
 
 <# 
 
+// DO NOT REFERENCE THIS FILE IN PRODUCTION CODE
+// This should be used solely to generate intellisense in visual studio
+
     var generator = new ProxyGenerator(
 				new ControllerTypesProvider(
 					new AppDomainAssemblyProvider(),
