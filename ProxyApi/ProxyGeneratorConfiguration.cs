@@ -19,7 +19,7 @@ namespace ProxyApi
 		/// </summary>
 		public ProxyGeneratorConfiguration()
 		{
-			this.PathUtility		= new NullPathUtility();
+			this.PathUtility		= new PathUtility(new ContextProvider());
 			this.AssemblyProvider	= new AppDomainAssemblyProvider();
 		}
 

@@ -9,6 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Nuget", "Nuget", "{BCEBEE73
 	ProjectSection(SolutionItems) = preProject
 		nuget\ProxyApi.0.1.10.nupkg = nuget\ProxyApi.0.1.10.nupkg
 		nuget\ProxyApi.Intellisense.0.1.2.nupkg = nuget\ProxyApi.Intellisense.0.1.2.nupkg
+		nuget\Content\proxyapi.intellisense.tt = nuget\Content\proxyapi.intellisense.tt
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProxyApi.Tests.Integration", "ProxyApi.Tests.Integration\ProxyApi.Tests.Integration.csproj", "{003DF186-AF52-47D7-8529-9DB048668505}"

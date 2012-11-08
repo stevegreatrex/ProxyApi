@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using ProxyApi.Factories;
 using ProxyApi.Reflection;
 
 namespace ProxyApi
@@ -51,13 +52,40 @@ namespace ProxyApi
 		/// </returns>
 		public object GetService(Type serviceType)
 		{
-			if (typeof(IPathUtility) == serviceType && _configuration.PathUtility != null)
-				return _configuration.PathUtility;
+			if (typeof(IPathUtility) == serviceType)
+				return _configuration.PathUtility ?? new PathUtility(new ContextProvider());
 
-			if (typeof(IAssemblyProvider) == serviceType && _configuration.AssemblyProvider != null)
-				return _configuration.AssemblyProvider;
+			if (typeof(IAssemblyProvider) == serviceType)
+				return _configuration.AssemblyProvider ?? new AppDomainAssemblyProvider();
 
-			return Container.GetExportedValueOrDefault<object>(AttributedModelServices.GetContractName(serviceType));
+			if (typeof(IProxyGenerator) == serviceType)
+				return new ProxyGenerator(
+						GetService<IControllerElementsProvider>(),
+						GetService<IControllerDefinitionFactory>());
+
+			if (typeof(IControllerElementsProvider) == serviceType)
+				return new ControllerElementsProvider(
+					GetService<IAssemblyProvider>(),
+					_configuration);
+
+			if (typeof(IControllerDefinitionFactory) == serviceType)
+				return new ControllerDefinitionFactory(
+					GetService<IControllerElementsProvider>(),
+					GetService<IActionMethodDefinitionFactory>());
+
+			if (typeof(IActionMethodDefinitionFactory) == serviceType)
+				return new ActionMethodDefinitionFactory(
+					GetService<IPathUtility>());
+
+			if (typeof(RouteHandler) == serviceType)
+				return new RouteHandler(GetService<IProxyGenerator>());
+
+			return null;
+		}
+
+		private TService GetService<TService>()
+		{
+			return (TService)this.GetService(typeof(TService));
 		}
 
 		/// <summary>
@@ -69,31 +97,14 @@ namespace ProxyApi
 		/// </returns>
 		public IEnumerable<object> GetServices(Type serviceType)
 		{
-			return Container.GetExportedValues<object>(AttributedModelServices.GetContractName(serviceType));
+			yield return GetService(serviceType);;
 		}
 
 		#endregion
 
 		#region Singleton Implementation
 
-		private static volatile object _lock = new object();
-		private static CompositionContainer _container;
 		private static readonly ProxyDependencyResolver _instance = new ProxyDependencyResolver();
-
-		private static CompositionContainer Container
-		{
-			get
-			{
-				if (_container == null)
-					lock(_lock)
-						if (_container == null)
-						{
-							_container = new CompositionContainer(new AssemblyCatalog(typeof(ProxyDependencyResolver).Assembly));
-						}
-
-				return _container;
-			}
-		}
 
 		/// <summary>
 		/// Gets the singleton instance.

@@ -5,6 +5,7 @@
 <#@ assembly name="System" #>
 <#@ assembly name="System.Core" #>
 <#@ assembly name="System.Web" #>
+<#@ assembly name="System.Web.Mvc" #>
 <#@ assembly name="System.Web.Routing" #>
 <#@ import namespace="ProxyApi" #>
 <#@ import namespace="ProxyApi.Reflection" #>
@@ -16,17 +17,12 @@
 <#@ import namespace="System.Reflection" #>
 <#@ import namespace="System.Web.Routing" #>
 
-<# 
-
 // DO NOT REFERENCE THIS FILE IN PRODUCTION CODE
 // This should be used solely to generate intellisense in visual studio
 
-    var generator = new ProxyGenerator(
-				new ControllerTypesProvider(
-					new AppDomainAssemblyProvider(),
-					ProxyGeneratorConfiguration.Default), 
-				new ControllerDefinitionFactory(
-						new ActionMethodsProvider(ProxyGeneratorConfiguration.Default),
-						new ActionMethodDefinitionFactory(new NullPathUtility())));
+<# 
+
+	ProxyGeneratorConfiguration.Default.PathUtility = new NullPathUtility();
+    var generator = (IProxyGenerator)ProxyDependencyResolver.Instance.GetService(typeof(IProxyGenerator));
 #>
 <#= generator.GenerateProxyScript() #>
