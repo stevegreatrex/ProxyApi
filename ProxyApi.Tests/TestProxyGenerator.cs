@@ -15,7 +15,7 @@ namespace ProxyApi.Tests
 	[TestClass]
 	public class TestProxyGenerator : FixtureBase<ProxyGenerator>
 	{
-		private Mock<IControllerTypesProvider> _typesProvider;
+		private Mock<IControllerElementsProvider> _typesProvider;
 		private Mock<IControllerDefinitionFactory> _factory;
 
 		#region Setup
@@ -26,7 +26,7 @@ namespace ProxyApi.Tests
 		/// </summary>
 		public override ProxyGenerator CreateTestSubject()
 		{
-			_typesProvider	= this.MockRepository.Create<IControllerTypesProvider>();
+			_typesProvider	= this.MockRepository.Create<IControllerElementsProvider>();
 			_factory		= this.MockRepository.Create<IControllerDefinitionFactory>();
 
 			return new ProxyGenerator(_typesProvider.Object, _factory.Object);

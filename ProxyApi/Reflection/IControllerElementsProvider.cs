@@ -8,11 +8,17 @@ using System.Threading.Tasks;
 namespace ProxyApi.Reflection
 {
 	/// <summary>
-	/// An interface for objects that return the methods that should be considered action
-	/// methods on a given controller type.
+	/// An interface for objects that provide a list of elements that are considered
+	/// to be controllers or actions.
 	/// </summary>
-	public interface IActionMethodsProvider
+	public interface IControllerElementsProvider
 	{
+		/// <summary>
+		/// Gets all available types that are considered to be controllers.
+		/// </summary>
+		/// <returns>The types that are controllers.</returns>
+		IEnumerable<Type> GetControllerTypes();
+
 		/// <summary>
 		/// Gets the action methods that are found on <paramref name="controllerType"/>.
 		/// </summary>

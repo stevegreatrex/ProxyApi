@@ -33,12 +33,13 @@ namespace ProxyApi.Tests.Integration
 
 		private IProxyGenerator CreateProxyGenerator()
 		{
-			return new ProxyGenerator(
-				new ControllerTypesProvider(
+			var controllerElementsProvider = new ControllerElementsProvider(
 					new AppDomainAssemblyProvider(),
-					ProxyGeneratorConfiguration.Default), 
+					ProxyGeneratorConfiguration.Default);
+			return new ProxyGenerator(
+				controllerElementsProvider, 
 				new ControllerDefinitionFactory(
-						new ActionMethodsProvider(ProxyGeneratorConfiguration.Default),
+						controllerElementsProvider,
 						new ActionMethodDefinitionFactory(new PassThroughPathUtility())));
 		}
 

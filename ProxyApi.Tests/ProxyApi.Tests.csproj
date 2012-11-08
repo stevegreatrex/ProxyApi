@@ -67,10 +67,9 @@
     <Compile Include="Factories\TestControllerDefinitionFactory.cs" />
     <Compile Include="FixtureBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Reflection\TestActionMethodsProvider.cs" />
     <Compile Include="Reflection\TestAppDomainAssemblyProvider.cs" />
     <Compile Include="Reflection\TestReflectionExtensions.cs" />
-    <Compile Include="Reflection\TestControllerTypesProvider.cs" />
+    <Compile Include="Reflection\TestControllerElementsProvider.cs" />
     <Compile Include="SampleApiController.cs" />
     <Compile Include="SampleExcludedController.cs" />
     <Compile Include="SampleMvcController.cs" />

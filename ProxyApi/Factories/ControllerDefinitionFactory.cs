@@ -18,7 +18,7 @@ namespace ProxyApi.Factories
 	public class ControllerDefinitionFactory : IControllerDefinitionFactory
 	{
 		private IActionMethodDefinitionFactory _actionFactory;
-		private IActionMethodsProvider _actionProvider;
+		private IControllerElementsProvider _actionProvider;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ControllerDefinitionFactory" /> class.
@@ -27,7 +27,7 @@ namespace ProxyApi.Factories
 		/// <param name="actionFactory">The action factory.</param>
 		[ImportingConstructor]
 		public ControllerDefinitionFactory(
-			IActionMethodsProvider actionProvider,
+			IControllerElementsProvider actionProvider,
 			IActionMethodDefinitionFactory actionFactory)
 		{
 			if (actionProvider == null) throw new ArgumentNullException("actionProvider");

@@ -37,6 +37,15 @@ namespace ProxyApi.Tests
 			CheckService(typeof(RouteHandler));
 		}
 
+
+		/// <summary>
+		/// Ensures that Instance is not null
+		/// </summary>
+		[TestMethod]
+		public void Instance_Is_Not_Null()
+		{
+			Assert.IsNotNull(ProxyDependencyResolver.Instance);
+		}
 		#endregion
 
 		#region Private Members

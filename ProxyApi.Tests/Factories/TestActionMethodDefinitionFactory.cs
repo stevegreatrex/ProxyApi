@@ -172,6 +172,8 @@ namespace ProxyApi.Tests.Factories
 			CheckMethodParameters("DeleteWithExplicitBody", "one");
 			CheckMethodParameters("DeleteWithExplicitBodyAndUrlParameters", "two", "one");
 			CheckMethodParameters("DeleteWithUrlParameters", null, "one", "two");
+
+			CheckMethodParameters("PostWithExplicitUrl", null, "one");
 		}
 
 		#endregion
@@ -227,6 +229,9 @@ namespace ProxyApi.Tests.Factories
 			public void DeleteWithExplicitBody([FromBody]object one){}
 			public void DeleteWithExplicitBodyAndUrlParameters(object one, [FromBody]object two){}
 			public void DeleteWithUrlParameters(object one, object two){ }
+
+
+			public void PostWithExplicitUrl([FromUri]object one){}
 
 			#endregion
 
