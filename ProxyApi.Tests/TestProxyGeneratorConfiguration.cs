@@ -26,11 +26,11 @@ namespace ProxyApi.Tests
 		/// Ensures that PathUtility defaults to a Null instance
 		/// </summary>
 		[TestMethod]
-		public void PathUtility_Defaults_To_Null()
+		public void PathUtility_Defaults_To_PathUtility()
 		{
 			var testSubject = new ProxyGeneratorConfiguration();
 			Assert.IsNotNull(testSubject.PathUtility);
-			Assert.AreEqual(typeof(NullPathUtility), testSubject.PathUtility.GetType());
+			Assert.AreEqual(typeof(PathUtility), testSubject.PathUtility.GetType());
 			
 			var newUtility = new Mock<IPathUtility>().Object;
 			testSubject.PathUtility = newUtility;
