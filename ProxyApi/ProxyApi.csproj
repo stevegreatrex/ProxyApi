@@ -73,14 +73,12 @@
     <Compile Include="ProxyDependencyResolver.cs" />
     <Compile Include="PathUtility.cs" />
     <Compile Include="ProxyGenerator.cs" />
-    <Compile Include="Reflection\ActionMethodsProvider.cs" />
     <Compile Include="Reflection\AppDomainAssemblyProvider.cs" />
     <Compile Include="ApiBootstrapper.cs" />
     <Compile Include="Templates\ProxyTemplate.Parameters.cs" />
-    <Compile Include="Reflection\ControllerTypesProvider.cs" />
-    <Compile Include="Reflection\IActionMethodsProvider.cs" />
+    <Compile Include="Reflection\ControllerElementsProvider.cs" />
     <Compile Include="Reflection\IAssemblyProvider.cs" />
-    <Compile Include="Reflection\IControllerTypesProvider.cs" />
+    <Compile Include="Reflection\IControllerElementsProvider.cs" />
     <Compile Include="ElementDefinitions\ActionMethodDefinition.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProxyHttpHandler.cs" />

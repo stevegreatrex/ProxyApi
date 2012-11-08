@@ -17,7 +17,7 @@ namespace ProxyApi.Tests.Factories
 	[TestClass]
 	public class TestControllerDefinitionFactory : FixtureBase<ControllerDefinitionFactory>
 	{
-		private Mock<IActionMethodsProvider> _actionProvider;
+		private Mock<IControllerElementsProvider> _actionProvider;
 		private Mock<IActionMethodDefinitionFactory> _actionFactory;
 
 		#region Setup
@@ -28,7 +28,7 @@ namespace ProxyApi.Tests.Factories
 		/// </summary>
 		public override ControllerDefinitionFactory CreateTestSubject()
 		{
-			_actionProvider = this.MockRepository.Create<IActionMethodsProvider>();
+			_actionProvider = this.MockRepository.Create<IControllerElementsProvider>();
 			_actionFactory = this.MockRepository.Create<IActionMethodDefinitionFactory>();
 
 			return new ControllerDefinitionFactory(_actionProvider.Object, _actionFactory.Object);

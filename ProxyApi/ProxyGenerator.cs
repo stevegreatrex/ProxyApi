@@ -16,7 +16,7 @@ namespace ProxyApi
 	public class ProxyGenerator : IProxyGenerator
 	{
 		private IControllerDefinitionFactory _factory;
-		private IControllerTypesProvider _typesProvider;
+		private IControllerElementsProvider _typesProvider;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ProxyGenerator" /> class.
@@ -25,7 +25,7 @@ namespace ProxyApi
 		/// <param name="factory">The factory.</param>
 		[ImportingConstructor]
 		public ProxyGenerator(
-			IControllerTypesProvider typesProvider,
+			IControllerElementsProvider typesProvider,
 			IControllerDefinitionFactory factory)
 		{
 			if (typesProvider == null) throw new ArgumentNullException("typesProvider");
