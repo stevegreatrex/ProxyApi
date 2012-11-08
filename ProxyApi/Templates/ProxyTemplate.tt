@@ -63,12 +63,10 @@
 	if (method.BodyParameter != null) {
 		allParameters = allParameters.Concat(new [] { method.BodyParameter });
 	}
-	var parameterList = string.Join(",", allParameters.OrderBy(m => m.Index).Select(m => m.Name).ToArray());
+	var parameterList = string.Join(",", allParameters.Where(m => m != null).OrderBy(m => m.Index).Select(m => m.Name).ToArray());
 #>
 	<#= method.Name #>: function(<#=parameterList#>) {
-		return invoke(
-			"<#= method.Url #>", 
-			"<#= method.Type.ToString().ToLower() #>", 
+		return invoke("<#= method.Url #>", "<#= method.Type.ToString().ToLower() #>", 
 		<# if (method.UrlParameters.Any()) { #>
 			{
 			<# foreach (var parameter in method.UrlParameters) { #>
