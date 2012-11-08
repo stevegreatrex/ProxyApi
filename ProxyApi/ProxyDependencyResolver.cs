@@ -34,6 +34,17 @@ namespace ProxyApi
 			}
 		}
 
+		public ProxyDependencyResolver()
+			: this(ProxyGeneratorConfiguration.Default)
+		{
+
+		}
+
+		public ProxyDependencyResolver(IProxyGeneratorConfiguration configuration)
+		{
+
+		}
+
 		/// <summary>
 		/// Resolves singly registered services that support arbitrary object creation.
 		/// </summary>
