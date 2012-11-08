@@ -98,114 +98,135 @@ namespace ProxyApi.Templates
             
             #line default
             #line hidden
+            this.Write("\r\n");
+            
+            #line 60 "C:\Development\Home\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
+
+	var allParameters = method.UrlParameters.AsEnumerable();
+	
+	if (method.BodyParameter != null) {
+		allParameters = allParameters.Concat(new [] { method.BodyParameter });
+	}
+	var parameterList = string.Join(",", allParameters.OrderBy(m => m.Index).Select(m => m.Name).ToArray());
+
+            
+            #line default
+            #line hidden
             this.Write("\t");
             
-            #line 59 "C:\Development\Home\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
+            #line 68 "C:\Development\Home\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(method.Name));
             
             #line default
             #line hidden
-            this.Write(": function() {\r\n\t\treturn invoke(\r\n\t\t\t\"");
+            this.Write(": function(");
             
-            #line 61 "C:\Development\Home\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
+            #line 68 "C:\Development\Home\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(parameterList));
+            
+            #line default
+            #line hidden
+            this.Write(") {\r\n\t\treturn invoke(\r\n\t\t\t\"");
+            
+            #line 70 "C:\Development\Home\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(method.Url));
             
             #line default
             #line hidden
             this.Write("\", \r\n\t\t\t\"");
             
-            #line 62 "C:\Development\Home\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
+            #line 71 "C:\Development\Home\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(method.Type.ToString().ToLower()));
             
             #line default
             #line hidden
             this.Write("\", \r\n\t\t");
             
-            #line 63 "C:\Development\Home\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
+            #line 72 "C:\Development\Home\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
  if (method.UrlParameters.Any()) { 
             
             #line default
             #line hidden
             this.Write("\t\t\t{\r\n\t\t\t");
             
-            #line 65 "C:\Development\Home\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
+            #line 74 "C:\Development\Home\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
  foreach (var parameter in method.UrlParameters) { 
             
             #line default
             #line hidden
             this.Write("\t\t\t\t");
             
-            #line 66 "C:\Development\Home\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
+            #line 75 "C:\Development\Home\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
             
             #line default
             #line hidden
             this.Write(": arguments[");
             
-            #line 66 "C:\Development\Home\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
+            #line 75 "C:\Development\Home\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Index));
             
             #line default
             #line hidden
             this.Write("],\r\n\t\t\t");
             
-            #line 67 "C:\Development\Home\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
+            #line 76 "C:\Development\Home\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
  } 
             
             #line default
             #line hidden
             this.Write("\t\t\t}\r\n\t\t");
             
-            #line 69 "C:\Development\Home\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
+            #line 78 "C:\Development\Home\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
  } else { 
             
             #line default
             #line hidden
             this.Write("\t\t\t{}\r\n\t\t");
             
-            #line 71 "C:\Development\Home\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
+            #line 80 "C:\Development\Home\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
  } 
             
             #line default
             #line hidden
             this.Write("\t\t");
             
-            #line 72 "C:\Development\Home\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
+            #line 81 "C:\Development\Home\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
  if (method.BodyParameter != null) { 
             
             #line default
             #line hidden
             this.Write("\t\t\t, arguments[");
             
-            #line 73 "C:\Development\Home\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
+            #line 82 "C:\Development\Home\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(method.BodyParameter.Index));
             
             #line default
             #line hidden
             this.Write("]);\r\n\t\t");
             
-            #line 74 "C:\Development\Home\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
+            #line 83 "C:\Development\Home\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
  } else { 
             
             #line default
             #line hidden
             this.Write("\t\t\t);\r\n\t\t");
             
-            #line 76 "C:\Development\Home\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
+            #line 85 "C:\Development\Home\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
  } 
             
             #line default
             #line hidden
             this.Write("\t},\r\n");
             
-            #line 78 "C:\Development\Home\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
+            #line 87 "C:\Development\Home\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
  } 
             
             #line default
             #line hidden
             this.Write("};\r\n\t");
             
-            #line 80 "C:\Development\Home\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
+            #line 89 "C:\Development\Home\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
  } 
             
             #line default

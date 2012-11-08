@@ -27,9 +27,10 @@ namespace ProxyApi.Tests
 		[TestMethod]
 		public void InclusionRule_Get_Set_Behaviour()
 		{
-			Assert.AreEqual(InclusionRule.IncludeAll, ProxyGeneratorConfiguration.Default.InclusionRule);
-			ProxyGeneratorConfiguration.Default.InclusionRule = InclusionRule.ExcludeAll;
-			Assert.AreEqual(InclusionRule.ExcludeAll, ProxyGeneratorConfiguration.Default.InclusionRule);
+			var testSubject = new ProxyGeneratorConfiguration();
+			Assert.AreEqual(InclusionRule.IncludeAll,testSubject.InclusionRule);
+			testSubject.InclusionRule = InclusionRule.ExcludeAll;
+			Assert.AreEqual(InclusionRule.ExcludeAll, testSubject.InclusionRule);
 		}
 	}
 }
