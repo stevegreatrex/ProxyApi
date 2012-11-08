@@ -7,11 +7,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProxyApi", "ProxyApi\ProxyA
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Nuget", "Nuget", "{BCEBEE73-B56A-43FC-9C56-20A12395AF5B}"
 	ProjectSection(SolutionItems) = preProject
-		nuget\ProxyApi.0.2.nupkg = nuget\ProxyApi.0.2.nupkg
-		nuget\ProxyApi.Intellisense.0.1.1.nupkg = nuget\ProxyApi.Intellisense.0.1.1.nupkg
+		nuget\ProxyApi.0.1.10.nupkg = nuget\ProxyApi.0.1.10.nupkg
+		nuget\ProxyApi.Intellisense.0.1.2.nupkg = nuget\ProxyApi.Intellisense.0.1.2.nupkg
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProxyApi.Tests.Integration", "ProxyApi.Tests.Integration\ProxyApi.Tests.Integration.csproj", "{003DF186-AF52-47D7-8529-9DB048668505}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{0161FE1D-B9AA-4956-8A00-1C201708621F}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
