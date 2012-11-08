@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
 namespace ProxyApi.Tests
 {
@@ -19,6 +20,21 @@ namespace ProxyApi.Tests
 		public void Default_Is_Not_Null()
 		{
 			Assert.IsNotNull(ProxyGeneratorConfiguration.Default);
+		}
+
+		/// <summary>
+		/// Ensures that PathUtility defaults to a Null instance
+		/// </summary>
+		[TestMethod]
+		public void PathUtility_Defaults_To_Null()
+		{
+			var testSubject = new ProxyGeneratorConfiguration();
+			Assert.IsNotNull(testSubject.PathUtility);
+			Assert.AreEqual(typeof(NullPathUtility), testSubject.PathUtility.GetType());
+			
+			var newUtility = new Mock<IPathUtility>().Object;
+			testSubject.PathUtility = newUtility;
+			Assert.AreEqual(newUtility, testSubject.PathUtility);
 		}
 
 		/// <summary>
