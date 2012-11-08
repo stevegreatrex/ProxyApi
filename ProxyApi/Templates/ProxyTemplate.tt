@@ -56,7 +56,16 @@
 	<# foreach(var definition in this.Definitions) { #>
 	$.proxies.<#= definition.Name #> = {
 <# foreach(var method in definition.ActionMethods) { #>
-	<#= method.Name #>: function() {
+
+<#
+	var allParameters = method.UrlParameters.AsEnumerable();
+	
+	if (method.BodyParameter != null) {
+		allParameters = allParameters.Concat(new [] { method.BodyParameter });
+	}
+	var parameterList = string.Join(",", allParameters.OrderBy(m => m.Index).Select(m => m.Name).ToArray());
+#>
+	<#= method.Name #>: function(<#=parameterList#>) {
 		return invoke(
 			"<#= method.Url #>", 
 			"<#= method.Type.ToString().ToLower() #>", 
