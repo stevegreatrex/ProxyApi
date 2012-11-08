@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using ProxyApi.Reflection;
 
 namespace ProxyApi
 {
@@ -15,6 +16,66 @@ namespace ProxyApi
 	/// </summary>
 	public class ProxyDependencyResolver : IDependencyResolver
 	{
+		private readonly IProxyGeneratorConfiguration _configuration;
+
+		#region Constructors
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ProxyDependencyResolver" /> class.
+		/// </summary>
+		public ProxyDependencyResolver()
+			: this(ProxyGeneratorConfiguration.Default)
+		{}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ProxyDependencyResolver" /> class.
+		/// </summary>
+		/// <param name="configuration">The configuration.</param>
+		public ProxyDependencyResolver(IProxyGeneratorConfiguration configuration)
+		{
+			if (configuration == null) throw new ArgumentNullException("configuration");
+
+			_configuration = configuration;
+		}
+
+		#endregion
+
+		#region IDependencyResolver Members
+
+		/// <summary>
+		/// Resolves singly registered services that support arbitrary object creation.
+		/// </summary>
+		/// <param name="serviceType">The type of the requested service or object.</param>
+		/// <returns>
+		/// The requested service or object.
+		/// </returns>
+		public object GetService(Type serviceType)
+		{
+			if (typeof(IPathUtility) == serviceType && _configuration.PathUtility != null)
+				return _configuration.PathUtility;
+
+			if (typeof(IAssemblyProvider) == serviceType && _configuration.AssemblyProvider != null)
+				return _configuration.AssemblyProvider;
+
+			return Container.GetExportedValueOrDefault<object>(AttributedModelServices.GetContractName(serviceType));
+		}
+
+		/// <summary>
+		/// Resolves multiply registered services.
+		/// </summary>
+		/// <param name="serviceType">The type of the requested services.</param>
+		/// <returns>
+		/// The requested services.
+		/// </returns>
+		public IEnumerable<object> GetServices(Type serviceType)
+		{
+			return Container.GetExportedValues<object>(AttributedModelServices.GetContractName(serviceType));
+		}
+
+		#endregion
+
+		#region Singleton Implementation
+
 		private static volatile object _lock = new object();
 		private static CompositionContainer _container;
 		private static readonly ProxyDependencyResolver _instance = new ProxyDependencyResolver();
@@ -34,41 +95,6 @@ namespace ProxyApi
 			}
 		}
 
-		public ProxyDependencyResolver()
-			: this(ProxyGeneratorConfiguration.Default)
-		{
-
-		}
-
-		public ProxyDependencyResolver(IProxyGeneratorConfiguration configuration)
-		{
-
-		}
-
-		/// <summary>
-		/// Resolves singly registered services that support arbitrary object creation.
-		/// </summary>
-		/// <param name="serviceType">The type of the requested service or object.</param>
-		/// <returns>
-		/// The requested service or object.
-		/// </returns>
-		public object GetService(Type serviceType)
-		{
-			return Container.GetExportedValueOrDefault<object>(AttributedModelServices.GetContractName(serviceType));
-		}
-
-		/// <summary>
-		/// Resolves multiply registered services.
-		/// </summary>
-		/// <param name="serviceType">The type of the requested services.</param>
-		/// <returns>
-		/// The requested services.
-		/// </returns>
-		public IEnumerable<object> GetServices(Type serviceType)
-		{
-			return Container.GetExportedValues<object>(AttributedModelServices.GetContractName(serviceType));
-		}
-
 		/// <summary>
 		/// Gets the singleton instance.
 		/// </summary>
@@ -79,5 +105,7 @@ namespace ProxyApi
 		{
 			get { return _instance; }
 		}
+
+		#endregion
 	}
 }
