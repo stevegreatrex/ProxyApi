@@ -6,9 +6,9 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("ProxyApi")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("A library to auto-generate JavaScript proxy objects from WebAPI and MVC controllers.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Steve Greatrex")]
 [assembly: AssemblyProduct("ProxyApi")]
 [assembly: AssemblyCopyright("Copyright ©  2012")]
 [assembly: AssemblyTrademark("")]
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.1.0.*")]
-[assembly: AssemblyFileVersion("0.1")]
+[assembly: AssemblyVersion("0.1.11.*")]
+[assembly: AssemblyFileVersion("0.1.11")]
