@@ -8,6 +8,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Nuget", "Nuget", "{BCEBEE73-B56A-43FC-9C56-20A12395AF5B}"
 	ProjectSection(SolutionItems) = preProject
 		ProxyApi\build-nuget.bat = ProxyApi\build-nuget.bat
+		ProxyApi\ProxyApi.Intellisense.nuspec = ProxyApi\ProxyApi.Intellisense.nuspec
 		nuget\Content\proxyapi.intellisense.tt = nuget\Content\proxyapi.intellisense.tt
 		ProxyApi\ProxyApi.nuspec = ProxyApi\ProxyApi.nuspec
 	EndProjectSection
