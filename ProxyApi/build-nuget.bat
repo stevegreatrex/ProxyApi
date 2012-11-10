@@ -1,0 +1,1 @@
+..\.nuget\nuget pack ProxyApi.csproj -OutputDirectory ..\Nuget\Packages -Prop Configuration=Release
