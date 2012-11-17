@@ -21,8 +21,8 @@ $.proxies.demo.get(5)
 ```
 
 All in 2 easy steps:
-1. Download the [NuGet package](https://nuget.org/packages/ProxyApi)
-2. Add a script tag for `~/api/proxies`
+ 1. Download the [NuGet package](https://nuget.org/packages/ProxyApi)
+ 2. Add a script tag for `~/api/proxies`
 
 Intellisense Support
 --------------------
