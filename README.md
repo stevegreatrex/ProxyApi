@@ -24,8 +24,7 @@ All in 2 easy steps:
  1. Download the [NuGet package](https://nuget.org/packages/ProxyApi)
  2. Add a script tag for `~/api/proxies`
 
-Intellisense Support
---------------------
+**Intellisense Support**
 
 If you want intellisense support for the generated proxies, you can download the additional [Intellisense NuGet package](https://nuget.org/packages/ProxyApi.Intellisense)
 
