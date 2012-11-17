@@ -2,12 +2,12 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
 	<metadata>
 		<id>ProxyApi.Intellisense</id>
-		<version>0.1.3</version>
+		<version>0.1.4</version>
 		<authors>Steve Greatrex</authors>
 		<owners>Steve Greatrex</owners>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<description>A package to add intellisense to ProxyApi</description>
-		<releaseNotes></releaseNotes>
+		<releaseNotes>Fixed issue with encoding in powershell script</releaseNotes>
 		<copyright>Copyright 2012</copyright>
 		<tags>ASP.NET WebAPI MVC JavaScript</tags>
 		<dependencies>
