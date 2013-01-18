@@ -22,6 +22,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{0161FE
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProxyApi.Sample", "Samples\ProxyApi.Sample\ProxyApi.Sample.csproj", "{757FA25D-CA58-4AD1-9756-EEFBA16FDB04}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,6 +42,10 @@ Global
 		{003DF186-AF52-47D7-8529-9DB048668505}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{003DF186-AF52-47D7-8529-9DB048668505}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{003DF186-AF52-47D7-8529-9DB048668505}.Release|Any CPU.Build.0 = Release|Any CPU
+		{757FA25D-CA58-4AD1-9756-EEFBA16FDB04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{757FA25D-CA58-4AD1-9756-EEFBA16FDB04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{757FA25D-CA58-4AD1-9756-EEFBA16FDB04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{757FA25D-CA58-4AD1-9756-EEFBA16FDB04}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

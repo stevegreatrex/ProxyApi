@@ -1,0 +1,61 @@
+﻿@{
+    ViewBag.Title = "ProxyApi Sample";
+}
+@section featured {
+    <section class="featured">
+        <div class="content-wrapper">
+            <hgroup class="title">
+                <h1>@ViewBag.Title.</h1>
+                <h2>Click on the links below to see ProxyApi in action</h2>
+            </hgroup>
+        </div>
+    </section>
+}
+<section>
+    <h3>Calling a WebAPI method:</h3>
+    <pre>
+        $.proxies.person.getAllPeople()
+            .done(function(people) {
+                //do something with people array
+            });
+    </pre>
+
+    <a href="#" id="get-all-people">Click to run</a>
+    <pre class="result"></pre>
+</section>
+<section>
+    <h3>Getting a PartialView:</h3>
+    <pre>
+        $.proxies.home.otherpage()
+            .done(function(html) {
+                //do something with html
+            });
+    </pre>
+
+    <a href="#" id="get-view">Click to run</a>
+    <div class="result"></div>
+</section>
+
+@section scripts {
+<script>
+    $(function () {
+        var $getAllPeople = $("#get-all-people"),
+            $getView = $("#get-view");
+        $getAllPeople.click(function () {
+            $.proxies.person.getallpeople()
+                .done(function(people) {
+                    $getAllPeople.siblings(".result").text(JSON.stringify(people));
+                });
+            return false;
+        });
+        
+        $getView.click(function () {
+            $.proxies.home.otherpage()
+                .done(function(html) {
+                    $getView.siblings(".result").html(html);
+                });
+            return false;
+        });
+    });
+</script>
+}
