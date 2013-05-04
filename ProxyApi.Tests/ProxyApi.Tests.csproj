@@ -70,6 +70,7 @@
     <Compile Include="Reflection\TestAppDomainAssemblyProvider.cs" />
     <Compile Include="Reflection\TestReflectionExtensions.cs" />
     <Compile Include="Reflection\TestControllerElementsProvider.cs" />
+    <Compile Include="SampleAbstractApiController.cs" />
     <Compile Include="SampleApiController.cs" />
     <Compile Include="SampleExcludedController.cs" />
     <Compile Include="SampleMvcController.cs" />

@@ -44,6 +44,7 @@ namespace ProxyApi.Reflection
 		{
 			return _assemblyProvider.GetAssemblies()
 				.SelectMany(a => a.GetTypes())
+				.Where(t => !t.IsAbstract)
 				.Where(IsControllerType)
 				.Where(IsIncluded);
 		}
