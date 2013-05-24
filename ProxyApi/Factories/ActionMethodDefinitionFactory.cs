@@ -57,7 +57,7 @@ namespace ProxyApi.Factories
 			var definition	= new ActionMethodDefinition();
 			definition.Name	= method.GetProxyName();
 			definition.Type = GetMethodType(method);
-			definition.Url	= GetUrl(controllerDefinition, method.Name.ToLower());
+			definition.Url	= GetUrl(controllerDefinition, GetExplicitActionName(method) ?? method.Name.ToLower());
 
 			var index		= 0;
 			var parameters	= method.GetParameters();
@@ -84,6 +84,17 @@ namespace ProxyApi.Factories
 		#endregion
 
 		#region Private Members
+
+        private string GetExplicitActionName(MethodInfo method)
+        {
+            var mvcActionName = method.GetCustomAttribute<System.Web.Mvc.ActionNameAttribute>(true);
+            if (mvcActionName != null) return mvcActionName.Name;
+
+            var webApiActionName = method.GetCustomAttribute<System.Web.Http.ActionNameAttribute>(true);
+            if (webApiActionName != null) return webApiActionName.Name;
+
+            return null;
+        }
 
 		private HttpVerbs GetMethodType(MethodInfo method)
 		{
