@@ -103,6 +103,44 @@ namespace ProxyApi.Tests.Factories
 			Assert.AreEqual("/url", definition.Url, "The URL should be populated");
 		}
 
+        /// <summary>
+        /// Ensures that Create uses the explicitly-set ActionName in the URL
+        /// </summary>
+        [TestMethod]
+        public void Create_Sets_URL_Named_WebApi_Actions()
+        {
+            _pathUtility.Setup(p => p.ToAbsolute("~/api/proxy/controller/ExplicitWebApiName"))
+                .Returns("/url");
+
+            var method = GetMethodInfo("NamedWebApiMethod");
+            var definition = this.TestSubject.Create(new ControllerDefinition()
+            {
+                UrlName = "controller",
+                Type = ControllerType.WebApi
+            }, method);
+
+            Assert.AreEqual("/url", definition.Url, "The URL should be populated");
+        }
+
+        /// <summary>
+        /// Ensures that Create uses the explicitly-set ActionName in the URL
+        /// </summary>
+        [TestMethod]
+        public void Create_Sets_URL_Named_Mvc_Actions()
+        {
+            _pathUtility.Setup(p => p.ToAbsolute("~/api/proxy/controller/ExplicitMvcName"))
+                .Returns("/url");
+
+            var method = GetMethodInfo("NamedMvcMethod");
+            var definition = this.TestSubject.Create(new ControllerDefinition()
+            {
+                UrlName = "controller",
+                Type = ControllerType.WebApi
+            }, method);
+
+            Assert.AreEqual("/url", definition.Url, "The URL should be populated");
+        }
+
 		/// <summary>
 		/// Ensures that Create sets URL
 		/// </summary>
@@ -239,6 +277,12 @@ namespace ProxyApi.Tests.Factories
 
 			[ProxyName("userSpecifiedName")]
 			public void NamedMethod(){}
+
+            [System.Web.Http.ActionNameAttribute("ExplicitWebApiName")]
+            public void NamedWebApiMethod() { }
+
+            [System.Web.Mvc.ActionNameAttribute("ExplicitMvcName")]
+            public void NamedMvcMethod() { }
 
 			#endregion
 		}
