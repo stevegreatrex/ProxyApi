@@ -52,12 +52,10 @@
 	};
 
 	/* Proxies */
-
-	<# foreach(var definition in this.Definitions) { #>
+<# foreach(var definition in this.Definitions) { #>
 	$.proxies.<#= definition.Name #> = {
-<# foreach(var method in definition.ActionMethods) { #>
-
-<#
+<# for (int mN = 0; mN < definition.ActionMethods.Count; mN++) {
+    var method = definition.ActionMethods[mN];
 	var allParameters = method.UrlParameters.AsEnumerable();
 	
 	if (method.BodyParameter != null) {
@@ -65,24 +63,25 @@
 	}
 	var parameterList = string.Join(",", allParameters.Where(m => m != null).OrderBy(m => m.Index).Select(m => m.Name).ToArray());
 #>
-	<#= method.Name #>: function(<#=parameterList#>) {
-		return invoke("<#= method.Url #>", "<#= method.Type.ToString().ToLower() #>", 
-		<# if (method.UrlParameters.Any()) { #>
-			{
-			<# foreach (var parameter in method.UrlParameters) { #>
-				<#= parameter.Name #>: arguments[<#= parameter.Index #>],
-			<# } #>
-			}
-		<# } else { #>
-			{}
-		<# } #>
-		<# if (method.BodyParameter != null) { #>
-			, arguments[<#= method.BodyParameter.Index #>]);
-		<# } else { #>
-			);
-		<# } #>
-	},
+		<#= method.Name #>: function(<#=parameterList#>) {
+			return invoke("<#= method.Url #>", "<#= method.Type.ToString().ToLower() #>", 
+<# if (method.UrlParameters.Any()) { #>
+				{
+<# for (int pN = 0; pN < method.UrlParameters.Count; pN++) {
+					var parameter = method.UrlParameters[pN];	#>
+					<#= parameter.Name #>: arguments[<#= parameter.Index #>]<# WriteLine((pN != (method.UrlParameters.Count - 1)) ? "," : ""); #>
 <# } #>
-};
-	<# } #>
+				}
+<# } else { #>
+				{}
+<# } #>
+<# if (method.BodyParameter != null) { #>
+				, arguments[<#= method.BodyParameter.Index #>]);
+<# } else { #>
+			);
+<# } #>
+		}<# WriteLine((mN != (definition.ActionMethods.Count - 1)) ? "," : ""); #>
+<# } #>
+	};
+<# } #>
 }(jQuery));
