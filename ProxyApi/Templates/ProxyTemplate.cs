@@ -18,7 +18,7 @@ namespace ProxyApi.Templates
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "E:\Development\Home\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
+    #line 1 "D:\GitHub_SRC\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "11.0.0.0")]
     public partial class ProxyTemplate : ProxyTemplateBase
     {
@@ -77,32 +77,25 @@ namespace ProxyApi.Templates
 	};
 
 	/* Proxies */
-
-	");
+");
             
-            #line 56 "E:\Development\Home\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
+            #line 55 "D:\GitHub_SRC\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
  foreach(var definition in this.Definitions) { 
             
             #line default
             #line hidden
             this.Write("\t$.proxies.");
             
-            #line 57 "E:\Development\Home\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
+            #line 56 "D:\GitHub_SRC\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(definition.Name));
             
             #line default
             #line hidden
             this.Write(" = {\r\n");
             
-            #line 58 "E:\Development\Home\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
- foreach(var method in definition.ActionMethods) { 
-            
-            #line default
-            #line hidden
-            this.Write("\r\n");
-            
-            #line 60 "E:\Development\Home\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
-
+            #line 57 "D:\GitHub_SRC\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
+ for (int mN = 0; mN < definition.ActionMethods.Count; mN++) {
+    var method = definition.ActionMethods[mN];
 	var allParameters = method.UrlParameters.AsEnumerable();
 	
 	if (method.BodyParameter != null) {
@@ -113,121 +106,133 @@ namespace ProxyApi.Templates
             
             #line default
             #line hidden
-            this.Write("\t");
+            this.Write("\t\t");
             
-            #line 68 "E:\Development\Home\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
+            #line 66 "D:\GitHub_SRC\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(method.Name));
             
             #line default
             #line hidden
             this.Write(": function(");
             
-            #line 68 "E:\Development\Home\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
+            #line 66 "D:\GitHub_SRC\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameterList));
             
             #line default
             #line hidden
-            this.Write(") {\r\n\t\treturn invoke(\"");
+            this.Write(") {\r\n\t\t\treturn invoke(\"");
             
-            #line 69 "E:\Development\Home\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
+            #line 67 "D:\GitHub_SRC\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(method.Url));
             
             #line default
             #line hidden
             this.Write("\", \"");
             
-            #line 69 "E:\Development\Home\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
+            #line 67 "D:\GitHub_SRC\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(method.Type.ToString().ToLower()));
             
             #line default
             #line hidden
-            this.Write("\", \r\n\t\t");
+            this.Write("\", \r\n");
             
-            #line 70 "E:\Development\Home\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
+            #line 68 "D:\GitHub_SRC\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
  if (method.UrlParameters.Any()) { 
             
             #line default
             #line hidden
-            this.Write("\t\t\t{\r\n\t\t\t");
+            this.Write("\t\t\t\t{\r\n");
             
-            #line 72 "E:\Development\Home\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
- foreach (var parameter in method.UrlParameters) { 
+            #line 70 "D:\GitHub_SRC\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
+ for (int pN = 0; pN < method.UrlParameters.Count; pN++) {
+					var parameter = method.UrlParameters[pN];	
             
             #line default
             #line hidden
-            this.Write("\t\t\t\t");
+            this.Write("\t\t\t\t\t");
             
-            #line 73 "E:\Development\Home\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
+            #line 72 "D:\GitHub_SRC\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
             
             #line default
             #line hidden
             this.Write(": arguments[");
             
-            #line 73 "E:\Development\Home\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
+            #line 72 "D:\GitHub_SRC\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Index));
             
             #line default
             #line hidden
-            this.Write("],\r\n\t\t\t");
+            this.Write("]");
             
-            #line 74 "E:\Development\Home\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
+            #line 72 "D:\GitHub_SRC\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
+ WriteLine((pN != (method.UrlParameters.Count - 1)) ? "," : ""); 
+            
+            #line default
+            #line hidden
+            
+            #line 73 "D:\GitHub_SRC\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
  } 
             
             #line default
             #line hidden
-            this.Write("\t\t\t}\r\n\t\t");
+            this.Write("\t\t\t\t}\r\n");
             
-            #line 76 "E:\Development\Home\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
+            #line 75 "D:\GitHub_SRC\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
  } else { 
             
             #line default
             #line hidden
-            this.Write("\t\t\t{}\r\n\t\t");
+            this.Write("\t\t\t\t{}\r\n");
             
-            #line 78 "E:\Development\Home\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
+            #line 77 "D:\GitHub_SRC\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
  } 
             
             #line default
             #line hidden
-            this.Write("\t\t");
             
-            #line 79 "E:\Development\Home\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
+            #line 78 "D:\GitHub_SRC\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
  if (method.BodyParameter != null) { 
             
             #line default
             #line hidden
-            this.Write("\t\t\t, arguments[");
+            this.Write("\t\t\t\t, arguments[");
             
-            #line 80 "E:\Development\Home\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
+            #line 79 "D:\GitHub_SRC\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(method.BodyParameter.Index));
             
             #line default
             #line hidden
-            this.Write("]);\r\n\t\t");
+            this.Write("]);\r\n");
             
-            #line 81 "E:\Development\Home\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
+            #line 80 "D:\GitHub_SRC\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
  } else { 
             
             #line default
             #line hidden
-            this.Write("\t\t\t);\r\n\t\t");
+            this.Write("\t\t\t);\r\n");
             
-            #line 83 "E:\Development\Home\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
+            #line 82 "D:\GitHub_SRC\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
  } 
             
             #line default
             #line hidden
-            this.Write("\t},\r\n");
+            this.Write("\t\t}");
             
-            #line 85 "E:\Development\Home\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
+            #line 83 "D:\GitHub_SRC\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
+ WriteLine((mN != (definition.ActionMethods.Count - 1)) ? "," : ""); 
+            
+            #line default
+            #line hidden
+            
+            #line 84 "D:\GitHub_SRC\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
  } 
             
             #line default
             #line hidden
-            this.Write("};\r\n\t");
+            this.Write("\t};\r\n");
             
-            #line 87 "E:\Development\Home\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
+            #line 86 "D:\GitHub_SRC\ProxyApi\ProxyApi\Templates\ProxyTemplate.tt"
  } 
             
             #line default
