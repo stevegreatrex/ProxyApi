@@ -39,13 +39,20 @@
 	function invoke(url, type, urlParams, body) {
 		url += getQueryString(urlParams);
 
-		var ajaxOptions = {
+
+		var ajaxOptions = $.extend({}, this.defaultOptions, {
 			url: url,
 			type: type
-		};
+		});
 
 		if (body) {
 			ajaxOptions.data = body;
+		}
+
+		if (this.antiForgeryToken) {
+			var token = $.isFunction(this.antiForgeryToken) ? this.antiForgeryToken() : this.antiForgeryToken;
+			ajaxOptions.headers = ajaxOptions.headers || {};
+			ajaxOptions.headers["X-RequestValidationToken"] = token
 		}
 	
 		return $.ajax(ajaxOptions);
@@ -55,6 +62,7 @@
 
 	<# foreach(var definition in this.Definitions) { #>
 	$.proxies.<#= definition.Name #> = {
+		defaultOptions: {},
 <# foreach(var method in definition.ActionMethods) { #>
 
 <#
@@ -66,7 +74,7 @@
 	var parameterList = string.Join(",", allParameters.Where(m => m != null).OrderBy(m => m.Index).Select(m => m.Name).ToArray());
 #>
 	<#= method.Name #>: function(<#=parameterList#>) {
-		return invoke("<#= method.Url #>", "<#= method.Type.ToString().ToLower() #>", 
+		return invoke.call(this, "<#= method.Url #>", "<#= method.Type.ToString().ToLower() #>", 
 		<# if (method.UrlParameters.Any()) { #>
 			{
 			<# foreach (var parameter in method.UrlParameters) { #>

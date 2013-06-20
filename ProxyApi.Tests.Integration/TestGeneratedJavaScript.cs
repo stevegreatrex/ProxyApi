@@ -27,7 +27,17 @@ namespace ProxyApi.Tests.Integration
 		{
 			_proxyGenerator = CreateProxyGenerator();
 			_engine			= new ScriptEngine();
-			_engine.Execute("var jQuery = {};");
+			//create fake implementations of $.isFunction and $.extend
+			_engine.Execute(@"var jQuery = { 
+				isFunction: function() {}, 
+				extend: function() {
+					for(var i=1; i<arguments.length; i++)
+						for(var key in arguments[i])
+							if(arguments[i].hasOwnProperty(key))
+								arguments[0][key] = arguments[i][key];
+					return arguments[0]; 
+				}
+			};");
 			_engine.Execute(_proxyGenerator.GenerateProxyScript());
 		}
 
@@ -365,19 +375,108 @@ namespace ProxyApi.Tests.Integration
 
 		#endregion
 
+		#region AntiForgeryToken
+
+		/// <summary>
+		/// Ensures that AntiForgeryToken is set on the ajax request
+		/// </summary>
+		[TestMethod]
+		public void AntiForgeryToken_Is_Set_On_Ajax_Request_From_Property()
+		{
+			_engine.Execute("jQuery.proxies.apiIntegrationTest.antiForgeryToken='anti-forgery';");
+
+			SetupExpectedAjaxCall(
+				url: "~/api/proxy/integrationtestapi/getdata",
+				type: "get",
+				returnData: "test data",
+				antiForgeryToken: "anti-forgery");
+
+			var result = ExecuteProxyMethod("jQuery.proxies.apiIntegrationTest.getdata()");
+			Assert.AreEqual("test data", result);
+		}
+
+		/// <summary>
+		/// Ensures that AntiForgeryToken is set on the ajax request
+		/// </summary>
+		[TestMethod]
+		public void AntiForgeryToken_Is_Set_On_Ajax_Request_From_Function()
+		{
+			_engine.Execute("jQuery.proxies.apiIntegrationTest.antiForgeryToken=function() { return 'anti-forgery'; };");
+			_engine.Execute("jQuery.isFunction = function() { return true; };");
+
+			SetupExpectedAjaxCall(
+				url: "~/api/proxy/integrationtestapi/getdata",
+				type: "get",
+				returnData: "test data",
+				antiForgeryToken: "anti-forgery");
+
+			var result = ExecuteProxyMethod("jQuery.proxies.apiIntegrationTest.getdata()");
+			Assert.AreEqual("test data", result);
+		}
+
+		#endregion
+
+		#region DefaultOptions
+
+		/// <summary>
+		/// Ensures that DefaultOptions are set on the ajax request
+		/// </summary>
+		[TestMethod]
+		public void DefaultOptions_Are_Set_On_Ajax_Request()
+		{
+			_engine.Execute("jQuery.proxies.apiIntegrationTest.defaultOptions.customOption = 'custom';");
+			_engine.Execute("jQuery.proxies.apiIntegrationTest.defaultOptions.type = 'custom';"); //will be overwritten
+			
+			SetupExpectedAjaxCall(
+				url: "~/api/proxy/integrationtestapi/getdata",
+				type: "get",
+				returnData: "test data",
+				defaultOptions: new {
+					customOption = "custom"
+				});
+
+			var result = ExecuteProxyMethod("jQuery.proxies.apiIntegrationTest.getdata()");
+			Assert.AreEqual("test data", result);
+		}
+
+		#endregion
+
 		#region Private Members
 
-		private void SetupExpectedAjaxCall(string url, string type, object data = null, string returnData = null)
+		private void SetupExpectedAjaxCall(string url, 
+			string type, 
+			object data = null, 
+			string returnData = null,
+			string antiForgeryToken = null, 
+			object defaultOptions = null)
 		{
 			var script = 
 @"jQuery.ajax = function(options) { 
 
 	if (options.url ==='{url}' &&
 		options.type ==='{type}') {
+
+		if ('{antiForgeryToken}') {
+			if (!options.headers ||
+				!options.headers['X-RequestValidationToken'] ||
+				options.headers['X-RequestValidationToken'] !== '{antiForgeryToken}') {
+
+				throw 'Expected anti-forgery token: ' + JSON.stringify(options, null, 2);
+			}
+		}
+
+		var defaultOptions = {defaultOptions};
+		if (defaultOptions) {
+			for (var prop in defaultOptions) {
+				if (options[prop] !== defaultOptions[prop]) {
+					throw 'Default options were not set: ' + JSON.stringify(options, null, 2);
+				}
+			}
+		}
 		
 		var data = '{data}';
 		if (data.length && JSON.stringify(options.data) !== '{data}') {
-			throw 'Unexpected data: ' + JSON.stringify(options.data);
+			throw 'Unexpected data: ' + JSON.stringify(options.data, null, 2);
 		}
 
 		return {
@@ -389,14 +488,16 @@ namespace ProxyApi.Tests.Integration
 
 	return {
 		done: function() {
-			throw 'No matching AJAX call setup: ' + JSON.stringify(options);
+			throw 'No matching AJAX call setup: ' + JSON.stringify(options, null, 2);
 		}
 	};
 };"
 			.Replace("{url}", url)
 			.Replace("{type}", type)
 			.Replace("{returnData}", returnData)
-			.Replace("{data}", data == null ? "" : JsonConvert.SerializeObject(data));
+			.Replace("{data}", data == null ? "" : JsonConvert.SerializeObject(data))
+			.Replace("{antiForgeryToken}", antiForgeryToken)
+			.Replace("{defaultOptions}", defaultOptions == null ? "null"  : JsonConvert.SerializeObject(data));
 
 			_engine.Execute(script);
 		}
