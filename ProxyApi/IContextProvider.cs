@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 using System.Text;
 using System.Web;
 
@@ -16,5 +17,11 @@ namespace ProxyApi
 		/// </summary>
 		/// <returns>An <see cref="HttpContextBase"/> instance.</returns>
 		HttpContextBase GetHttpContextBase();
+
+		/// <summary>
+		/// Gets the current identity.
+		/// </summary>
+		/// <returns>The current authenticated identity.</returns>
+		IIdentity GetCurrentIdentity();
 	}
 }

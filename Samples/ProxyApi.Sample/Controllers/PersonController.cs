@@ -8,7 +8,7 @@ using ProxyApi.Sample.Models;
 
 namespace ProxyApi.Sample.Controllers
 {
-	[ValidateHttpAntiForgeryToken(ExcludeAuthenticationType=new[] { "Basic" })]
+	[ValidateHttpAntiForgeryToken(ExcludeAuthenticationTypes="Basic")]
     public class PersonController : ApiController
     {
 		[HttpGet]

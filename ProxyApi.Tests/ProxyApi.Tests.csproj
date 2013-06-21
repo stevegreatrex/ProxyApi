@@ -46,6 +46,7 @@
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -83,6 +84,7 @@
     <Compile Include="TestProxyInclusionRuleAttribute.cs" />
     <Compile Include="TestProxyNameAttribute.cs" />
     <Compile Include="TestRouteHandler.cs" />
+    <Compile Include="TestValidateHttpAntiForgeryTokenAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ProxyApi\ProxyApi.csproj">
