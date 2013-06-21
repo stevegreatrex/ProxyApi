@@ -51,11 +51,17 @@
 
 		if (this.antiForgeryToken) {
 			var token = $.isFunction(this.antiForgeryToken) ? this.antiForgeryToken() : this.antiForgeryToken;
-			ajaxOptions.headers = ajaxOptions.headers || {};
-			ajaxOptions.headers["X-RequestValidationToken"] = token
+			if (token) {
+				ajaxOptions.headers = ajaxOptions.headers || {};
+				ajaxOptions.headers["<#= ValidateHttpAntiForgeryTokenAttribute.RequestVerificationTokenHeader #>"] = token
+			}
 		}
 	
 		return $.ajax(ajaxOptions);
+	};
+
+	function defaultAntiForgeryTokenAccessor() {
+		return $("input[name=__RequestVerificationToken]").val();
 	};
 
 	/* Proxies */
@@ -63,6 +69,7 @@
 	<# foreach(var definition in this.Definitions) { #>
 	$.proxies.<#= definition.Name #> = {
 		defaultOptions: {},
+		antiForgeryToken: defaultAntiForgeryTokenAccessor,
 <# foreach(var method in definition.ActionMethods) { #>
 
 <#

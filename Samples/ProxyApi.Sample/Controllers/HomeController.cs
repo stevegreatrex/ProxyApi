@@ -18,5 +18,10 @@ namespace ProxyApi.Sample.Controllers
 		{
 			return PartialView();
 		}
+
+		public ActionResult NoAntiForgeryToken()
+		{
+			return View();
+		}
 	}
 }

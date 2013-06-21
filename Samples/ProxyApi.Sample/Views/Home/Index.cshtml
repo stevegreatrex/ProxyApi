@@ -35,6 +35,12 @@
     <a href="#" id="get-view">Click to run</a>
     <div class="result"></div>
 </section>
+@Html.AntiForgeryToken()
+
+<section>
+    <h3>Validating AntiForgeryToken (iframe):</h3>
+    <iframe src="@Url.Action("NoAntiForgeryToken")"></iframe>
+</section>
 
 @section scripts {
 <script>

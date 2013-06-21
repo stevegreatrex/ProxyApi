@@ -8,6 +8,7 @@ using ProxyApi.Sample.Models;
 
 namespace ProxyApi.Sample.Controllers
 {
+	//[ValidateHttpAntiForgeryToken]
     public class PersonController : ApiController
     {
 		[HttpGet]

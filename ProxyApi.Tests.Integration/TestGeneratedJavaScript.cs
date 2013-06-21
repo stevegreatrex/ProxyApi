@@ -458,8 +458,8 @@ namespace ProxyApi.Tests.Integration
 
 		if ('{antiForgeryToken}') {
 			if (!options.headers ||
-				!options.headers['X-RequestValidationToken'] ||
-				options.headers['X-RequestValidationToken'] !== '{antiForgeryToken}') {
+				!options.headers['X-RequestVerificationToken'] ||
+				options.headers['X-RequestVerificationToken'] !== '{antiForgeryToken}') {
 
 				throw 'Expected anti-forgery token: ' + JSON.stringify(options, null, 2);
 			}

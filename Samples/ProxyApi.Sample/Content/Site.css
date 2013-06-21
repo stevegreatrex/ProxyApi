@@ -754,3 +754,8 @@ tr.pager td {
             margin: 0;
         }
 }
+
+iframe {
+	width: 80%;
+	min-height: 400px;
+}
