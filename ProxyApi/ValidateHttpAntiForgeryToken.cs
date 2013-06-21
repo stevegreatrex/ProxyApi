@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Helpers;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
@@ -40,8 +41,26 @@ namespace ProxyApi
 			}
 		}
 
+		/// <summary>
+		/// A list of authentication types for which the token will
+		/// not be checked.
+		/// </summary>
+		public string[] ExcludeAuthenticationType { get; set; }
+
+		/// <summary>
+		/// Determines whether or not a request should be validated
+		/// </summary>
+		/// <param name="actionContext">The action context.</param>
+		/// <returns></returns>
 		protected virtual bool ShouldValidateRequest(HttpActionContext actionContext)
 		{
+			var identity = HttpContext.Current.User.Identity;
+			if (this.ExcludeAuthenticationType != null)
+			{
+				if (identity.IsAuthenticated && this.ExcludeAuthenticationType.Contains(identity.AuthenticationType))
+					return false;
+			}
+
 			return true;
 		}
 
