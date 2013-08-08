@@ -43,7 +43,7 @@ namespace ProxyApi.Reflection
 		public IEnumerable<Type> GetControllerTypes()
 		{
 			return _assemblyProvider.GetAssemblies()
-				.SelectMany(a => a.GetTypes())
+				.SelectMany(GetAssemblyTypes)
 				.Where(t => !t.IsAbstract)
 				.Where(IsControllerType)
 				.Where(IsIncluded);
@@ -61,6 +61,18 @@ namespace ProxyApi.Reflection
 			if (controllerType == null) throw new ArgumentNullException("controllerType");
 
 			return GetPotentialMethods(controllerType);
+		}
+
+		private IEnumerable<Type> GetAssemblyTypes(Assembly assembly)
+		{
+			try
+			{
+				return assembly.GetTypes();
+			}
+			catch
+			{
+				return Enumerable.Empty<Type>();
+			}
 		}
 
 		private bool IsIncluded(MethodInfo method, Type controllerType)

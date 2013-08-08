@@ -81,6 +81,19 @@ namespace ProxyApi.Tests.Reflection
 		}
 
 		/// <summary>
+		/// Ensures that GetControllerTypes ignores exceptions thrown from GetTypes
+		/// </summary>
+		[TestMethod]
+		public void GetControllerTypes_Ignores_Exceptions_From_GetTypes()
+		{
+			_assemblyProvider.Setup(p => p.GetAssemblies()).Returns(new [] { new BadAssembly() });
+
+			var controllerTypes = this.TestSubject.GetControllerTypes().ToList();
+			//no exceptions so pass!
+			Assert.AreEqual(0, controllerTypes.Count);
+		}
+
+		/// <summary>
 		/// Ensures that GetControllerTypes returns an empty list when inclusion rule is set to exclude
 		/// </summary>
 		[TestMethod]
@@ -184,6 +197,14 @@ namespace ProxyApi.Tests.Reflection
 		#endregion
 
 		#region Private Members
+
+		class BadAssembly : Assembly
+		{
+			public override Type[] GetTypes()
+			{
+				throw new Exception("Oh no!");
+			}
+		}
 
 		class SampleBase
 		{
