@@ -14,13 +14,25 @@
 <section>
     <h3>Calling a WebAPI method:</h3>
     <pre>
-        $.proxies.person.getAllPeople()
+        $.proxies.person.getallpeople()
             .done(function(people) {
                 //do something with people array
             });
     </pre>
 
     <a href="#" id="get-all-people">Click to run</a>
+    <pre class="result"></pre>
+</section>
+<section>
+    <h3>Calling a WebAPI method with parameters object:</h3>
+    <pre>
+        $.proxies.person.getperson({ id: 1, firstName: "Bob" })
+            .done(function(person) {
+                //do something with the person
+            });
+    </pre>
+
+    <a href="#" id="get-person">Click to run</a>
     <pre class="result"></pre>
 </section>
 <section>
@@ -46,11 +58,20 @@
 <script>
     $(function () {
         var $getAllPeople = $("#get-all-people"),
+            $getPerson = $("#get-person"),
             $getView = $("#get-view");
         $getAllPeople.click(function () {
             $.proxies.person.getallpeople()
                 .done(function(people) {
-                    $getAllPeople.siblings(".result").text(JSON.stringify(people));
+                    $getAllPeople.siblings(".result").text(JSON.stringify(people, null, 2));
+                });
+            return false;
+        });
+
+         $getPerson.click(function () {
+             $.proxies.person.getperson({ id: 1, firstName: "Bob" })
+                .done(function(person) {
+                    $getPerson.siblings(".result").text(JSON.stringify(person, null, 2));
                 });
             return false;
         });

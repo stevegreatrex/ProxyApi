@@ -12,6 +12,9 @@ namespace ProxyApi.Tests.Integration
 		public void GetData(string param1, int param2, bool param3)
 		{}
 
+		public void GetDataWithParametersObject(Parameters parameters)
+		{}
+
 		[HttpPost]
 		public void SendData(dynamic data)
 		{}

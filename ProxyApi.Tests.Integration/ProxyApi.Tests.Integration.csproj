@@ -67,6 +67,7 @@
   <ItemGroup>
     <Compile Include="IntegrationTestApiController.cs" />
     <Compile Include="IntegrationTestMvcController.cs" />
+    <Compile Include="Parameters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestGeneratedJavaScript.cs" />
   </ItemGroup>

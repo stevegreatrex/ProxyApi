@@ -125,6 +125,21 @@ namespace ProxyApi.Tests.Integration
 			Assert.AreEqual("test data", result);
 		}
 
+		/// <summary>
+		/// Ensures that GetMethod calls jQuery.ajax w/ get
+		/// </summary>
+		[TestMethod]
+		public void WebApi_GetMethod_Calls_Ajax_For_Get_With_Url_Parameters_In_Object()
+		{
+			SetupExpectedAjaxCall(
+				url: "~/api/proxy/integrationtestapi/getdatawithparametersobject?param1=one&param3=true",
+				type: "get",
+				returnData: "test data");
+
+			var result = ExecuteProxyMethod("jQuery.proxies.apiIntegrationTest.getdatawithparametersobject({param1: 'one', param3: true })");
+			Assert.AreEqual("test data", result);
+		}
+
 		#endregion
 
 		#region POST Tests
@@ -264,6 +279,21 @@ namespace ProxyApi.Tests.Integration
 				returnData: "test data");
 
 			var result = ExecuteProxyMethod("jQuery.proxies.integrationtestmvc.getdata('one',2,true)");
+			Assert.AreEqual("test data", result);
+		}
+
+		/// <summary>
+		/// Ensures that GetMethod calls jQuery.ajax w/ get
+		/// </summary>
+		[TestMethod]
+		public void Mvc_GetMethod_Calls_Ajax_For_Get_With_Url_Parameters_In_Object()
+		{
+			SetupExpectedAjaxCall(
+				url: "~/proxy/integrationtestmvc/getdatawithparametersobject?param1=one&param3=true",
+				type: "get",
+				returnData: "test data");
+
+			var result = ExecuteProxyMethod("jQuery.proxies.integrationtestmvc.getdatawithparametersobject({param1: 'one', param3: true })");
 			Assert.AreEqual("test data", result);
 		}
 

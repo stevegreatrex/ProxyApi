@@ -13,12 +13,17 @@
 
 	$.proxies = $.proxies || {};
 
-	function getQueryString(params) {
-		var queryString = "";
+	function getQueryString(params, queryString) {
+		queryString = queryString || "";
 		for(var prop in params) {
 			if (params.hasOwnProperty(prop)) {
 				var val = getArgValue(params[prop]);
 				if (val === null) continue;
+
+				if ("" + val === "[object Object]") {
+					queryString = getQueryString(params[prop], queryString);
+					continue;
+				}
 
 				if (queryString.length) {
 					queryString += "&";

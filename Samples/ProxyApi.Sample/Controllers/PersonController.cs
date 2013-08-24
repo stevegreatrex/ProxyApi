@@ -22,5 +22,11 @@ namespace ProxyApi.Sample.Controllers
 
 			return people;
 		}
+
+		[HttpGet]
+		public Person GetPerson([FromUri]Person person)
+		{
+			return person;
+		}
     }
 }
