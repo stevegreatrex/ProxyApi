@@ -107,6 +107,16 @@ namespace ProxyApi.Reflection
 			return method.Name.ToLower();
 		}
 
+        public static string GetProxyUniqueName(this MethodInfo method)
+        {
+            if (method == null) throw new ArgumentNullException("method");
+
+            var nameAttribute = method.GetCustomAttribute<ProxyNameAttribute>();
+            if (nameAttribute != null)
+                return nameAttribute.Name + "_" + method.ReturnType.ToString();
+
+            return (method.Name + "_" + method.ReturnType.ToString()).ToLower();
+        }
 		/// <summary>
 		/// Gets the name that will be given to the generated proxy type.
 		/// </summary>

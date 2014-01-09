@@ -10,12 +10,12 @@ namespace ProxyApi.Templates
 	/// <summary>
 	/// A partial class implementation used to pass parameters to the proxy template.
 	/// </summary>
-	public partial class ProxyTemplate
+	public partial class CSharpProxyTemplate:IProxyTemplate
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ProxyTemplate" /> class.
 		/// </summary>
-		public ProxyTemplate()
+        public CSharpProxyTemplate()
 		{
 			this.Definitions = new List<IControllerDefinition>();
 		}
@@ -26,6 +26,9 @@ namespace ProxyApi.Templates
 		/// <value>
 		/// The template definitions.
 		/// </value>
-		public IList<IControllerDefinition> Definitions { get; private set; }
-	}
+		public IEnumerable<IControllerDefinition> Definitions { get; set; }
+
+        
+
+    }
 }

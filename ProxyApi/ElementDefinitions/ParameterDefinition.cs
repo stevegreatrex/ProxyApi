@@ -25,5 +25,7 @@ namespace ProxyApi.ElementDefinitions
 		/// The index.
 		/// </value>
 		public int Index { get; set; }
+
+        public string Type { get; set; }
 	}
 }

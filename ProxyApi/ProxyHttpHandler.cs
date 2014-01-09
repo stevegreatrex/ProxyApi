@@ -23,6 +23,7 @@ namespace ProxyApi
 	public class ProxyHttpHandler : IHttpHandler
 	{
 		private static string _proxyJs;
+        private static string _proxyCs;
 		private static volatile object _syncRoot = new object();
 		private IProxyGenerator _generator;
 
@@ -55,8 +56,21 @@ namespace ProxyApi
 		{
 			if (context == null) throw new ArgumentNullException("context");
 
-			context.Response.ContentType = "application/x-javascript";
-			context.Response.Write(GetProxyJs(context));
+            var lang = context.Request.Headers["X-Proxy-Lang"];
+
+            if (!String.IsNullOrEmpty(lang) && lang != "js")
+            {
+                context.Response.ContentType = "application/octet-stream";
+                context.Response.Write(GetProxyCSharp(context));
+            }
+            else
+            {
+                context.Response.ContentType = "application/x-javascript";
+                context.Response.Write(GetProxyJs(context));
+            }
+			
+
+            
 		}
 
 		private string GetProxyJs(HttpContext context)
@@ -64,9 +78,19 @@ namespace ProxyApi
 			if (_proxyJs == null)
 				lock(_syncRoot)
 					if(_proxyJs == null)
-					_proxyJs = _generator.GenerateProxyScript();
+					_proxyJs = _generator.GenerateProxyScript<JsProxyTemplate>();
 
 			return _proxyJs;
 		}
+
+        private object GetProxyCSharp(HttpContext context)
+        {
+            if (_proxyCs == null)
+                lock (_syncRoot)
+                    if (_proxyCs == null)
+                        _proxyCs = _generator.GenerateProxyScript<CSharpProxyTemplate>();
+
+            return _proxyCs;
+        }
 	}
 }

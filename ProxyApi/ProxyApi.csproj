@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ProxyApi</RootNamespace>
     <AssemblyName>ProxyApi</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -34,7 +34,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <RunPostBuildEvent>Always</RunPostBuildEvent>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -55,6 +55,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ElementDefinitions\ModelDefinition.cs" />
+    <Compile Include="ContractInfo.cs" />
+    <Compile Include="ContractMethodDefinition.cs" />
+    <Compile Include="ElementDefinitions\IModelDefinition.cs" />
+    <Compile Include="Factories\ITypeRetriever.cs" />
+    <Compile Include="IMetadataGenerator.cs" />
+    <Compile Include="MetadataGenerator.cs" />
+    <Compile Include="MetadataMessageHandler.cs" />
     <Compile Include="ContextProvider.cs" />
     <Compile Include="ElementDefinitions\ParameterDefinition.cs" />
     <Compile Include="ElementDefinitions\IParameterDefinition.cs" />
@@ -81,25 +89,38 @@
     <Compile Include="ProxyGenerator.cs" />
     <Compile Include="Reflection\AppDomainAssemblyProvider.cs" />
     <Compile Include="ApiBootstrapper.cs" />
-    <Compile Include="Templates\ProxyTemplate.Parameters.cs" />
+    <Compile Include="RequestType.cs" />
+    <Compile Include="Templates\IProxyTemplate.cs" />
+    <Compile Include="Templates\CSharpProxyTemplate.cs">
+      <DependentUpon>CSharpProxyTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Templates\JsProxyTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>JsProxyTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\CSharpProxyTemplate.Parameters.cs" />
+    <Compile Include="Templates\JsProxyTemplate.Parameters.cs" />
     <Compile Include="Reflection\ControllerElementsProvider.cs" />
     <Compile Include="Reflection\IAssemblyProvider.cs" />
     <Compile Include="Reflection\IControllerElementsProvider.cs" />
     <Compile Include="ElementDefinitions\ActionMethodDefinition.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProxyHttpHandler.cs" />
-    <Compile Include="Templates\ProxyTemplate.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ProxyTemplate.tt</DependentUpon>
-    </Compile>
     <Compile Include="RouteHandler.cs" />
+    <Compile Include="Factories\TypeRetriever.cs" />
     <Compile Include="ValidateHttpAntiForgeryToken.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Templates\ProxyTemplate.tt">
+    <None Include="Templates\CSharpProxyTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>ProxyTemplate.cs</LastGenOutput>
+      <LastGenOutput>CSharpProxyTemplate.cs</LastGenOutput>
+    </None>
+    <None Include="Templates\JsProxyTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>JsProxyTemplate.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -107,7 +128,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>call $(ProjectDir)build-nuget.bat $(ProjectDir)</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

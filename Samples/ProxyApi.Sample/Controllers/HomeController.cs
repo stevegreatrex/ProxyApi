@@ -7,6 +7,7 @@ using ProxyApi.Sample.Models;
 
 namespace ProxyApi.Sample.Controllers
 {
+    [ProxyExclude]
 	public class HomeController : Controller
 	{
 		public ActionResult Index()

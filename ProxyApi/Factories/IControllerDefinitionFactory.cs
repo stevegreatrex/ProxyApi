@@ -19,5 +19,7 @@ namespace ProxyApi
 		/// <param name="controllerType">Type of the controller from which to create the definition.</param>
 		/// <returns>A new instance of <see cref="IControllerDefinition"/></returns>
 		IControllerDefinition Create(Type controllerType);
+
+       
 	}
 }
