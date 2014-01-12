@@ -47,12 +47,15 @@ namespace ProxyApi.MetadataGenerator
                     }
                 }
 
-                if (!argument)
-                {
-                    typedArgs.Add("config", arg);
-                }
+                //if (!argument)
+                //{
+                //    typedArgs.Add("config", arg);
+                //}
 
             }
+
+            //if (!typedArgs.ContainsKey("config"))
+            //    typedArgs.Add("config", "ProxyApiConfig.json");
 
             return typedArgs;
         }
@@ -65,20 +68,20 @@ namespace ProxyApi.MetadataGenerator
             var arguments = parseArgs(args);
 
             string csFileName = arguments["output"];
-            var configFileNames = arguments["config"].Split(',');
+            //var configFileNames = arguments["config"].Split(',');
             
             try
             {
                 StringBuilder sb = new StringBuilder();
                 var namespaces = true;
 
-                foreach (var c in configFileNames)
-                {
-                    var config = Configuration.Load(c);
+                //foreach (var c in configFileNames)
+                //{
+                    var config = Configuration.Load("ProxyApiConfig.json");
 
                     sb.AppendLine(WriteSource(config, csFileName,namespaces));
                     namespaces = false;
-                }
+                //}
 
                 File.WriteAllText(csFileName, sb.ToString());
                 

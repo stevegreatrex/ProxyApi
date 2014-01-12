@@ -3,27 +3,21 @@
 
   <PropertyGroup>
     <ProxyApiBinDir Condition="'$(ProxyApiBinDir)' == ''">$(MSBuildThisFileDirectory)</ProxyApiBinDir>
-      <ProxyApiBinDir Condition="'$(ProxyApiBinDir)' == ''">.</ProxyApiBinDir>
+    <ProxyApiBinDir Condition="'$(ProxyApiBinDir)' == ''">.</ProxyApiBinDir>
   </PropertyGroup>
 
 
   <UsingTask TaskName="ProxyGenerationTask" AssemblyFile="$(ProxyApiBinDir)\ProxyApi.Tasks.dll"/>
 
-  <ItemGroup>
-    
-    <AvailableItemName Include="ProxyApiConfiguration" />
-  </ItemGroup>
 
   <!-- This Target does the work of converting XSD files into the output C# file. -->
   <!-- Inputs and Outputs ensure that dependency checking happens-->
-  <Target Name="ProxyTarget"  
-          Inputs="@(ProxyApiConfiguration)"  
+  <Target Name="ProxyTarget"
           Outputs="$(IntermediateOutputPath)ProxyApiSource.cs"
           >
-    
-    <ProxyGenerationTask Condition="'@(ProxyApiConfiguration)'!=''" 
-              ConfigurationFiles="@(ProxyApiConfiguration)"
-              Path="$(ProxyApiBinDir)" 
+
+    <ProxyGenerationTask
+              Path="$(ProxyApiBinDir)"
               Filename="$(IntermediateOutputPath)ProxyApiSource.cs">
 
       <!-- This Output element takes the filename of the generated file from the XOTask.Filename property and adds it to the list of files to compile-->
@@ -48,12 +42,7 @@
   <Target Name="BeforeCompile" DependsOnTargets="ProxyTarget" />
   <Target Name="CreateConfigurationProperties">
 
-    <!--<CreateProperty
-        Value="@(ProxyApiConfiguration)">
-      <Output
-          TaskParameter="Value"
-          PropertyName="ConfigurationProperty" />
-    </CreateProperty>-->
+
 
   </Target>
 </Project>

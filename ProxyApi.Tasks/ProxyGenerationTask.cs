@@ -22,7 +22,7 @@ public class ProxyGenerationTask:ToolTask
         }
 
         
-        public ITaskItem[] ConfigurationFiles { get; set; }
+        public string ConfigurationFile { get; set; }
 
         protected override string ToolName
         {
@@ -35,16 +35,15 @@ public class ProxyGenerationTask:ToolTask
 
           //  var configs = String.Join<ITaskItem>("\",\"", ConfigurationFiles);
 
-            
-
-            
-
-            if (ConfigurationFiles != null)
-            {
-               // builder.AppendSwitch("/config:");
+            //if (ConfigurationFile == null || ConfigurationFile.Count() == 0)
+            //{
+            //    builder.AppendFileNamesIfNotNull(new string[] {"ProxyApiConfig.json"}, ",");
+            //}else
+            //{
+            //   // builder.AppendSwitch("/config:");
                 
-                builder.AppendFileNamesIfNotNull(ConfigurationFiles, ",");
-            }
+            //    builder.AppendFileNamesIfNotNull(ConfigurationFile, ",");
+            //}
 
             if (this.Filename != null)
             {
