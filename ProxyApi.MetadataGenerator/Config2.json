@@ -1,0 +1,6 @@
+﻿{
+	"clientSuffix" : "ApiClient",
+	"namespace" : "ProxyApi2.Proxies",
+	"name" : "TestApi2",
+	"proxyEndpoint" : "http://localhost:34328/api/proxies"
+}

@@ -19,6 +19,5 @@ namespace ProxyApi
 		/// <returns>The script content.</returns>
         string GenerateProxyScript<T>() where T : IProxyTemplate;
 
-        IEnumerable<IControllerDefinition> Controllers { get; }
 	}
 }

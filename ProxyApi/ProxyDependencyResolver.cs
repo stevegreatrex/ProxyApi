@@ -80,8 +80,8 @@ namespace ProxyApi
 			if (typeof(RouteHandler) == serviceType)
 				return new RouteHandler(GetService<IProxyGenerator>());
 
-            if (typeof(MetadataMessageHandler) == serviceType)
-                return new MetadataMessageHandler(GetService<IProxyGenerator>());
+            //if (typeof(MetadataMessageHandler) == serviceType)
+            //    return new MetadataMessageHandler(GetService<IProxyGenerator>());
 
 			return null;
 		}

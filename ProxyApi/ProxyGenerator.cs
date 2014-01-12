@@ -18,6 +18,7 @@ namespace ProxyApi
 	{
 		private IControllerDefinitionFactory _factory;
 		private IControllerElementsProvider _typesProvider;
+      //  private IEnumerable<IControllerDefinition> _controllers;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ProxyGenerator" /> class.
@@ -34,6 +35,7 @@ namespace ProxyApi
 
 			_typesProvider	= typesProvider;
 			_factory		= factory;
+          //  _controllers =  
 		}
 
 		/// <summary>
@@ -47,20 +49,12 @@ namespace ProxyApi
 
             var template = Activator.CreateInstance<T>();
 
-            template.Definitions = Controllers;
+            template.Definitions = _typesProvider.GetControllerTypes()
+                                          .Select(_factory.Create)
+                                          .ToList(); 
 
 			return template.TransformText();
 		}
 
-
-        public IEnumerable<IControllerDefinition> Controllers
-        {
-            get
-            {
-                return _typesProvider.GetControllerTypes()
-                    .Select(_factory.Create)
-                    .ToList();
-            }
-        }
     }
 }

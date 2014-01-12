@@ -1,0 +1,59 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+{
+	"host":"<#= this.Host #>",
+	"controllers":[
+<# foreach(var definition in this.Definitions) { #>
+		{
+			"name":"<#= definition.Name #>",
+			"urlName":"<#= definition.UrlName #>",
+			"actionMethods":[
+<# foreach(var method in definition.ActionMethods) { #>
+				{
+					"type":"<#= method.Type.ToString() #>",
+					"name":"<#= method.Name #>",
+					"url":"<#= method.Url #>",
+					"urlParameters":[
+<# foreach(var parameter in method.UrlParameters) { #>
+						{
+							"name":"<#= parameter.Name #>",
+							"type":"<#= parameter.Type #>",
+							"index":"<#= parameter.Index #>"
+						},
+<# } #>
+					],
+<# if(method.BodyParameter != null) { #>
+					"bodyParameter": {
+						"name":"<#= method.BodyParameter.Name #>",
+						"type":"<#= method.BodyParameter.Type #>",
+						"index":"<#= method.BodyParameter.Index #>"
+					},
+<# } #>
+					"returnType":"<#= method.ReturnType #>"
+				},
+<# } #>
+			
+			],
+			"models":[
+<# foreach(var model in definition.Models) { #>
+				{
+					"name":"<#= model.Name #>",
+					"properties":[
+<# foreach(var property in model.Data) { #>
+						{
+							"name":"<#= property.Key #>",
+							"type":"<#= property.Value #>"
+						},
+<# } #>
+					]
+				}
+<# } #>
+			],
+			"type":"<#= definition.Type.ToString() #>"
+		},
+<# } #>
+	]
+}

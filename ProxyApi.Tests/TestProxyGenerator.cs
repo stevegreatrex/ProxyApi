@@ -6,6 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using ProxyApi.ElementDefinitions;
 using ProxyApi.Reflection;
+using ProxyApi.Templates;
 
 namespace ProxyApi.Tests
 {
@@ -80,7 +81,7 @@ namespace ProxyApi.Tests
 			_factory.Setup(f => f.Create(types[1])).Returns(definitions[1]);
 
 			//can't test too much without making it fragile.  Just test the expected calls
-			var script = this.TestSubject.GenerateProxyScript();
+			var script = this.TestSubject.GenerateProxyScript<JsProxyTemplate>();
 			Assert.IsFalse(string.IsNullOrEmpty(script), "The generated script should not be empty");
 			Assert.IsTrue(script.Contains("controller1"), "The controllers should be included");
 			Assert.IsTrue(script.Contains("controller2"), "The controllers should be included");

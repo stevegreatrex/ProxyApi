@@ -21,6 +21,13 @@ namespace ProxyApi.ElementDefinitions
             this.Models = new List<IModelDefinition>();
 		}
 
+        public ControllerDefinition(List<IActionMethodDefinition> actionMethods, List<IModelDefinition> models)
+        {
+         
+            this.ActionMethods = actionMethods;
+            this.Models = models;
+        }
+
 		/// <summary>
 		/// Gets the name of the controller.
 		/// </summary>

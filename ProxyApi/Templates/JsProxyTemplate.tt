@@ -72,7 +72,7 @@
 	/* Proxies */
 
 	<# foreach(var definition in this.Definitions) { #>
-	$.proxies.<#= definition.Name #> = {
+	$.proxies.<#= definition.Name.ToLower() #> = {
 		defaultOptions: {},
 		antiForgeryToken: defaultAntiForgeryTokenAccessor,
 <# foreach(var method in definition.ActionMethods) { #>
@@ -85,7 +85,7 @@
 	}
 	var parameterList = string.Join(",", allParameters.Where(m => m != null).OrderBy(m => m.Index).Select(m => m.Name).ToArray());
 #>
-	<#= method.Name #>: function(<#=parameterList#>) {
+	<#= method.Name.ToCamelCasing() #>: function(<#=parameterList#>) {
 		return invoke.call(this, "<#= method.Url #>", "<#= method.Type.ToString().ToLower() #>", 
 		<# if (method.UrlParameters.Any()) { #>
 			{

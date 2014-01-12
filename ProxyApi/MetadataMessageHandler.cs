@@ -11,32 +11,32 @@ using System.Web;
 
 namespace ProxyApi
 {
-    [Export]
-    public class MetadataMessageHandler : DelegatingHandler
-    {
-        private IProxyGenerator _generator;
+    //[Export]
+    //public class MetadataMessageHandler : DelegatingHandler
+    //{
+    //    private IProxyGenerator _generator;
 
-        [ImportingConstructor]
-        public MetadataMessageHandler(IProxyGenerator generator)
-        {
-            if (generator == null) throw new ArgumentNullException("generator");
+    //    [ImportingConstructor]
+    //    public MetadataMessageHandler(IProxyGenerator generator)
+    //    {
+    //        if (generator == null) throw new ArgumentNullException("generator");
 
-            _generator = generator;
-        }
+    //        _generator = generator;
+    //    }
 
-        protected async override Task<HttpResponseMessage> SendAsync(
-            HttpRequestMessage request, CancellationToken cancellationToken)
-        {
+    //    protected async override Task<HttpResponseMessage> SendAsync(
+    //        HttpRequestMessage request, CancellationToken cancellationToken)
+    //    {
 
-          //  HttpContext.Current = Thread.
-            return await Task.Run<HttpResponseMessage>(() =>
-            {
+    //      //  HttpContext.Current = Thread.
+    //        return await Task.Run<HttpResponseMessage>(() =>
+    //        {
                 
 
-                return request.CreateResponse<IEnumerable<IControllerDefinition>>(System.Net.HttpStatusCode.OK, _generator.Controllers);
+    //            return request.CreateResponse<IEnumerable<IControllerDefinition>>(System.Net.HttpStatusCode.OK, _generator.Controllers);
 
 
-            });
-        }
-    }
+    //        });
+    //    }
+    //}
 }

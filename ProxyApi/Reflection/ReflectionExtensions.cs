@@ -104,7 +104,7 @@ namespace ProxyApi.Reflection
 			if (nameAttribute != null)
 				return nameAttribute.Name;
 
-			return method.Name.ToLower();
+			return method.Name;
 		}
 
         public static string GetProxyUniqueName(this MethodInfo method)
@@ -115,7 +115,7 @@ namespace ProxyApi.Reflection
             if (nameAttribute != null)
                 return nameAttribute.Name + "_" + method.ReturnType.ToString();
 
-            return (method.Name + "_" + method.ReturnType.ToString()).ToLower();
+            return method.Name + "_" + method.ReturnType.ToString();
         }
 		/// <summary>
 		/// Gets the name that will be given to the generated proxy type.
@@ -130,7 +130,7 @@ namespace ProxyApi.Reflection
 			if (nameAttribute != null)
 				return nameAttribute.Name;
 
-			return type.Name.ToLower().Replace("controller", string.Empty);
+			return type.Name.Replace("Controller", string.Empty);
 		}
 	}
 }

@@ -18,9 +18,9 @@ namespace ProxyApi.Templates
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "D:\Projects\ProxyApi\ProxyApi\Templates\JsProxyTemplate.tt"
+    #line 1 "D:\Projects\ProxyApi\ProxyApi\Templates\CSharpProxyTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "12.0.0.0")]
-    public partial class JsProxyTemplate : JsProxyTemplateBase
+    public partial class CSharpProxyTemplate : CSharpProxyTemplateBase
     {
 #line hidden
         /// <summary>
@@ -28,226 +28,206 @@ namespace ProxyApi.Templates
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write(@"
-(function($) {
-	""use strict"";
-
-	if (!$) {
-		throw ""jQuery is required"";
-	}
-
-	$.proxies = $.proxies || {};
-
-	function getQueryString(params, queryString) {
-		queryString = queryString || """";
-		for(var prop in params) {
-			if (params.hasOwnProperty(prop)) {
-				var val = getArgValue(params[prop]);
-				if (val === null) continue;
-
-				if ("""" + val === ""[object Object]"") {
-					queryString = getQueryString(params[prop], queryString);
-					continue;
-				}
-
-				if (queryString.length) {
-					queryString += ""&"";
-				} else {
-					queryString += ""?"";
-				}
-				queryString = queryString + prop + ""="" +val;
-			}
-		}
-		return queryString;
-	}
-
-	function getArgValue(val) {
-		if (val === undefined || val === null) return null;
-		return val;
-	}
-
-	function invoke(url, type, urlParams, body) {
-		url += getQueryString(urlParams);
-
-
-		var ajaxOptions = $.extend({}, this.defaultOptions, {
-			url: url,
-			type: type
-		});
-
-		if (body) {
-			ajaxOptions.data = body;
-		}
-
-		if (this.antiForgeryToken) {
-			var token = $.isFunction(this.antiForgeryToken) ? this.antiForgeryToken() : this.antiForgeryToken;
-			if (token) {
-				ajaxOptions.headers = ajaxOptions.headers || {};
-				ajaxOptions.headers[""");
+            this.Write("using System;\r\nusing System.Collections.Generic;\r\nusing System.Net.Http;\r\nusing S" +
+                    "ystem.Net.Http.Headers;\r\nusing System.Threading.Tasks;\r\nusing System.Net.Http.Fo" +
+                    "rmatting;\r\n// Proxies\r\n\r\n");
             
-            #line 61 "D:\Projects\ProxyApi\ProxyApi\Templates\JsProxyTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(ValidateHttpAntiForgeryTokenAttribute.RequestVerificationTokenHeader));
-            
-            #line default
-            #line hidden
-            this.Write("\"] = token\r\n\t\t\t}\r\n\t\t}\r\n\t\r\n\t\treturn $.ajax(ajaxOptions);\r\n\t};\r\n\r\n\tfunction default" +
-                    "AntiForgeryTokenAccessor() {\r\n\t\treturn $(\"input[name=__RequestVerificationToken]" +
-                    "\").val();\r\n\t};\r\n\r\n\t/* Proxies */\r\n\r\n\t");
-            
-            #line 74 "D:\Projects\ProxyApi\ProxyApi\Templates\JsProxyTemplate.tt"
+            #line 14 "D:\Projects\ProxyApi\ProxyApi\Templates\CSharpProxyTemplate.tt"
  foreach(var definition in this.Definitions) { 
             
             #line default
             #line hidden
-            this.Write("\t$.proxies.");
+            this.Write("namespace ProxyApi.Proxies.");
             
-            #line 75 "D:\Projects\ProxyApi\ProxyApi\Templates\JsProxyTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(definition.Name.ToLower()));
+            #line 15 "D:\Projects\ProxyApi\ProxyApi\Templates\CSharpProxyTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(definition.Name));
             
             #line default
             #line hidden
-            this.Write(" = {\r\n\t\tdefaultOptions: {},\r\n\t\tantiForgeryToken: defaultAntiForgeryTokenAccessor," +
-                    "\r\n");
             
-            #line 78 "D:\Projects\ProxyApi\ProxyApi\Templates\JsProxyTemplate.tt"
+            #line 15 "D:\Projects\ProxyApi\ProxyApi\Templates\CSharpProxyTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(definition.Type));
+            
+            #line default
+            #line hidden
+            this.Write("\r\n{\r\n\r\n\t#region Models\r\n");
+            
+            #line 19 "D:\Projects\ProxyApi\ProxyApi\Templates\CSharpProxyTemplate.tt"
+ foreach(var model in definition.Models) { 
+            
+            #line default
+            #line hidden
+            this.Write("\tpublic class ");
+            
+            #line 20 "D:\Projects\ProxyApi\ProxyApi\Templates\CSharpProxyTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(model.Name));
+            
+            #line default
+            #line hidden
+            this.Write("\r\n\t{\r\n");
+            
+            #line 22 "D:\Projects\ProxyApi\ProxyApi\Templates\CSharpProxyTemplate.tt"
+ foreach(var propertyItem in model.Data) { 
+            
+            #line default
+            #line hidden
+            this.Write("\t\tpublic ");
+            
+            #line 23 "D:\Projects\ProxyApi\ProxyApi\Templates\CSharpProxyTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(propertyItem.Value));
+            
+            #line default
+            #line hidden
+            this.Write(" ");
+            
+            #line 23 "D:\Projects\ProxyApi\ProxyApi\Templates\CSharpProxyTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(propertyItem.Key));
+            
+            #line default
+            #line hidden
+            this.Write(" { get; set; }\r\n");
+            
+            #line 24 "D:\Projects\ProxyApi\ProxyApi\Templates\CSharpProxyTemplate.tt"
+}
+            
+            #line default
+            #line hidden
+            this.Write("\t}\r\n");
+            
+            #line 26 "D:\Projects\ProxyApi\ProxyApi\Templates\CSharpProxyTemplate.tt"
+}
+            
+            #line default
+            #line hidden
+            this.Write("\t#endregion\r\n\r\n\tpublic class ");
+            
+            #line 29 "D:\Projects\ProxyApi\ProxyApi\Templates\CSharpProxyTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(definition.Name));
+            
+            #line default
+            #line hidden
+            this.Write("Client : IDisposable\r\n\t{\r\n\t\tpublic HttpClient HttpClient { get; private set; }\r\n\r" +
+                    "\n\t\tpublic ");
+            
+            #line 33 "D:\Projects\ProxyApi\ProxyApi\Templates\CSharpProxyTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(definition.Name));
+            
+            #line default
+            #line hidden
+            this.Write("Client()\r\n\t\t{\r\n\t\t\tHttpClient = new HttpClient();\r\n\t\t\tHttpClient.BaseAddress = new" +
+                    " Uri(\"");
+            
+            #line 36 "D:\Projects\ProxyApi\ProxyApi\Templates\CSharpProxyTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(definition.Host));
+            
+            #line default
+            #line hidden
+            this.Write("\");\r\n\t\t}\r\n\r\n\t\t#region Methods\r\n");
+            
+            #line 40 "D:\Projects\ProxyApi\ProxyApi\Templates\CSharpProxyTemplate.tt"
  foreach(var method in definition.ActionMethods) { 
-            
-            #line default
-            #line hidden
-            this.Write("\r\n");
-            
-            #line 80 "D:\Projects\ProxyApi\ProxyApi\Templates\JsProxyTemplate.tt"
+		var allParameters = method.UrlParameters.AsEnumerable();
+		
+		var queryParameterString = "\"";
+		var bodyParameterString = "";
 
-	var allParameters = method.UrlParameters.AsEnumerable();
-	
-	if (method.BodyParameter != null) {
-		allParameters = allParameters.Concat(new [] { method.BodyParameter });
-	}
-	var parameterList = string.Join(",", allParameters.Where(m => m != null).OrderBy(m => m.Index).Select(m => m.Name).ToArray());
+		if (method.BodyParameter != null) {
+			allParameters = allParameters.Concat(new [] { method.BodyParameter });
+			bodyParameterString = ", " + method.BodyParameter.Name;
+		}
+
+
+		if (allParameters.Any()) {
+			queryParameterString = "?";
+
+			queryParameterString += string.Join(" + \"&", allParameters.Where(m => m != null).OrderBy(m => m.Index).Select(m => m.Name + "=\" + " + m.Name).ToArray());
+		
+
+		}
+
+		var parameterList = "";
+
+		if (allParameters.Any())
+		{
+		var q = allParameters.Where(m => m != null).OrderBy(m => m.Index).Select(m => m.Type + " " + m.Name);
+
+		if (q != null)
+			parameterList = string.Join(",", q.ToArray());
+		}
+
+		var postOrPut =  method.Type.ToString() == "Post" || method.Type.ToString() == "Put";
 
             
             #line default
             #line hidden
-            this.Write("\t");
+            this.Write("\t\tpublic async Task<HttpResponseMessage> ");
             
-            #line 88 "D:\Projects\ProxyApi\ProxyApi\Templates\JsProxyTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(method.Name.ToCamelCasing()));
+            #line 72 "D:\Projects\ProxyApi\ProxyApi\Templates\CSharpProxyTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(method.Name));
             
             #line default
             #line hidden
-            this.Write(": function(");
+            this.Write("(");
             
-            #line 88 "D:\Projects\ProxyApi\ProxyApi\Templates\JsProxyTemplate.tt"
+            #line 72 "D:\Projects\ProxyApi\ProxyApi\Templates\CSharpProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameterList));
             
             #line default
             #line hidden
-            this.Write(") {\r\n\t\treturn invoke.call(this, \"");
+            this.Write(")\r\n\t\t{\r\n\t\t\treturn await HttpClient.");
             
-            #line 89 "D:\Projects\ProxyApi\ProxyApi\Templates\JsProxyTemplate.tt"
+            #line 74 "D:\Projects\ProxyApi\ProxyApi\Templates\CSharpProxyTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(method.Type));
+            
+            #line default
+            #line hidden
+            
+            #line 74 "D:\Projects\ProxyApi\ProxyApi\Templates\CSharpProxyTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(postOrPut ? "AsJson" : ""));
+            
+            #line default
+            #line hidden
+            this.Write("Async");
+            
+            #line 74 "D:\Projects\ProxyApi\ProxyApi\Templates\CSharpProxyTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(postOrPut && method.BodyParameter != null ? "<" + method.BodyParameter.Type + ">" : ""));
+            
+            #line default
+            #line hidden
+            this.Write("(\"");
+            
+            #line 74 "D:\Projects\ProxyApi\ProxyApi\Templates\CSharpProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(method.Url));
             
             #line default
             #line hidden
-            this.Write("\", \"");
             
-            #line 89 "D:\Projects\ProxyApi\ProxyApi\Templates\JsProxyTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(method.Type.ToString().ToLower()));
-            
-            #line default
-            #line hidden
-            this.Write("\", \r\n\t\t");
-            
-            #line 90 "D:\Projects\ProxyApi\ProxyApi\Templates\JsProxyTemplate.tt"
- if (method.UrlParameters.Any()) { 
+            #line 74 "D:\Projects\ProxyApi\ProxyApi\Templates\CSharpProxyTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(queryParameterString));
             
             #line default
             #line hidden
-            this.Write("\t\t\t{\r\n\t\t\t");
             
-            #line 92 "D:\Projects\ProxyApi\ProxyApi\Templates\JsProxyTemplate.tt"
- foreach (var parameter in method.UrlParameters) { 
-            
-            #line default
-            #line hidden
-            this.Write("\t\t\t\t");
-            
-            #line 93 "D:\Projects\ProxyApi\ProxyApi\Templates\JsProxyTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
+            #line 74 "D:\Projects\ProxyApi\ProxyApi\Templates\CSharpProxyTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(bodyParameterString));
             
             #line default
             #line hidden
-            this.Write(": arguments[");
+            this.Write(");\r\n\t\t}\r\n\r\n");
             
-            #line 93 "D:\Projects\ProxyApi\ProxyApi\Templates\JsProxyTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Index));
+            #line 77 "D:\Projects\ProxyApi\ProxyApi\Templates\CSharpProxyTemplate.tt"
+}
             
             #line default
             #line hidden
-            this.Write("],\r\n\t\t\t");
+            this.Write("\t\t#endregion\r\n\r\n\t\tpublic void Dispose()\r\n        {\r\n            HttpClient.Dispos" +
+                    "e();\r\n        }\r\n\t}\r\n\r\n}\r\n");
             
-            #line 94 "D:\Projects\ProxyApi\ProxyApi\Templates\JsProxyTemplate.tt"
+            #line 87 "D:\Projects\ProxyApi\ProxyApi\Templates\CSharpProxyTemplate.tt"
  } 
             
             #line default
             #line hidden
-            this.Write("\t\t\t}\r\n\t\t");
-            
-            #line 96 "D:\Projects\ProxyApi\ProxyApi\Templates\JsProxyTemplate.tt"
- } else { 
-            
-            #line default
-            #line hidden
-            this.Write("\t\t\t{}\r\n\t\t");
-            
-            #line 98 "D:\Projects\ProxyApi\ProxyApi\Templates\JsProxyTemplate.tt"
- } 
-            
-            #line default
-            #line hidden
-            this.Write("\t\t");
-            
-            #line 99 "D:\Projects\ProxyApi\ProxyApi\Templates\JsProxyTemplate.tt"
- if (method.BodyParameter != null) { 
-            
-            #line default
-            #line hidden
-            this.Write("\t\t\t, arguments[");
-            
-            #line 100 "D:\Projects\ProxyApi\ProxyApi\Templates\JsProxyTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(method.BodyParameter.Index));
-            
-            #line default
-            #line hidden
-            this.Write("]);\r\n\t\t");
-            
-            #line 101 "D:\Projects\ProxyApi\ProxyApi\Templates\JsProxyTemplate.tt"
- } else { 
-            
-            #line default
-            #line hidden
-            this.Write("\t\t\t);\r\n\t\t");
-            
-            #line 103 "D:\Projects\ProxyApi\ProxyApi\Templates\JsProxyTemplate.tt"
- } 
-            
-            #line default
-            #line hidden
-            this.Write("\t},\r\n");
-            
-            #line 105 "D:\Projects\ProxyApi\ProxyApi\Templates\JsProxyTemplate.tt"
- } 
-            
-            #line default
-            #line hidden
-            this.Write("};\r\n\t");
-            
-            #line 107 "D:\Projects\ProxyApi\ProxyApi\Templates\JsProxyTemplate.tt"
- } 
-            
-            #line default
-            #line hidden
-            this.Write("}(jQuery));");
             return this.GenerationEnvironment.ToString();
         }
     }
@@ -259,7 +239,7 @@ namespace ProxyApi.Templates
     /// Base class for this transformation
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "12.0.0.0")]
-    public class JsProxyTemplateBase
+    public class CSharpProxyTemplateBase
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;

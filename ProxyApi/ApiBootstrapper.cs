@@ -33,21 +33,7 @@ namespace ProxyApi
 			RouteTable.Routes.Add("ProxyApi",
 				new Route("api/proxies", routeValues, ProxyDependencyResolver.Instance.GetService<RouteHandler>()));
 
-     //       GlobalConfiguration.Configuration.MessageHandlers.Add(ProxyDependencyResolver.Instance.GetService<MetadataMessageHandler>());
-            var i = ProxyDependencyResolver.Instance.GetService<MetadataMessageHandler>();
-
-            GlobalConfiguration.Configuration.Routes.MapHttpRoute(
-                name: "ProxyApi2",
-                routeTemplate: "api/metadata",
-                defaults: new { },
-                constraints: null,
-                //note: this is to prevent EVERY controller/action route being returned as api/proxy/controller/action when calling Url.Action etc
-                handler: HttpClientFactory.CreatePipeline(
-                          new HttpControllerDispatcher(GlobalConfiguration.Configuration),
-                          new DelegatingHandler[] { i })
-
-            );
-
+    
 			GlobalConfiguration.Configuration.Routes.MapHttpRoute(
 				name: "ApiProxy",
 				routeTemplate: "api/{proxy}/{controller}/{action}",

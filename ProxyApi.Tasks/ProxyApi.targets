@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <ProxyApiBinDir Condition="'$(ProxyApiBinDir)' == ''">$(MSBuildThisFileDirectory)</ProxyApiBinDir>
+      <ProxyApiBinDir Condition="'$(ProxyApiBinDir)' == ''">.</ProxyApiBinDir>
+  </PropertyGroup>
+
+
+  <UsingTask TaskName="ProxyGenerationTask" AssemblyFile="$(ProxyApiBinDir)\ProxyApi.Tasks.dll"/>
+
+  <ItemGroup>
+    
+    <AvailableItemName Include="ProxyApiConfiguration" />
+  </ItemGroup>
+
+  <!-- This Target does the work of converting XSD files into the output C# file. -->
+  <!-- Inputs and Outputs ensure that dependency checking happens-->
+  <Target Name="ProxyTarget"  
+          Inputs="@(ProxyApiConfiguration)"  
+          Outputs="$(IntermediateOutputPath)ProxyApiSource.cs"
+          >
+    
+    <ProxyGenerationTask Condition="'@(ProxyApiConfiguration)'!=''" 
+              ConfigurationFiles="@(ProxyApiConfiguration)"
+              Path="$(ProxyApiBinDir)" 
+              Filename="$(IntermediateOutputPath)ProxyApiSource.cs">
+
+      <!-- This Output element takes the filename of the generated file from the XOTask.Filename property and adds it to the list of files to compile-->
+      <Output TaskParameter="Filename" ItemName="Compile" />
+    </ProxyGenerationTask>
+
+
+    <!-- Need to record the temporary files we write out so that they can be cleaned 
+        These are recorded as Items of Type FileWrites.
+        The rules for dealing with these types of temporary files is in Microsoft.Common.targets
+    -->
+    <CreateItem Include="$(IntermediateOutputPath)ProxyApiSource.cs" >
+      <Output TaskParameter="Include" ItemName="FileWrites"/>
+    </CreateItem>
+
+
+  </Target>
+
+  <!--  This Target element overrides the BeforeCompile Target defined in Microsoft.Common.targets
+        ensuring that TXLinq gets invoked before the C# compiler.
+  -->
+  <Target Name="BeforeCompile" DependsOnTargets="ProxyTarget" />
+  <Target Name="CreateConfigurationProperties">
+
+    <!--<CreateProperty
+        Value="@(ProxyApiConfiguration)">
+      <Output
+          TaskParameter="Value"
+          PropertyName="ConfigurationProperty" />
+    </CreateProperty>-->
+
+  </Target>
+</Project>
+
+

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace ProxyApi
 {
     //[Export(typeof(IMetadataGenerator))]
-    //public class MetadataGenerator:IMetadataGenerator
+    //public class MetadataGenerator : IMetadataGenerator
     //{
     //    private IControllerDefinitionFactory _factory;
     //    private IControllerElementsProvider _typesProvider;
@@ -22,8 +22,8 @@ namespace ProxyApi
     //        if (typesProvider == null) throw new ArgumentNullException("typesProvider");
     //        if (factory == null) throw new ArgumentNullException("factory");
 
-    //        _typesProvider	= typesProvider;
-    //        _factory		= factory;
+    //        _typesProvider = typesProvider;
+    //        _factory = factory;
     //    }
 
     //    public IEnumerable<ContractInfo> Generate()
