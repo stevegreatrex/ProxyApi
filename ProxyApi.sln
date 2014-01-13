@@ -28,8 +28,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProxyApi.Sample", "Samples\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProxyApi.Tasks", "ProxyApi.Tasks\ProxyApi.Tasks.csproj", "{1AB5C536-CFA3-4A32-8703-70E7516D8000}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProxyApi.MetadataGenerator", "ProxyApi.MetadataGenerator\ProxyApi.MetadataGenerator.csproj", "{8B0DDABC-BC71-45F4-A35D-A3A4316358F1}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -56,10 +54,6 @@ Global
 		{1AB5C536-CFA3-4A32-8703-70E7516D8000}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1AB5C536-CFA3-4A32-8703-70E7516D8000}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1AB5C536-CFA3-4A32-8703-70E7516D8000}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8B0DDABC-BC71-45F4-A35D-A3A4316358F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8B0DDABC-BC71-45F4-A35D-A3A4316358F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8B0DDABC-BC71-45F4-A35D-A3A4316358F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8B0DDABC-BC71-45F4-A35D-A3A4316358F1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -77,7 +77,14 @@ namespace ProxyApi.MetadataGenerator
 
                 //foreach (var c in configFileNames)
                 //{
-                    var config = Configuration.Load("ProxyApiConfig.json");
+                    var config = Configuration.Load();
+
+                    if (config.Endpoint == string.Empty)
+                    {
+                        var frm = new frmApiProxyConfig(config);
+                        frm.ShowDialog();
+                    }
+
 
                     sb.AppendLine(WriteSource(config, csFileName,namespaces));
                     namespaces = false;
