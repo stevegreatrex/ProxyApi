@@ -1,6 +1,0 @@
-﻿{
-	"clientSuffix" : "Client",
-	"namespace" : "ProxyApi.Proxies",
-	"name" : "TestApi",
-	"proxyEndpoint" : "http://localhost:34328/api/proxies"
-}

@@ -3,30 +3,18 @@
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
-
-<# if(renderNamespaces){#>
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Net.Http.Formatting;
-<# } #>
-
 // Proxies
-namespace <#= Configuration.Namespace#>.<#= Configuration.Name#>
-{
-    public static class Globals
-	{
-		public const string <#= Configuration.Name #>ApiBase = "<#= Configuration.Endpoint #>";
-		
-	}
-}
 
-#region <#= Configuration.Name#>
-<# foreach(var definition in Configuration.Metadata.Definitions) { #>
-namespace <#= Configuration.Namespace#>.<#= Configuration.Name #>.<#=definition.Name#><#=definition.Type#>
+<# foreach(var definition in this.Definitions) { #>
+namespace ProxyApi.Proxies.<#=definition.Name#><#=definition.Type#>
 {
+
 	#region Models
 <# foreach(var model in definition.Models) { #>
 	public class <#=model.Name#>
@@ -38,11 +26,14 @@ namespace <#= Configuration.Namespace#>.<#= Configuration.Name #>.<#=definition.
 <#}#>
 	#endregion
 
-	public class <#=definition.Name#><#= Configuration.ClientSuffix#> : HttpClient
+	public class <#=definition.Name#>Client : IDisposable
 	{
-		public <#=definition.Name#><#= Configuration.ClientSuffix#>()
+		public HttpClient HttpClient { get; private set; }
+
+		public <#=definition.Name#>Client()
 		{
-			this.BaseAddress = new Uri(Globals.<#= Configuration.Name #>ApiBase);
+			HttpClient = new HttpClient();
+			HttpClient.BaseAddress = new Uri("<#= definition.Host #>");
 		}
 
 		#region Methods
@@ -80,14 +71,17 @@ namespace <#= Configuration.Namespace#>.<#= Configuration.Name #>.<#=definition.
 #>
 		public async Task<HttpResponseMessage> <#= method.Name #>(<#= parameterList#>)
 		{
-			return await this.<#=method.Type#><#= postOrPut ? "AsJson" : "" #>Async<#= postOrPut && method.BodyParameter != null ? "<" + method.BodyParameter.Type + ">" : "" #>("<#=method.Url#><#=queryParameterString#><#=bodyParameterString#>);
+			return await HttpClient.<#=method.Type#><#= postOrPut ? "AsJson" : "" #>Async<#= postOrPut && method.BodyParameter != null ? "<" + method.BodyParameter.Type + ">" : "" #>("<#=method.Url#><#=queryParameterString#><#=bodyParameterString#>);
 		}
 
 <#}#>
 		#endregion
 
+		public void Dispose()
+        {
+            HttpClient.Dispose();
+        }
 	}
 
 }
 <# } #>
-#endregion

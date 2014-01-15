@@ -1,25 +1,23 @@
-﻿using ProxyApi.MetadataGenerator.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ProxyApi.ElementDefinitions;
 
-
-namespace ProxyApi.MetadataGenerator.Templates
+namespace ProxyApi.Templates
 {
 	/// <summary>
 	/// A partial class implementation used to pass parameters to the proxy template.
 	/// </summary>
-	public partial class CSharpProxyTemplate
+	public partial class JsProxyTemplate:IProxyTemplate
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ProxyTemplate" /> class.
 		/// </summary>
-        public CSharpProxyTemplate(Configuration config)
+		public JsProxyTemplate()
 		{
-            
-            this.Configuration = config;
+			this.Definitions = new List<IControllerDefinition>();
 		}
 
 		/// <summary>
@@ -28,9 +26,9 @@ namespace ProxyApi.MetadataGenerator.Templates
 		/// <value>
 		/// The template definitions.
 		/// </value>
+		public IEnumerable<IControllerDefinition> Definitions { get; set; }
 
-        public bool renderNamespaces { get; set; }
-        public Configuration Configuration { get; set; }
+      
 
     }
 }
