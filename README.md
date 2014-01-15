@@ -1,4 +1,4 @@
-ProxyApi is a library that automatically creates JavaScript proxy objects for your ASP.NET MVC and WebApi Controllers.
+ProxyApi is a library that automatically creates JavaScript proxy objects and metadata for your ASP.NET MVC and WebApi Controllers.
 
 ```csharp
 public class DemoController : ApiController
