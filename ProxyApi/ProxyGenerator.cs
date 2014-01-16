@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ProxyApi.Reflection;
 using ProxyApi.Templates;
+using ProxyApi.ElementDefinitions;
 
 namespace ProxyApi
 {
@@ -17,6 +18,7 @@ namespace ProxyApi
 	{
 		private IControllerDefinitionFactory _factory;
 		private IControllerElementsProvider _typesProvider;
+      //  private IEnumerable<IControllerDefinition> _controllers;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ProxyGenerator" /> class.
@@ -33,6 +35,7 @@ namespace ProxyApi
 
 			_typesProvider	= typesProvider;
 			_factory		= factory;
+          //  _controllers =  
 		}
 
 		/// <summary>
@@ -41,18 +44,17 @@ namespace ProxyApi
 		/// <returns>
 		/// The script content.
 		/// </returns>
-		public string GenerateProxyScript()
+		public string GenerateProxyScript<T>() where T: IProxyTemplate
 		{
-			var controllers = _typesProvider.GetControllerTypes()
-				.Select(_factory.Create)
-				.ToList();
 
-			var template = new ProxyTemplate();
-			
-			foreach (var item in controllers)
-				template.Definitions.Add(item);
+            var template = Activator.CreateInstance<T>();
+
+            template.Definitions = _typesProvider.GetControllerTypes()
+                                          .Select(_factory.Create)
+                                          .ToList(); 
 
 			return template.TransformText();
 		}
-	}
+
+    }
 }

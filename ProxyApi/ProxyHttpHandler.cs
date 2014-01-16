@@ -23,6 +23,9 @@ namespace ProxyApi
 	public class ProxyHttpHandler : IHttpHandler
 	{
 		private static string _proxyJs;
+        private static string _proxyCs;
+        private static string _metaData;
+
 		private static volatile object _syncRoot = new object();
 		private IProxyGenerator _generator;
 
@@ -36,6 +39,7 @@ namespace ProxyApi
 			if (generator == null) throw new ArgumentNullException("generator");
 
 			_generator = generator;
+            
 		}
 
 		/// <summary>
@@ -55,18 +59,59 @@ namespace ProxyApi
 		{
 			if (context == null) throw new ArgumentNullException("context");
 
-			context.Response.ContentType = "application/x-javascript";
-			context.Response.Write(GetProxyJs(context));
+            var lang = context.Request.Headers["X-Proxy-ResponseType"];
+
+            if (!String.IsNullOrEmpty(lang) && lang != "js")
+            {
+                switch (lang.ToLower())
+                {
+                    case "cs": 
+                        GetProxyCSharp(context);
+                        break;
+                    case "metadata":
+                        GetMetadata(context);
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                GetProxyJs(context);
+            }
+			
+
+            
 		}
 
-		private string GetProxyJs(HttpContext context)
+		private void GetProxyJs(HttpContext context)
 		{
 			if (_proxyJs == null)
-				lock(_syncRoot)
-					if(_proxyJs == null)
-					_proxyJs = _generator.GenerateProxyScript();
+                _proxyJs = _generator.GenerateProxyScript<JsProxyTemplate>();
 
-			return _proxyJs;
+            context.Response.ContentType = "application/x-javascript";
+            context.Response.Write(_proxyJs);
+
+
 		}
+
+        private void GetProxyCSharp(HttpContext context)
+        {
+           if (_proxyCs == null)
+                _proxyCs = _generator.GenerateProxyScript<CSharpProxyTemplate>();
+
+            context.Response.ContentType = "application/octet-stream";
+            context.Response.Write(_proxyCs);
+        }
+
+        private void GetMetadata(HttpContext context)
+        {
+            if (_metaData == null)
+                _metaData = _generator.GenerateProxyScript<MetadataTemplate>();
+
+            context.Response.ContentType = "application/json";
+            context.Response.Write(_metaData);
+        }
 	}
 }

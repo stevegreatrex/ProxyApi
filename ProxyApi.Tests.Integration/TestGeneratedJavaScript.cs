@@ -11,6 +11,7 @@ using Moq;
 using Newtonsoft.Json;
 using ProxyApi.Factories;
 using ProxyApi.Reflection;
+using ProxyApi.Templates;
 
 namespace ProxyApi.Tests.Integration
 {
@@ -38,7 +39,7 @@ namespace ProxyApi.Tests.Integration
 					return arguments[0]; 
 				}
 			};");
-			_engine.Execute(_proxyGenerator.GenerateProxyScript());
+			_engine.Execute(_proxyGenerator.GenerateProxyScript<JsProxyTemplate>());
 		}
 
 		private IProxyGenerator CreateProxyGenerator()
@@ -67,7 +68,7 @@ namespace ProxyApi.Tests.Integration
 			var proxyGenerator	= CreateProxyGenerator();
 			try
 			{
-				engine.Execute(proxyGenerator.GenerateProxyScript());
+                engine.Execute(proxyGenerator.GenerateProxyScript <JsProxyTemplate>());
 				Assert.Fail("The javascript should throw an error if jQuery is not defined");
 			}
 			catch(JavaScriptException ex)

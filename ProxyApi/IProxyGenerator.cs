@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ProxyApi.ElementDefinitions;
+using ProxyApi.Templates;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +17,7 @@ namespace ProxyApi
 		/// Generates the proxy script.
 		/// </summary>
 		/// <returns>The script content.</returns>
-		string GenerateProxyScript();
+        string GenerateProxyScript<T>() where T : IProxyTemplate;
+
 	}
 }

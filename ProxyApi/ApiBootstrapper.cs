@@ -8,6 +8,8 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Http;
 using System.Diagnostics.CodeAnalysis;
+using System.Net.Http;
+using System.Web.Http.Dispatcher;
 
 [assembly: PreApplicationStartMethod(typeof(ProxyApi.ApiBootstrapper), "RegisterProxyRoutes")]
 
@@ -31,12 +33,15 @@ namespace ProxyApi
 			RouteTable.Routes.Add("ProxyApi",
 				new Route("api/proxies", routeValues, ProxyDependencyResolver.Instance.GetService<RouteHandler>()));
 
+    
 			GlobalConfiguration.Configuration.Routes.MapHttpRoute(
 				name: "ApiProxy",
 				routeTemplate: "api/{proxy}/{controller}/{action}",
 				defaults: new {},
 				constraints: new { proxy = "^proxy$" } //note: this is to prevent EVERY controller/action route being returned as api/proxy/controller/action when calling Url.Action etc
 			);
+
+            
 		}
 	}
 }

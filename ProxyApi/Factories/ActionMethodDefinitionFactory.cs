@@ -58,12 +58,18 @@ namespace ProxyApi.Factories
 			definition.Name	= method.GetProxyName();
 			definition.Type = GetMethodType(method);
 			definition.Url	= GetUrl(controllerDefinition, GetExplicitActionName(method) ?? method.Name.ToLower());
+            definition.ReturnType = ParseType(controllerDefinition, method.ReturnType);
 
 			var index		= 0;
 			var parameters	= method.GetParameters();
 			foreach (var param in parameters)
 			{
-				var record = new ParameterDefinition { Index = index, Name = param.Name };
+				var record = new ParameterDefinition { 
+                    Index = index, 
+                    Name = param.Name,
+                    Type = ParseType(controllerDefinition,param.ParameterType)
+                };
+
 				if (param.HasAttribute<FromUriAttribute>())
 					definition.UrlParameters.Add(record);
 				else if (param.HasAttribute<FromBodyAttribute>())
@@ -126,11 +132,89 @@ namespace ProxyApi.Factories
 			routeValues.Add("controller", controller.UrlName);
 			routeValues.Add("action", action);
 
+            
+
 			if (controller.Type == ControllerType.WebApi)
-				return _pathUtility.ToAbsolute(string.Format("~/api/proxy/{0}/{1}", controller.UrlName, action));
+				return   _pathUtility.ToAbsolute(string.Format("~/api/proxy/{0}/{1}", controller.UrlName, action));
 			else
-				return _pathUtility.ToAbsolute(_pathUtility.GetVirtualPath(routeValues));
+                return  _pathUtility.ToAbsolute(_pathUtility.GetVirtualPath(routeValues));
 		}
+
+        private string ParseType(IControllerDefinition controller, Type type)
+        {
+            string res;
+
+            //If the type is a generic type format to correct class name
+            if (type.IsGenericType)
+            {
+                res = type.Name;
+
+                int index = res.IndexOf('`');
+
+                if (index > -1)
+                    res = res.Substring(0, index);
+
+                Type[] args = type.GetGenericArguments();
+
+                res += "<";
+
+                for (int i = 0; i < args.Length; i++)
+                {
+                    if (i > 0)
+                        res += ", ";
+                    //Recursivly find nested arguments
+                    res += ParseType(controller, args[i]);
+                }
+                res += ">";
+            }
+            else
+            {
+                if (type.ToString().StartsWith("System."))
+                {
+                    if (type.ToString().Equals("System.Void"))
+                        res = "void";
+                    else
+                        res = type.Name;
+                }
+                else
+                {
+                    res = type.Name;
+
+                    if (!controller.ContainsModel(type.Name))
+                        AddModelDefinition(controller, type);
+                }
+            }
+
+            return res;
+        }
+
+        private void AddModelDefinition(IControllerDefinition controller, Type classToDef)
+        {
+            //When the class is an array redefine the classToDef as the array type
+            if (classToDef.IsArray)
+            {
+                classToDef = classToDef.GetElementType();
+            }
+            //If the class has not been mapped then map into metadata
+            if (!controller.ContainsModel(classToDef.Name))
+            {
+
+                ModelDefinition model = new ModelDefinition();
+
+                PropertyInfo[] properties = classToDef.GetProperties();
+
+                model.Name = classToDef.Name;
+
+                foreach (PropertyInfo property in properties)
+                {
+                    model.Data.Add(property.Name, ParseType(controller, property.PropertyType));
+                }
+
+              
+
+                controller.Models.Add(model);
+            }
+        }
 
 		#endregion
 	}

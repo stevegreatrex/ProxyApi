@@ -94,7 +94,7 @@ namespace ProxyApi.Reflection
 		{
 			var methods = controllerType.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
 				.Where(m => IsIncluded(m, controllerType))
-				.GroupBy(m => m.GetProxyName());
+				.GroupBy(m => m.GetProxyUniqueName());
 
 			foreach (var methodName in methods)
 			{

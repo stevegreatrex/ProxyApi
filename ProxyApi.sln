@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProxyApi.Tests", "ProxyApi.Tests\ProxyApi.Tests.csproj", "{502A4469-3AF0-40FD-886A-61BF752431AD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProxyApi", "ProxyApi\ProxyApi.csproj", "{461D3C06-A617-4C36-9759-63800E71BCE9}"
@@ -24,6 +26,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{0161FE
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProxyApi.Sample", "Samples\ProxyApi.Sample\ProxyApi.Sample.csproj", "{757FA25D-CA58-4AD1-9756-EEFBA16FDB04}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProxyApi.Tasks", "ProxyApi.Tasks\ProxyApi.Tasks.csproj", "{1AB5C536-CFA3-4A32-8703-70E7516D8000}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -46,6 +50,10 @@ Global
 		{757FA25D-CA58-4AD1-9756-EEFBA16FDB04}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{757FA25D-CA58-4AD1-9756-EEFBA16FDB04}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{757FA25D-CA58-4AD1-9756-EEFBA16FDB04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1AB5C536-CFA3-4A32-8703-70E7516D8000}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1AB5C536-CFA3-4A32-8703-70E7516D8000}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1AB5C536-CFA3-4A32-8703-70E7516D8000}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1AB5C536-CFA3-4A32-8703-70E7516D8000}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

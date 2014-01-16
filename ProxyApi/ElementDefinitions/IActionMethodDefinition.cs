@@ -42,5 +42,9 @@ namespace ProxyApi.ElementDefinitions
 		/// The body parameters.
 		/// </value>
 		IParameterDefinition BodyParameter { get; }
+
+        string ReturnType { get; }
+
+        string TaskedReturnType { get; }
 	}
 }

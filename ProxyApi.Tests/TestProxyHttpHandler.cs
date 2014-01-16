@@ -6,6 +6,7 @@ using System.Text;
 using System.Web;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using ProxyApi.Templates;
 
 namespace ProxyApi.Tests
 {
@@ -75,7 +76,7 @@ namespace ProxyApi.Tests
 			var context	= new HttpContext(new HttpRequest("/","http://a","/"), response);
 
 			//setup a call to the proxy generator
-			_generator.Setup(g => g.GenerateProxyScript()).Returns("generated script");
+			_generator.Setup(g => g.GenerateProxyScript<JsProxyTemplate>()).Returns("generated script");
 
 			this.TestSubject.ProcessRequest(context);
 

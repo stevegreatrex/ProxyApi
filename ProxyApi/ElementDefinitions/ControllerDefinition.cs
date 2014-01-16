@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace ProxyApi.ElementDefinitions
 {
@@ -17,7 +18,15 @@ namespace ProxyApi.ElementDefinitions
 		public ControllerDefinition()
 		{
 			this.ActionMethods = new List<IActionMethodDefinition>();
+            this.Models = new List<IModelDefinition>();
 		}
+
+        public ControllerDefinition(List<IActionMethodDefinition> actionMethods, List<IModelDefinition> models)
+        {
+         
+            this.ActionMethods = actionMethods;
+            this.Models = models;
+        }
 
 		/// <summary>
 		/// Gets the name of the controller.
@@ -44,5 +53,23 @@ namespace ProxyApi.ElementDefinitions
 		/// Gets the type of the controller
 		/// </summary>
 		public ControllerType Type { get; set; }
-	}
+
+
+        public IList<IModelDefinition> Models { get; set; }
+
+        public bool ContainsModel(string name)
+        {
+            return Models.Any(c => c.Name.Equals(name));
+        }
+
+        public string Host
+        {
+            get
+            {
+                return HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority;
+            }
+        }
+
+        
+    }
 }

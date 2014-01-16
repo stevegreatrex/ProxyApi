@@ -52,5 +52,33 @@ namespace ProxyApi.ElementDefinitions
 		/// The body parameters.
 		/// </value>
 		public IParameterDefinition BodyParameter { get; set; }
+
+        public string ReturnType { get; set; }
+
+        public string TaskedReturnType
+        {
+            get
+            {
+                if (ReturnType == "void") return ReturnType;
+
+                return ReturnType.Replace("<","&lt;").Replace(">","&gt;");
+            }
+        }
+
+        public string UrlParamtersAsString
+        {
+            get
+            {
+                var s = "?";
+
+                //foreach (var item in UrlParameters)
+                //{
+                //    s += String.Format("{0}={1}",item.)
+                //}
+
+                return s;
+            }
+        }
+
 	}
 }

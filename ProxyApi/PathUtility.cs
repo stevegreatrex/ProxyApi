@@ -38,6 +38,8 @@ namespace ProxyApi
 		/// </returns>
 		public string ToAbsolute(string path)
 		{
+           
+            
 			return VirtualPathUtility.ToAbsolute(path);
 		}
 

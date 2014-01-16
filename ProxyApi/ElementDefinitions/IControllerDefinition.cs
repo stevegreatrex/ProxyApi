@@ -16,6 +16,8 @@ namespace ProxyApi.ElementDefinitions
 		/// </value>
 		IList<IActionMethodDefinition> ActionMethods { get; }
 
+        IList<IModelDefinition> Models { get; set; }
+
 		/// <summary>
 		/// Gets the name of the controller.
 		/// </summary>
@@ -33,5 +35,9 @@ namespace ProxyApi.ElementDefinitions
 		/// Gets the type of the controller
 		/// </summary>
 		ControllerType Type { get; }
+
+        bool ContainsModel(string name);
+
+        string Host { get; }
 	}
 }
