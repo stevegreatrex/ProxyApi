@@ -2,6 +2,8 @@
 set path=.
 if not [%1]==[] set path=%1
 
+if not exist %path%\..\Nuget\Packages mkdir %path%\..\Nuget\Packages
+
 echo Creating ProxyApi Package
 %path%\..\.nuget\nuget pack %path%\ProxyApi.csproj -OutputDirectory %path%\..\Nuget\Packages -Prop Configuration=Release -Prop TargetPath=%path%\bin\Release\ProxyApi.dll
 

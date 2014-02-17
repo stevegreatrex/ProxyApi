@@ -79,6 +79,22 @@ namespace ProxyApi.Tests
 		}
 
 		/// <summary>
+		/// Ensures that ShouldValidateRequest returns false if the current identity is not authenticated and RequireAuthentication is true
+		/// </summary>
+		[TestMethod]
+		public void ShouldValidateRequest_Returns_False_With_RequireAuthentication_True_And_Not_Authenticated()
+		{
+			var identity = new Mock<IIdentity>();
+			identity.Setup(i => i.IsAuthenticated).Returns(false);
+			_contextProvider.Setup(cp => cp.GetCurrentIdentity()).Returns(identity.Object);
+
+			this.TestSubject.ExcludeAuthenticationTypes = "Basic";
+			this.TestSubject.RequireAuthentication      = true;
+
+			Assert.IsFalse(this.TestSubject.ShouldValidateRequest(null));
+		}
+
+		/// <summary>
 		/// Ensures that ShouldValidateRequest returns false when the authentication type is excluded
 		/// </summary>
 		[TestMethod]

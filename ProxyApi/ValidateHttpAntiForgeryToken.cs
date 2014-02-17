@@ -16,12 +16,12 @@ using System.Web.Mvc;
 namespace ProxyApi
 {
 	 /// <summary>
-    /// Validates Anti-Forgery CSRF tokens for Web API based on a cookie and a header value.
-    /// </summary>
-    /// <remarks>
-    /// Adapted from the MVC 4 SPA template
-    /// </remarks>
-    public class ValidateHttpAntiForgeryTokenAttribute : AuthorizationFilterAttribute
+	/// Validates Anti-Forgery CSRF tokens for Web API based on a cookie and a header value.
+	/// </summary>
+	/// <remarks>
+	/// Adapted from the MVC 4 SPA template
+	/// </remarks>
+	public class ValidateHttpAntiForgeryTokenAttribute : AuthorizationFilterAttribute
 	{
 		/// <summary>
 		/// Name of the header that is expected to contain the request verification token.
@@ -77,6 +77,11 @@ namespace ProxyApi
 		public string ExcludeAuthenticationTypes { get; set; }
 
 		/// <summary>
+		/// Gets or sets a value indicating whether authentication is required
+		/// </summary>
+		public bool RequireAuthentication { get; set; }
+
+		/// <summary>
 		/// Determines whether or not a request should be validated
 		/// </summary>
 		/// <param name="actionContext">The action context.</param>
@@ -86,6 +91,8 @@ namespace ProxyApi
 			if (this.ExcludeAuthenticationTypes != null)
 			{
 				var identity = _contextProvider.GetCurrentIdentity();
+				if (this.RequireAuthentication && !identity.IsAuthenticated) return false;
+
 				if (identity.IsAuthenticated && this.ExcludeAuthenticationTypes
 														.Split(',')
 														.Select(t => t.Trim())
@@ -103,10 +110,10 @@ namespace ProxyApi
 		{
 			var formToken   = string.Empty;
 			var cookieToken = request.Headers
-                .GetCookies()
-                .Select(c => c[AntiForgeryConfig.CookieName])
+				.GetCookies()
+				.Select(c => c[AntiForgeryConfig.CookieName])
 				.Select(c => c.Value)
-                .FirstOrDefault();
+				.FirstOrDefault();
 
 			IEnumerable<string> tokenHeaders;
 			if (request.Headers.TryGetValues(RequestVerificationTokenHeader, out tokenHeaders))
