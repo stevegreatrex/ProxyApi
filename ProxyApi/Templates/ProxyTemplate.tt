@@ -83,19 +83,24 @@
 	if (method.BodyParameter != null) {
 		allParameters = allParameters.Concat(new [] { method.BodyParameter });
 	}
-	var parameterList = string.Join(",", allParameters.Where(m => m != null).OrderBy(m => m.Index).Select(m => m.Name).ToArray());
+	var parameterList = string.Join(",", allParameters.Where(m => m != null)
+							.OrderBy(m => m.Index)
+							.Select(m => m.Name)
+							.Concat(new [] { "additionalParameters" })
+							.ToArray());
 #>
 	<#= method.Name #>: function(<#=parameterList#>) {
 		return invoke.call(this, "<#= method.Url #>", "<#= method.Type.ToString().ToLower() #>", 
-		<# if (method.UrlParameters.Any()) { #>
-			{
-			<# foreach (var parameter in method.UrlParameters) { #>
-				<#= parameter.Name #>: arguments[<#= parameter.Index #>],
+			$.extend({},
+			<# if (method.UrlParameters.Any()) { #>
+				{
+				<# foreach (var parameter in method.UrlParameters) { #>
+					<#= parameter.Name #>: arguments[<#= parameter.Index #>],
+				<# } #>
+				}, additionalParameters)
+			<# } else { #>
+				additionalParameters)
 			<# } #>
-			}
-		<# } else { #>
-			{}
-		<# } #>
 		<# if (method.BodyParameter != null) { #>
 			, arguments[<#= method.BodyParameter.Index #>]);
 		<# } else { #>

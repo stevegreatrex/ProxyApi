@@ -140,6 +140,21 @@ namespace ProxyApi.Tests.Integration
 			Assert.AreEqual("test data", result);
 		}
 
+		/// <summary>
+		/// Ensures that GetMethod calls jQuery.ajax w/ get
+		/// </summary>
+		[TestMethod]
+		public void WebApi_GetMethod_Calls_Ajax_For_Get_With_Url_Parameters_In_Object_And_Url_Suffix()
+		{
+			SetupExpectedAjaxCall(
+				url: "~/api/proxy/integrationtestapi/getdatawithparametersobject?param1=one&param3=true&additionalParam=additionalValue",
+				type: "get",
+				returnData: "test data");
+
+			var result = ExecuteProxyMethod("jQuery.proxies.apiIntegrationTest.getdatawithparametersobject({param1: 'one', param3: true }, { additionalParam: 'additionalValue' })");
+			Assert.AreEqual("test data", result);
+		}
+
 		#endregion
 
 		#region POST Tests
@@ -172,6 +187,22 @@ namespace ProxyApi.Tests.Integration
 				returnData: "test data");
 
 			var result = ExecuteProxyMethod("jQuery.proxies.apiIntegrationTest.senddata({ one: 'one', two: 'two' })");
+			Assert.AreEqual("test data", result);
+		}
+
+		/// <summary>
+		/// Ensures that PostMethod calls jQuery.ajax with 'post'
+		/// </summary>
+		[TestMethod]
+		public void WebApi_PostMethod_Calls_Ajax_For_Post_With_Data_And_Url_Suffix()
+		{
+			SetupExpectedAjaxCall(
+				url: "~/api/proxy/integrationtestapi/senddata?additionalParam=additionalValue",
+				type: "post",
+				data: new { one = "one", two = "two" },
+				returnData: "test data");
+
+			var result = ExecuteProxyMethod("jQuery.proxies.apiIntegrationTest.senddata({ one: 'one', two: 'two' }, { additionalParam: 'additionalValue' })");
 			Assert.AreEqual("test data", result);
 		}
 
@@ -210,6 +241,22 @@ namespace ProxyApi.Tests.Integration
 			Assert.AreEqual("test data", result);
 		}
 
+		/// <summary>
+		/// Ensures that PutMethod calls jQuery.ajax with 'Put'
+		/// </summary>
+		[TestMethod]
+		public void WebApi_PutMethod_Calls_Ajax_For_Put_With_Url_Parameters_And_Url_Suffix()
+		{
+			SetupExpectedAjaxCall(
+				url: "~/api/proxy/integrationtestapi/senddatawithput?id=123&additionalParam=additionalValue",
+				type: "put",
+				data: new { one = "one", two = "two" },
+				returnData: "test data");
+
+			var result = ExecuteProxyMethod("jQuery.proxies.apiIntegrationTest.putData(123, { one: 'one', two: 'two' }, { additionalParam: 'additionalValue' })");
+			Assert.AreEqual("test data", result);
+		}
+
 		#endregion
 
 		#region DELETE Tests
@@ -241,6 +288,21 @@ namespace ProxyApi.Tests.Integration
 				returnData: "test data");
 
 			var result = ExecuteProxyMethod("jQuery.proxies.apiIntegrationTest.delete(123)");
+			Assert.AreEqual("test data", result);
+		}
+
+		/// <summary>
+		/// Ensures that DeleteMethod calls jQuery.ajax with 'Delete'
+		/// </summary>
+		[TestMethod]
+		public void WebApi_DeleteMethod_Calls_Ajax_For_Delete_With_Url_Parameters_And_Url_Suffix()
+		{
+			SetupExpectedAjaxCall(
+				url: "~/api/proxy/integrationtestapi/delete?id=123&additionalParam=additionalValue",
+				type: "delete",
+				returnData: "test data");
+
+			var result = ExecuteProxyMethod("jQuery.proxies.apiIntegrationTest.delete(123, { additionalParam: 'additionalValue' })");
 			Assert.AreEqual("test data", result);
 		}
 
@@ -297,6 +359,21 @@ namespace ProxyApi.Tests.Integration
 			Assert.AreEqual("test data", result);
 		}
 
+		/// <summary>
+		/// Ensures that GetMethod calls jQuery.ajax w/ get
+		/// </summary>
+		[TestMethod]
+		public void Mvc_GetMethod_Calls_Ajax_For_Get_With_Url_Parameters_In_Object_And_Url_Suffix()
+		{
+			SetupExpectedAjaxCall(
+				url: "~/proxy/integrationtestmvc/getdatawithparametersobject?param1=one&param3=true&additionalParam=additionalValue",
+				type: "get",
+				returnData: "test data");
+
+			var result = ExecuteProxyMethod("jQuery.proxies.integrationtestmvc.getdatawithparametersobject({param1: 'one', param3: true }, { additionalParam: 'additionalValue' })");
+			Assert.AreEqual("test data", result);
+		}
+
 		#endregion
 
 		#region POST Tests
@@ -329,6 +406,22 @@ namespace ProxyApi.Tests.Integration
 				returnData: "test data");
 
 			var result = ExecuteProxyMethod("jQuery.proxies.integrationtestmvc.senddata({ one: 'one', two: 'two' })");
+			Assert.AreEqual("test data", result);
+		}
+
+		/// <summary>
+		/// Ensures that PostMethod calls jQuery.ajax with 'post'
+		/// </summary>
+		[TestMethod]
+		public void Mvc_PostMethod_Calls_Ajax_For_Post_With_Data_And_Url_Suffix()
+		{
+			SetupExpectedAjaxCall(
+				url: "~/proxy/integrationtestmvc/senddata?additionalParam=additionalValue",
+				type: "post",
+				data: new { one = "one", two = "two" },
+				returnData: "test data");
+
+			var result = ExecuteProxyMethod("jQuery.proxies.integrationtestmvc.senddata({ one: 'one', two: 'two' }, { additionalParam: 'additionalValue' })");
 			Assert.AreEqual("test data", result);
 		}
 
@@ -367,6 +460,22 @@ namespace ProxyApi.Tests.Integration
 			Assert.AreEqual("test data", result);
 		}
 
+		/// <summary>
+		/// Ensures that PutMethod calls jQuery.ajax with 'Put'
+		/// </summary>
+		[TestMethod]
+		public void Mvc_PutMethod_Calls_Ajax_For_Put_With_Url_Parameters_And_Url_Suffix()
+		{
+			SetupExpectedAjaxCall(
+				url: "~/proxy/integrationtestmvc/senddatawithput?id=123&additionalParam=additionalValue",
+				type: "put",
+				data: new { one = "one", two = "two" },
+				returnData: "test data");
+
+			var result = ExecuteProxyMethod("jQuery.proxies.integrationtestmvc.putData(123, { one: 'one', two: 'two' }, { additionalParam: 'additionalValue' })");
+			Assert.AreEqual("test data", result);
+		}
+
 		#endregion
 
 		#region DELETE Tests
@@ -398,6 +507,21 @@ namespace ProxyApi.Tests.Integration
 				returnData: "test data");
 
 			var result = ExecuteProxyMethod("jQuery.proxies.integrationtestmvc.delete(123)");
+			Assert.AreEqual("test data", result);
+		}
+
+		/// <summary>
+		/// Ensures that DeleteMethod calls jQuery.ajax with 'Delete'
+		/// </summary>
+		[TestMethod]
+		public void Mvc_DeleteMethod_Calls_Ajax_For_Delete_With_Url_Parameters_And_Url_Suffix()
+		{
+			SetupExpectedAjaxCall(
+				url: "~/proxy/integrationtestmvc/delete?id=123&additionalParam=additionalValue",
+				type: "delete",
+				returnData: "test data");
+
+			var result = ExecuteProxyMethod("jQuery.proxies.integrationtestmvc.delete(123, { additionalParam: 'additionalValue' })");
 			Assert.AreEqual("test data", result);
 		}
 
