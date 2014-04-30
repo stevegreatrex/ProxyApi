@@ -374,6 +374,24 @@ namespace ProxyApi.Tests.Integration
 			Assert.AreEqual("test data", result);
 		}
 
+		/// <summary>
+		/// Ensures that GetMethod calls jQuery.ajax w/ get, encoding url parameters
+		/// </summary>
+		[TestMethod]
+		public void Mvc_GetMethod_Calls_Ajax_For_Get_With_Encoded_Url_Parameters()
+		{
+			var originalValue      = "one , / ? : @ & = + $ #";
+			var expectedParamValue = "one %2C %2F %3F %3A %40 %26 %3D %2B %24 %23".Replace(" ", "%20");
+
+			SetupExpectedAjaxCall(
+				url: "~/proxy/integrationtestmvc/getdata?param1=" + expectedParamValue,
+				type: "get",
+				returnData: "test data");
+
+			var result = ExecuteProxyMethod(string.Format("jQuery.proxies.integrationtestmvc.getdata('{0}')", originalValue));
+			Assert.AreEqual("test data", result);
+		}
+
 		#endregion
 
 		#region POST Tests

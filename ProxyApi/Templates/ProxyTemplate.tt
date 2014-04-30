@@ -30,7 +30,7 @@
 				} else {
 					queryString += "?";
 				}
-				queryString = queryString + prop + "=" +val;
+				queryString = queryString + prop + "=" + encodeURIComponent(val);
 			}
 		}
 		return queryString;
