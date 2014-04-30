@@ -384,7 +384,7 @@ namespace ProxyApi.Tests.Integration
 			var expectedParamValue = "one %2C %2F %3F %3A %40 %26 %3D %2B %24 %23".Replace(" ", "%20");
 
 			SetupExpectedAjaxCall(
-				url: "~/proxy/integrationtestmvc/getdata?param=" + expectedParamValue,
+				url: "~/proxy/integrationtestmvc/getdata?param1=" + expectedParamValue,
 				type: "get",
 				returnData: "test data");
 
