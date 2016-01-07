@@ -61,10 +61,13 @@ namespace ProxyApi
 
 		private string GetProxyJs(HttpContext context)
 		{
-			if (_proxyJs == null)
-				lock(_syncRoot)
-					if(_proxyJs == null)
-					_proxyJs = _generator.GenerateProxyScript();
+            lock (_syncRoot)
+            {
+                if (_proxyJs == null)
+                {
+                    _proxyJs = _generator.GenerateProxyScript();
+                }
+            }
 
 			return _proxyJs;
 		}
