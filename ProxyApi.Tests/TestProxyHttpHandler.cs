@@ -70,16 +70,17 @@ namespace ProxyApi.Tests
 		[TestMethod]
 		public void ProcessRequest_Populates_Context_Response()
 		{
-			var writer	= new StringWriter();
+			var writer	 = new StringWriter();
 			var response = new HttpResponse(writer);
-			var context	= new HttpContext(new HttpRequest("/","http://a","/"), response);
+			var context	 = new HttpContext(new HttpRequest("/","http://a","/"), response);
 
 			//setup a call to the proxy generator
-			_generator.Setup(g => g.GenerateProxyScript()).Returns("generated script");
+			_generator.Setup(g => g.GenerateProxyScript()).Returns("function(abc) { return abc; }");
 
 			this.TestSubject.ProcessRequest(context);
 
-			Assert.AreEqual("generated script", writer.ToString());
+			//expect minified content
+			Assert.AreEqual("function(n){return n}", writer.ToString());
 			Assert.AreEqual("application/x-javascript", response.ContentType);
 
 		}

@@ -62,9 +62,19 @@ namespace ProxyApi
 		private string GetProxyJs(HttpContext context)
 		{
 			if (_proxyJs == null)
-				lock(_syncRoot)
-					if(_proxyJs == null)
-					_proxyJs = _generator.GenerateProxyScript();
+				lock (_syncRoot)
+					if (_proxyJs == null)
+					{
+						var script = _generator.GenerateProxyScript();
+
+						if (!context.IsDebuggingEnabled)
+						{
+							var minifier = new Microsoft.Ajax.Utilities.Minifier();
+							script       = minifier.MinifyJavaScript(script);
+						}
+
+						_proxyJs = script;
+					}
 
 			return _proxyJs;
 		}

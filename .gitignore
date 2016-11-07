@@ -170,3 +170,4 @@ pip-log.txt
 
 packages
 *.ncrunchproject
+.vs/config/applicationhost.config
