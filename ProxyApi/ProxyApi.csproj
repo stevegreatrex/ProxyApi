@@ -65,6 +65,7 @@
     <Compile Include="IContextProvider.cs" />
     <Compile Include="InclusionRule.cs" />
     <Compile Include="IProxyGeneratorConfiguration.cs" />
+    <Compile Include="JSDocTypeExtension.cs" />
     <Compile Include="NullPathUtility.cs" />
     <Compile Include="ProxyGeneratorConfiguration.cs" />
     <Compile Include="ProxyInclusionAttribute.cs" />

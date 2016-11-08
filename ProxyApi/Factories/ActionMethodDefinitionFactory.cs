@@ -63,7 +63,11 @@ namespace ProxyApi.Factories
 			var parameters	= method.GetParameters();
 			foreach (var param in parameters)
 			{
-				var record = new ParameterDefinition { Index = index, Name = param.Name };
+				var record = new ParameterDefinition {
+					Index = index,
+					Name = param.Name,
+					Type = param.ParameterType
+				};
 				if (param.HasAttribute<FromUriAttribute>())
 					definition.UrlParameters.Add(record);
 				else if (param.HasAttribute<FromBodyAttribute>())
