@@ -1,6 +1,5 @@
 ﻿<#@ template language="C#" #>
 <#@ assembly name="System.Core" #>
-<#@ import namespace="ProxyApi" #>
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
@@ -26,8 +25,12 @@
 					continue;
 				}
 
-				queryString += queryString.length ? "&" : "?";
-				queryString += prop + "=" + encodeURIComponent(val);
+				if (queryString.length) {
+					queryString += "&";
+				} else {
+					queryString += "?";
+				}
+				queryString = queryString + prop + "=" + encodeURIComponent(val);
 			}
 		}
 		return queryString;
@@ -40,6 +43,7 @@
 
 	function invoke(url, type, urlParams, body) {
 		url += getQueryString(urlParams);
+
 
 		var ajaxOptions = $.extend({}, this.defaultOptions, {
 			url: url,
@@ -59,32 +63,19 @@
 		}
 	
 		return $.ajax(ajaxOptions);
-	}
+	};
 
 	function defaultAntiForgeryTokenAccessor() {
 		return $("input[name=__RequestVerificationToken]").val();
-	}
+	};
 
 	/* Proxies */
 
-	/**
-	 * @function
-	 * @name Deferred.done
-	 * @param {function(result:Object)} callback
-	 */
-
-
-<#
-	foreach(var definition in this.Definitions) { #>
+	<# foreach(var definition in this.Definitions) { #>
 	$.proxies.<#= definition.Name #> = {
 		defaultOptions: {},
 		antiForgeryToken: defaultAntiForgeryTokenAccessor,
-<#
-	int lastActionIndex = definition.ActionMethods.Count()-1;
-	int actionIndex = -1;
-	foreach(var method in definition.ActionMethods) {
-		actionIndex++;
-	#>
+<# foreach(var method in definition.ActionMethods) { #>
 
 <#
 	var allParameters = method.UrlParameters.AsEnumerable();
@@ -92,44 +83,31 @@
 	if (method.BodyParameter != null) {
 		allParameters = allParameters.Concat(new [] { method.BodyParameter });
 	}
-
-	var orderedParams = allParameters.Where(m => m != null)
+	var parameterList = string.Join(",", allParameters.Where(m => m != null)
 							.OrderBy(m => m.Index)
-							.ToArray();
-
-	var parameterList = string.Join(",", orderedParams
 							.Select(m => m.Name)
 							.Concat(new [] { "additionalParameters" })
 							.ToArray());
 #>
-	<#= method.Name #>:
-	/**
-<# foreach(var parameter in orderedParams) { #>
-	 * @param {<#= parameter.Type.JsDocTypeString() #>} <#= parameter.Name #> <#= parameter.Type.ToString() #>
-<# } #>
-	 * @param {Object} additionalParameters
-	 * @return {Deferred}
-	 */
-	function(<#=parameterList#>) {
+	<#= method.Name #>: function(<#=parameterList#>) {
 		return invoke.call(this, "<#= method.Url #>", "<#= method.Type.ToString().ToLower() #>", 
 			$.extend({},
-<# if (method.UrlParameters.Any()) { #>
+			<# if (method.UrlParameters.Any()) { #>
 				{
-<#
-int lastParamIndex = orderedParams.Length-1;
-foreach (var parameter in orderedParams) { #>
-					<#= parameter.Name #>: arguments[<#= parameter.Index #>]<#=lastParamIndex==parameter.Index?String.Empty:","#>
-<# } #>
+				<# foreach (var parameter in method.UrlParameters) { #>
+					<#= parameter.Name #>: arguments[<#= parameter.Index #>],
+				<# } #>
 				}, additionalParameters)
-<# } else { #> additionalParameters)
-<# } #>
-<# if (method.BodyParameter != null) { #>
+			<# } else { #>
+				additionalParameters)
+			<# } #>
+		<# if (method.BodyParameter != null) { #>
 			, arguments[<#= method.BodyParameter.Index #>]);
-<# } else { #>
+		<# } else { #>
 			);
-<# } #>
-	}<#=lastActionIndex==actionIndex?String.Empty:","#>
+		<# } #>
+	},
 <# } #>
 };
-<# } #>
+	<# } #>
 }(jQuery));
