@@ -25,5 +25,14 @@ namespace ProxyApi.ElementDefinitions
 		/// The index.
 		/// </value>
 		int Index { get; }
+
+		/// <summary>
+		/// Gets the type of the param.
+		/// </summary>
+		/// <value>
+		/// The type.
+		/// </value>
+		Type Type { get; }
+
 	}
 }

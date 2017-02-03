@@ -20,7 +20,7 @@ namespace ProxyApi.Tests.Integration
 		{}
 
 		[ProxyName("putData")]
-		[AcceptVerbs("PUT")]
+		[HttpPut]
 		public void SendDataWithPut(int id, [System.Web.Http.FromBody]dynamic data)
 		{}
 
@@ -28,6 +28,6 @@ namespace ProxyApi.Tests.Integration
 		{}
 
 		public void WithoutParameters()
-	{}
+		{}
 	}
 }
