@@ -4,6 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Principal;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -72,9 +73,17 @@ namespace ProxyApi
 
 		/// <summary>
 		/// A list of authentication types for which the token will
-		/// not be checked.
+		/// not be checked.  This should not be specified in conjunction
+		/// with <see cref="IncludeAuthenticationTypes"/>.
 		/// </summary>
 		public string ExcludeAuthenticationTypes { get; set; }
+
+		/// <summary>
+		/// A list of authentication types for which the token will
+		/// be checked.  This should not be specified in conjunction
+		/// with <see cref="ExcludeAuthenticationTypes"/>.
+		/// </summary>
+		public string IncludeAuthenticationTypes { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating whether authentication is required
@@ -88,21 +97,25 @@ namespace ProxyApi
 		/// <returns><c>true</c> if the request should be validated.</returns>
 		public virtual bool ShouldValidateRequest(HttpActionContext actionContext)
 		{
-			if (this.ExcludeAuthenticationTypes != null)
-			{
-				var identity = _contextProvider.GetCurrentIdentity();
-				if (this.RequireAuthentication && !identity.IsAuthenticated) return false;
+			if (this.ExcludeAuthenticationTypes == null && this.IncludeAuthenticationTypes == null)
+				return true;
 
-				if (identity.IsAuthenticated && this.ExcludeAuthenticationTypes
-														.Split(',')
-														.Select(t => t.Trim())
-														.Contains(identity.AuthenticationType))
-				{
-					return false;
-				}
-			}
+			var identity = _contextProvider.GetCurrentIdentity();
+			if (this.RequireAuthentication && !identity.IsAuthenticated) return false;
+			if (!identity.IsAuthenticated) return true;
 
-			return true;
+			if (this.IncludeAuthenticationTypes != null)
+				return IsAuthenticatedWithType(identity, this.IncludeAuthenticationTypes);
+
+			return !IsAuthenticatedWithType(identity, this.ExcludeAuthenticationTypes);
+		}
+
+		private bool IsAuthenticatedWithType(IIdentity identity, string authenticationTypes)
+		{
+			return authenticationTypes
+					.Split(',')
+					.Select(t => t.Trim())
+					.Contains(identity.AuthenticationType);
 		}
 
 		[ExcludeFromCodeCoverage] //requires AntiForgery access
