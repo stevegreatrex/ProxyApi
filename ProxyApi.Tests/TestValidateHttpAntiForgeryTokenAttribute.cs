@@ -55,10 +55,10 @@ namespace ProxyApi.Tests
 		}
 
 		/// <summary>
-		/// Ensures that ShouldValidateRequest returns true when no exclusions are set
+		/// Ensures that ShouldValidateRequest returns true when no exclusions or inclusions are set
 		/// </summary>
 		[TestMethod]
-		public void ShouldValidateRequest_Returns_True_When_No_Exclusions_Are_Set()
+		public void ShouldValidateRequest_Returns_True_When_No_Exclusions_Or_Inclusions_Are_Set()
 		{
 			Assert.IsTrue(this.TestSubject.ShouldValidateRequest(null));
 		}
@@ -76,6 +76,11 @@ namespace ProxyApi.Tests
 			this.TestSubject.ExcludeAuthenticationTypes = "Basic";
 
 			Assert.IsTrue(this.TestSubject.ShouldValidateRequest(null));
+
+			this.TestSubject.ExcludeAuthenticationTypes = null;
+			this.TestSubject.IncludeAuthenticationTypes = "Basic";
+
+			Assert.IsTrue(this.TestSubject.ShouldValidateRequest(null));
 		}
 
 		/// <summary>
@@ -90,6 +95,11 @@ namespace ProxyApi.Tests
 
 			this.TestSubject.ExcludeAuthenticationTypes = "Basic";
 			this.TestSubject.RequireAuthentication      = true;
+
+			Assert.IsFalse(this.TestSubject.ShouldValidateRequest(null));
+
+			this.TestSubject.ExcludeAuthenticationTypes = null;
+			this.TestSubject.IncludeAuthenticationTypes = "Basic";
 
 			Assert.IsFalse(this.TestSubject.ShouldValidateRequest(null));
 		}
@@ -124,6 +134,38 @@ namespace ProxyApi.Tests
 
 			identity.Setup(i => i.AuthenticationType).Returns("");
 			Assert.IsTrue(this.TestSubject.ShouldValidateRequest(null));
+		}
+
+		/// <summary>
+		/// Ensures that ShouldValidateRequest returns true when the authentication type is included
+		/// </summary>
+		[TestMethod]
+		public void ShouldValidateRequest_Returns_True_For_Included_AuthenticationType()
+		{
+			var identity = new Mock<IIdentity>();
+			identity.Setup(i => i.IsAuthenticated).Returns(true);
+			_contextProvider.Setup(cp => cp.GetCurrentIdentity()).Returns(identity.Object);
+
+			this.TestSubject.IncludeAuthenticationTypes = "Basic, Basic-With-Space,Something-Without-Space";
+
+			identity.Setup(i => i.AuthenticationType).Returns("Basic");
+			Assert.IsTrue(this.TestSubject.ShouldValidateRequest(null));
+
+			identity.Setup(i => i.AuthenticationType).Returns("Basic-With-Space");
+			Assert.IsTrue(this.TestSubject.ShouldValidateRequest(null));
+
+			identity.Setup(i => i.AuthenticationType).Returns("Something-Without-Space");
+			Assert.IsTrue(this.TestSubject.ShouldValidateRequest(null));
+
+			//now some non-matching examples...
+			identity.Setup(i => i.AuthenticationType).Returns("non-matching");
+			Assert.IsFalse(this.TestSubject.ShouldValidateRequest(null));
+
+			identity.Setup(i => i.AuthenticationType).Returns("Basic, Basic-With-Space");
+			Assert.IsFalse(this.TestSubject.ShouldValidateRequest(null));
+
+			identity.Setup(i => i.AuthenticationType).Returns("");
+			Assert.IsFalse(this.TestSubject.ShouldValidateRequest(null));
 		}
 
 		#endregion

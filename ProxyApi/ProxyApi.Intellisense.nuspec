@@ -8,10 +8,10 @@
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<description>A package to add intellisense to ProxyApi</description>
 		<releaseNotes>Fixed issue with encoding in powershell script</releaseNotes>
-		<copyright>Copyright 2012</copyright>
+		<copyright>Copyright 2017</copyright>
 		<tags>ASP.NET WebAPI MVC JavaScript</tags>
 		<dependencies>
-			<dependency id="ProxyApi" version="0.1.18" />
+			<dependency id="ProxyApi" version="0.1.19" />
 		</dependencies>
 	</metadata>
 	<files>
